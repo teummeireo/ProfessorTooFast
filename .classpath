@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
@@ -9,5 +13,14 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/cos_file.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/jackson-annotations-2.17.2.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/jackson-core-2.17.2.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/jackson-databind-2.17.2.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/jrt-fs.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/jsoup-1.18.1.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/lombok-1.18.34.jar"/>
+	<classpathentry kind="lib" path="C:/IT/jdk-11.0.22/lib/ojdbc6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
