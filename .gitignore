@@ -1,0 +1,2 @@
+# Ignore mydb.properties file
+src/main/resources/mydb.properties

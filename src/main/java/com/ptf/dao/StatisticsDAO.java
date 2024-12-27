@@ -1,17 +1,203 @@
-/**
- * 
- */
+
 package com.ptf.dao;
 
-/**
- * Description : 클래스에 대한 설명을 입력해주세요.<br>
- * Date : 2024. 12. 26.<br>
- * History :<br>
- * - 작성자 : Kosta, 날짜 : 2024. 12. 26., 설명 : 최초작성<br>
- *
- * @author Kosta
- * @version 1.0
- */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import com.ptf.util.DBManager;
+import com.ptf.util.OracleDBManager;
+import com.ptf.vo.StatisticsVO;
 public class StatisticsDAO {
 
+    //---------------------------------upsert-------------------
+    public int statisticsUpsert(int difficulty, int speed, int material) {
+        DBManager dbm = OracleDBManager.getInstance();
+        Connection conn = dbm.connect();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int rows = 0;
+
+        try {
+            conn.setAutoCommit(false);
+            
+            java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+            
+            // 먼저 오늘 날짜에 해당하는 통계가 존재하는지 확인
+            String selectSql = "SELECT * FROM Statistics WHERE date = ?";
+            pstmt = conn.prepareStatement(selectSql);
+            pstmt.setDate(1, today);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // 통계가 존재하는 경우 업데이트
+                int statisticsId = rs.getInt("statistics_id");
+                int population = rs.getInt("population") + 1; // population 증가
+                
+                // 평균값 계산
+                float newAvgDifficulty = (rs.getFloat("avg_difficulty") * rs.getInt("population") + difficulty) / population;
+                float newAvgSpeed = (rs.getFloat("avg_speed") * rs.getInt("population") + speed) / population;
+                float newAvgMaterial = (rs.getFloat("avg_material") * rs.getInt("population") + material) / population;
+
+                String updateSql = "UPDATE Statistics SET avg_difficulty = ?, avg_speed = ?, avg_material = ?, population = ? WHERE statistics_id = ?";
+                pstmt = conn.prepareStatement(updateSql);
+                pstmt.setFloat(1, newAvgDifficulty);
+                pstmt.setFloat(2, newAvgSpeed);
+                pstmt.setFloat(3, newAvgMaterial);
+                pstmt.setInt(4, population);
+                pstmt.setInt(5, statisticsId);
+                rows = pstmt.executeUpdate();
+            } else {
+                // 통계가 존재하지 않는 경우 새로 생성
+                String insertSql = "INSERT INTO Statistics(statistics_id, date, avg_difficulty, avg_speed, avg_material, population) "
+                                 + "VALUES(statistics_seq.NEXTVAL, ?, ?, ?, ?, 1)";
+                pstmt = conn.prepareStatement(insertSql);
+                pstmt.setDate(1, today);
+                pstmt.setFloat(2, difficulty);
+                pstmt.setFloat(3, speed);
+                pstmt.setFloat(4, material);
+                rows = pstmt.executeUpdate();
+            }
+            
+            if (rows > 0) {
+                conn.commit();
+            } else {
+                conn.rollback();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        } finally {
+            dbm.close(conn, pstmt, rs);
+        }
+
+        return rows;
+    }
+    
+  //--------------------------------- select by date ---------------------------------------------
+    public StatisticsVO statisticsSelectByDate(Date date) {
+        DBManager dbm = OracleDBManager.getInstance();
+        Connection conn = dbm.connect();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StatisticsVO statistics = null;
+
+        try {
+            String sql = "SELECT * FROM Statistics WHERE TRUNC(date) = TRUNC(?)"; // 날짜 비교
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDate(1, new java.sql.Date(date.getTime())); 
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) { // 결과가 존재하는 경우
+                statistics = new StatisticsVO();
+                statistics.setStatisticsId(rs.getInt("statistics_id"));
+                statistics.setDate(rs.getDate("date"));
+                statistics.setAvgDifficulty(rs.getFloat("avg_difficulty"));
+                statistics.setAvgSpeed(rs.getFloat("avg_speed"));
+                statistics.setAvgMaterial(rs.getFloat("avg_material"));
+                statistics.setPopulation(rs.getInt("population"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbm.close(conn, pstmt, rs);
+        }
+
+        return statistics; 
+    }
+    
+
+    //---------------------------------select by month-------------------
+    public ArrayList<StatisticsVO> surveySelectByMonth(Date month) { 
+        ArrayList<StatisticsVO> statisticsList = new ArrayList<>();
+        DBManager dbm = OracleDBManager.getInstance();
+        Connection conn = dbm.connect();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        // 월의 첫 날과 마지막 날을 계산
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(month);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        java.sql.Date firstDayOfMonth = new java.sql.Date(calendar.getTimeInMillis());
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        java.sql.Date lastDayOfMonth = new java.sql.Date(calendar.getTimeInMillis());
+
+        try {
+            String sql = "SELECT * FROM Statistics WHERE date BETWEEN ? AND ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDate(1, firstDayOfMonth);
+            pstmt.setDate(2, lastDayOfMonth);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                StatisticsVO statistics = new StatisticsVO();
+                statistics.setStatisticsId(rs.getInt("statistics_id"));
+                statistics.setDate(rs.getDate("date"));
+                statistics.setAvgDifficulty(rs.getFloat("avg_difficulty"));
+                statistics.setAvgSpeed(rs.getFloat("avg_speed"));
+                statistics.setAvgMaterial(rs.getFloat("avg_material"));
+                statistics.setPopulation(rs.getInt("population"));
+
+                statisticsList.add(statistics); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbm.close(conn, pstmt, rs);
+        }
+
+        return statisticsList; // 결과 리스트 반환
+    }
+    
+    
+    
+    //---------------------------------select by period-------------------
+    public ArrayList<StatisticsVO> surveySelectByPeriod(Date startDate, Date endDate) {
+        ArrayList<StatisticsVO> statisticsList = new ArrayList<>();
+        DBManager dbm = OracleDBManager.getInstance();
+        Connection conn = dbm.connect();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        
+        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+        
+        try {
+            String sql = "SELECT * FROM Statistics WHERE date BETWEEN ? AND ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDate(1, sqlStartDate);
+            pstmt.setDate(2, sqlEndDate);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                StatisticsVO statistics = new StatisticsVO();
+                statistics.setStatisticsId(rs.getInt("statistics_id"));
+                statistics.setDate(rs.getDate("date"));
+                statistics.setAvgDifficulty(rs.getFloat("avg_difficulty"));
+                statistics.setAvgSpeed(rs.getFloat("avg_speed"));
+                statistics.setAvgMaterial(rs.getFloat("avg_material"));
+                statistics.setPopulation(rs.getInt("population"));
+
+                statisticsList.add(statistics); // 리스트에 추가
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbm.close(conn, pstmt, rs);
+        }
+
+        return statisticsList; // 결과 리스트 반환
+    }
+    
 }
