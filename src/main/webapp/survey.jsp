@@ -44,6 +44,7 @@
 </style>
 </head>
 <body>
+<button class="custom-button">Logout</button>
 
 </body>
 </html>
