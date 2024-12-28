@@ -8,14 +8,14 @@ import java.sql.SQLException;
 
 import com.ptf.util.DBManager;
 import com.ptf.util.OracleDBManager;
-import com.ptf.vo.UserVO;
-import com.ptf.vo.UserVO.Role;
+import com.ptf.vo.PTFUserVO;
+import com.ptf.vo.PTFUserVO.Role;
 
 
-public class UserDAO {
+public class PTFUserDAO {
 
 	// -------------------------------insert------------------------
-	public int userInsert(UserVO uvo) {
+	public int userInsert(PTFUserVO uvo) {
 		DBManager dbm = OracleDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
@@ -23,8 +23,8 @@ public class UserDAO {
 		try {
 			conn.setAutoCommit(false);
 
-			String sql = "INSERT INTO user(user_id, role, login_id, password, nickname, join_code) "
-	                   + "VALUES(seq_user_id.nextval, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO ptfuser(user_id, role, login_id, password, nickname, join_code) "
+	                   + "VALUES(seq_ptfuser_id.nextval, ?, ?, ?, ?, ?)";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, uvo.getRole().name());
 	        pstmt.setString(2, uvo.getLoginId());
@@ -51,21 +51,21 @@ public class UserDAO {
 	}
 	
 //-------------------------------select by userId------------------------	
-	public UserVO userSelect(int userId) {
-		UserVO uvo = null; // 초기값을 null로 설정
+	public PTFUserVO userSelect(int userId) {
+		PTFUserVO uvo = null; // 초기값을 null로 설정
 
 		DBManager dbm = OracleDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			String sql = "select * from myboard where user_id=?";
+			String sql = "select * from ptfuser where user_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) { 
-				uvo = new UserVO(); 
+				uvo = new PTFUserVO(); 
 				uvo.setLoginId(rs.getString("login_id"));
 				uvo.setNickname(rs.getString("nickname"));
 				uvo.setRole(Role.valueOf(rs.getString("role")));
@@ -79,8 +79,8 @@ public class UserDAO {
 	}
 
 	// -------------------------------select by loginId------------------------
-	public UserVO userSelect(String loginId) {
-		UserVO uvo = null; // 초기값을 null로 설정
+	public PTFUserVO userSelect(String loginId) {
+		PTFUserVO uvo = null; // 초기값을 null로 설정
 
 		DBManager dbm = OracleDBManager.getInstance();
 		Connection conn = dbm.connect();
@@ -88,14 +88,16 @@ public class UserDAO {
 		ResultSet rs = null;
 		try {
 			// 
-			String sql = "select * from myboard where login_id=?";
+			String sql = "select * from ptfuser where login_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, loginId);
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) { 
-				uvo = new UserVO();
+				uvo = new PTFUserVO();
 				uvo.setUserId(rs.getInt("user_id"));
+				uvo.setLoginId(rs.getString("login_id"));
+				uvo.setPassword(rs.getString("password"));
 				uvo.setNickname(rs.getString("nickname"));
 				uvo.setRole(Role.valueOf(rs.getString("role")));
 			}
@@ -106,7 +108,7 @@ public class UserDAO {
 		}
 		return uvo;
 	}
-	
+	//------------------------select by nickname-----------------------
 	public boolean userSelectByNickname(String nickname) {
 	    DBManager dbm = OracleDBManager.getInstance();  
 	    Connection conn = dbm.connect();
@@ -115,7 +117,7 @@ public class UserDAO {
 	    boolean isNicknameUnique = true; 
 
 	    try {
-	        String sql = "SELECT COUNT(*) FROM myboard WHERE nickname = ?";
+	        String sql = "SELECT COUNT(*) FROM ptfuser WHERE nickname = ?";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, nickname); 
 	        rs = pstmt.executeQuery();  
@@ -131,6 +133,32 @@ public class UserDAO {
 	        dbm.close(conn, pstmt, rs);
 	    }
 	    return isNicknameUnique; // 닉네임이 유일하면 true, 중복되면 false 반환
+	}
+	
+	
+	// -------------------------------select Role by joinCode------------------------
+	public PTFUserVO.Role getRoleByJoinCode(String joinCode) {
+	    DBManager dbm = OracleDBManager.getInstance();
+	    Connection conn = dbm.connect();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    Role role = null;
+
+	    try {
+	        String sql = "SELECT role FROM UserRole WHERE join_code = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, joinCode);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            role = Role.valueOf(rs.getString("role"));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        dbm.close(conn, pstmt, rs);
+	    }
+	    return role; // 일치하는 role이 없으면 null 반환
 	}
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserVO {
+public class PTFUserVO {
 	private int userId;
 	private Role role; 
 	private String loginId;

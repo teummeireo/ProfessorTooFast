@@ -28,7 +28,7 @@ public class StatisticsDAO {
             java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
             
             // 먼저 오늘 날짜에 해당하는 통계가 존재하는지 확인
-            String selectSql = "SELECT * FROM Statistics WHERE date = ?";
+            String selectSql = "SELECT * FROM Statistics WHERE record_date = ?";
             pstmt = conn.prepareStatement(selectSql);
             pstmt.setDate(1, today);
             rs = pstmt.executeQuery();
@@ -53,7 +53,7 @@ public class StatisticsDAO {
                 rows = pstmt.executeUpdate();
             } else {
                 // 통계가 존재하지 않는 경우 새로 생성
-                String insertSql = "INSERT INTO Statistics(statistics_id, date, avg_difficulty, avg_speed, avg_material, population) "
+                String insertSql = "INSERT INTO Statistics(statistics_id, record_date, avg_difficulty, avg_speed, avg_material, population) "
                                  + "VALUES(statistics_seq.NEXTVAL, ?, ?, ?, ?, 1)";
                 pstmt = conn.prepareStatement(insertSql);
                 pstmt.setDate(1, today);
@@ -82,8 +82,8 @@ public class StatisticsDAO {
         return rows;
     }
     
-  //--------------------------------- select by date ---------------------------------------------
-    public StatisticsVO statisticsSelectByDate(Date date) {
+  //--------------------------------- select by recordDate ---------------------------------------------
+    public StatisticsVO statisticsSelectByDate(Date recordDate) {
         DBManager dbm = OracleDBManager.getInstance();
         Connection conn = dbm.connect();
         PreparedStatement pstmt = null;
@@ -91,15 +91,15 @@ public class StatisticsDAO {
         StatisticsVO statistics = null;
 
         try {
-            String sql = "SELECT * FROM Statistics WHERE TRUNC(date) = TRUNC(?)"; // 날짜 비교
+            String sql = "SELECT * FROM Statistics WHERE TRUNC(record_date) = TRUNC(?)"; // 날짜 비교
             pstmt = conn.prepareStatement(sql);
-            pstmt.setDate(1, new java.sql.Date(date.getTime())); 
+            pstmt.setDate(1, new java.sql.Date(recordDate.getTime())); 
             rs = pstmt.executeQuery();
 
             if (rs.next()) { // 결과가 존재하는 경우
                 statistics = new StatisticsVO();
                 statistics.setStatisticsId(rs.getInt("statistics_id"));
-                statistics.setDate(rs.getDate("date"));
+                statistics.setRecordDate(rs.getDate("record_date"));
                 statistics.setAvgDifficulty(rs.getFloat("avg_difficulty"));
                 statistics.setAvgSpeed(rs.getFloat("avg_speed"));
                 statistics.setAvgMaterial(rs.getFloat("avg_material"));
@@ -133,7 +133,7 @@ public class StatisticsDAO {
         java.sql.Date lastDayOfMonth = new java.sql.Date(calendar.getTimeInMillis());
 
         try {
-            String sql = "SELECT * FROM Statistics WHERE date BETWEEN ? AND ?";
+            String sql = "SELECT * FROM Statistics WHERE record_date BETWEEN ? AND ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, firstDayOfMonth);
             pstmt.setDate(2, lastDayOfMonth);
@@ -142,7 +142,7 @@ public class StatisticsDAO {
             while (rs.next()) {
                 StatisticsVO statistics = new StatisticsVO();
                 statistics.setStatisticsId(rs.getInt("statistics_id"));
-                statistics.setDate(rs.getDate("date"));
+                statistics.setRecordDate(rs.getDate("record_date"));
                 statistics.setAvgDifficulty(rs.getFloat("avg_difficulty"));
                 statistics.setAvgSpeed(rs.getFloat("avg_speed"));
                 statistics.setAvgMaterial(rs.getFloat("avg_material"));
@@ -174,7 +174,7 @@ public class StatisticsDAO {
         java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
         
         try {
-            String sql = "SELECT * FROM Statistics WHERE date BETWEEN ? AND ?";
+            String sql = "SELECT * FROM Statistics WHERE record_date BETWEEN ? AND ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, sqlStartDate);
             pstmt.setDate(2, sqlEndDate);
@@ -183,7 +183,7 @@ public class StatisticsDAO {
             while (rs.next()) {
                 StatisticsVO statistics = new StatisticsVO();
                 statistics.setStatisticsId(rs.getInt("statistics_id"));
-                statistics.setDate(rs.getDate("date"));
+                statistics.setRecordDate(rs.getDate("record_date"));
                 statistics.setAvgDifficulty(rs.getFloat("avg_difficulty"));
                 statistics.setAvgSpeed(rs.getFloat("avg_speed"));
                 statistics.setAvgMaterial(rs.getFloat("avg_material"));

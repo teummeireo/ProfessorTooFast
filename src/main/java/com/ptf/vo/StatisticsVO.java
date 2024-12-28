@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatisticsVO {
 	private int statisticsId;
-	private Date date;
+	private Date recordDate;
 	private float avgDifficulty;
 	private float avgSpeed;
 	private float avgMaterial;
