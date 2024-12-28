@@ -1,27 +1,106 @@
 package com.ptf.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ptf.dao.PTFUserDAO;
-import com.ptf.util.PasswordUtil;
+import com.ptf.dao.SurveyDAO;
 import com.ptf.vo.PTFUserVO;
+import com.ptf.vo.SurveyVO;
+import com.ptf.util.AuthenticationUtil;
+import com.ptf.util.PasswordUtil;
+import com.ptf.util.SessionUtil;
 
 //@WebServlet("/api/users")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+            throws ServletException, IOException {
+        // 세션과 쿠키 인증
+        if (!AuthenticationUtil.isAuthenticated(request, response)) {
+            return; // 인증 실패 시 요청 중단
+        }
 
-	}
+        String userIdParam = request.getParameter("userId");
+
+        if (userIdParam == null || userIdParam.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("userId 쿼리 파라미터를 제공해주세요.");
+            return;
+        }
+
+        int userId;
+        try {
+            userId = Integer.parseInt(userIdParam);
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("userId는 숫자여야 합니다.");
+            return;
+        }
+
+        // 세션에서 userId 가져오기
+        HttpSession session = request.getSession();
+        Integer sessionUserId = (Integer) session.getAttribute("userId");
+
+        if (sessionUserId == null || sessionUserId != userId) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("세션 userId와 요청 userId가 일치하지 않습니다.");
+            return;
+        }
+
+
+        PTFUserDAO userDAO = new PTFUserDAO();
+        SurveyDAO surveyDAO = new SurveyDAO();
+
+        try {
+            PTFUserVO user = userDAO.userSelect(userId);
+            if (user == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("해당 사용자 정보를 찾을 수 없습니다.");
+                return;
+            }
+
+            ArrayList<SurveyVO> todaySurveys = surveyDAO.surveySelectByCreateAt(new Date());
+            boolean isSubmit = todaySurveys.stream().anyMatch(survey -> survey.getUserId() == userId);
+
+            // 응답 데이터 생성
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("loginId", user.getLoginId());
+            responseData.put("nickname", user.getNickname());
+            responseData.put("role", user.getRole().toString());
+            responseData.put("isSubmit", isSubmit);
+
+            // 세션에 데이터 갱신
+            session.setAttribute("loginId", user.getLoginId());
+            session.setAttribute("nickname", user.getNickname());
+            session.setAttribute("role", user.getRole().toString());
+            session.setAttribute("isSubmit", isSubmit);
+
+            // JSON 응답
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write(objectMapper.writeValueAsString(responseData));
+            SessionUtil.refreshSessionTimeout(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("서버 오류가 발생했습니다.");
+        }
+    }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
