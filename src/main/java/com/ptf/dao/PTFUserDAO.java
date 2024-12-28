@@ -96,6 +96,8 @@ public class PTFUserDAO {
 			if (rs.next()) { 
 				uvo = new PTFUserVO();
 				uvo.setUserId(rs.getInt("user_id"));
+				uvo.setLoginId(rs.getString("login_id"));
+				uvo.setPassword(rs.getString("password"));
 				uvo.setNickname(rs.getString("nickname"));
 				uvo.setRole(Role.valueOf(rs.getString("role")));
 			}
@@ -106,7 +108,7 @@ public class PTFUserDAO {
 		}
 		return uvo;
 	}
-	
+	//------------------------select by nickname-----------------------
 	public boolean userSelectByNickname(String nickname) {
 	    DBManager dbm = OracleDBManager.getInstance();  
 	    Connection conn = dbm.connect();
@@ -131,6 +133,32 @@ public class PTFUserDAO {
 	        dbm.close(conn, pstmt, rs);
 	    }
 	    return isNicknameUnique; // 닉네임이 유일하면 true, 중복되면 false 반환
+	}
+	
+	
+	// -------------------------------select Role by joinCode------------------------
+	public PTFUserVO.Role getRoleByJoinCode(String joinCode) {
+	    DBManager dbm = OracleDBManager.getInstance();
+	    Connection conn = dbm.connect();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    Role role = null;
+
+	    try {
+	        String sql = "SELECT role FROM UserRole WHERE join_code = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, joinCode);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            role = Role.valueOf(rs.getString("role"));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        dbm.close(conn, pstmt, rs);
+	    }
+	    return role; // 일치하는 role이 없으면 null 반환
 	}
 
 }
