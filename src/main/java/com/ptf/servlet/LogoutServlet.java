@@ -32,7 +32,7 @@ public class LogoutServlet extends HttpServlet {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("SESSIONID".equals(cookie.getName())) {
-                    // 쿠키 삭제 설정s
+                    // 쿠키 삭
                     cookie.setValue("");
                     cookie.setPath("/");
                     cookie.setMaxAge(0); // 즉시 만료
