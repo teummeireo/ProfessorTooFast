@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,9 +21,8 @@ import com.ptf.util.SessionUtil;
 import com.ptf.vo.StatisticsVO;
 
 
-
-@WebServlet("/api/monthly-statistics")
-public class MonthlyStatisticsServlet extends HttpServlet {
+@WebServlet("/api/period-statistics")
+public class PeriodStatisticsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,35 +38,44 @@ public class MonthlyStatisticsServlet extends HttpServlet {
             return; // 권한 부족 시 요청 중단
         }
 
-        // 쿼리 파라미터에서 month 값 가져오기
-        String monthParam = request.getParameter("month");
-        if (monthParam == null || monthParam.isEmpty()) {
+        // 쿼리 파라미터에서 startDate와 endDate 값 가져오기
+        String startDateParam = request.getParameter("startDate");
+        String endDateParam = request.getParameter("endDate");
+
+        if (startDateParam == null || endDateParam == null || startDateParam.isEmpty() || endDateParam.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\": \"month 쿼리 파라미터를 제공해주세요.\"}");
+            response.getWriter().write("{\"error\": \"startDate와 endDate 쿼리 파라미터를 제공해주세요.\"}");
             return;
         }
 
-        Date month;
+        Date startDate, endDate;
         try {
             // ISO 형식의 날짜 파싱
-            month = new SimpleDateFormat("yyyy-MM-dd").parse(monthParam);
+            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateParam);
+            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDateParam);
         } catch (java.text.ParseException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\": \"month는 yyyy-MM-dd 형식이어야 합니다.\"}");
+            response.getWriter().write("{\"error\": \"startDate와 endDate는 yyyy-MM-dd 형식이어야 합니다.\"}");
+            return;
+        }
+
+        if (startDate.after(endDate)) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"startDate는 endDate보다 이전이어야 합니다.\"}");
             return;
         }
 
         try {
             StatisticsDAO statisticsDAO = new StatisticsDAO();
-            ArrayList<StatisticsVO> statisticsList = statisticsDAO.surveySelectByMonth(month);
+            ArrayList<StatisticsVO> statisticsList = statisticsDAO.surveySelectByPeriod(startDate, endDate);
 
             if (statisticsList.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.getWriter().write("{\"message\": \"해당 월에 통계가 없습니다.\"}");
+                response.getWriter().write("{\"message\": \"해당 기간에 통계가 없습니다.\"}");
                 return;
             }
 
-            // 월 평균 계산
+            // 기간 평균 계산
             float totalAvgDifficulty = 0;
             float totalAvgSpeed = 0;
             float totalAvgMaterial = 0;
@@ -82,19 +92,18 @@ public class MonthlyStatisticsServlet extends HttpServlet {
             float finalAvgSpeed = totalPopulation > 0 ? totalAvgSpeed / totalPopulation : 0;
             float finalAvgMaterial = totalPopulation > 0 ? totalAvgMaterial / totalPopulation : 0;
 
-            // 결과 객체 생성
-            StatisticsVO resultVO = new StatisticsVO();
-            resultVO.setRecordDate(new SimpleDateFormat("yyyy-MM-dd").parse(monthParam));
-            resultVO.setAvgDifficulty(finalAvgDifficulty);
-            resultVO.setAvgSpeed(finalAvgSpeed);
-            resultVO.setAvgMaterial(finalAvgMaterial);
-            resultVO.setPopulation(totalPopulation);
+     
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("startDate", startDateParam);
+            responseMap.put("endDate", endDateParam);
+            responseMap.put("avgDifficulty", finalAvgDifficulty);
+            responseMap.put("avgSpeed", finalAvgSpeed);
+            responseMap.put("avgMaterial", finalAvgMaterial);
+            responseMap.put("population", totalPopulation);
 
-            response.setStatus(HttpServletResponse.SC_OK);
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            response.getWriter().write(objectMapper.writeValueAsString(resultVO));
-
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write(objectMapper.writeValueAsString(responseMap));
             SessionUtil.refreshSessionTimeout(request); // 세션 타임아웃 갱신
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,3 +112,4 @@ public class MonthlyStatisticsServlet extends HttpServlet {
         }
     }
 }
+

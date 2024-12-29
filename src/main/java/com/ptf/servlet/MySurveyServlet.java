@@ -73,9 +73,9 @@ public class MySurveyServlet extends HttpServlet {
 
 			
 			response.setStatus(HttpServletResponse.SC_OK); // 200 OK
-			ObjectMapper mapper = new ObjectMapper();
-			mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-			response.getWriter().write(mapper.writeValueAsString(mySurveys));
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+			response.getWriter().write(objectMapper.writeValueAsString(mySurveys));
 			SessionUtil.refreshSessionTimeout(request);
 		} catch (Exception e) {
 			e.printStackTrace();
