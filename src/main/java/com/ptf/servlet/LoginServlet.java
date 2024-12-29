@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 		responseData.put("userId", user.getUserId());
 		responseData.put("loginId", user.getLoginId());
 		responseData.put("nickname", user.getNickname());
-		responseData.put("role", user.getRole().name().toLowerCase());
+		responseData.put("role", user.getRole().toString());
 
 
 		response.setStatus(HttpServletResponse.SC_OK); // 200 OK

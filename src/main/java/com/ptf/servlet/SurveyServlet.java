@@ -72,9 +72,9 @@ public class SurveyServlet extends HttpServlet {
 	        }
 
 	        response.setStatus(HttpServletResponse.SC_OK);
-	        ObjectMapper mapper = new ObjectMapper();
-	        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-	        response.getWriter().write(mapper.writeValueAsString(surveysByDate));
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	        response.getWriter().write(objectMapper.writeValueAsString(surveysByDate));
 	        SessionUtil.refreshSessionTimeout(request); // 세션 타임아웃 갱신
 	    } catch (Exception e) {
 	        e.printStackTrace();
