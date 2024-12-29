@@ -39,4 +39,25 @@ public class AuthenticationUtil {
         
         return false;
     }
+    
+    /**
+     * Checks if the user's role matches the required role.
+     * @param request HTTP request object.
+     * @param response HTTP response object.
+     * @param requiredRole The role required to access the resource (e.g., "ADMIN" or "USER").
+     * @return true if the user's role matches the required role, false otherwise.
+     * @throws IOException If an error occurs while writing the response.
+     */
+    public static boolean checkRole(HttpServletRequest request, HttpServletResponse response, String requiredRole) throws IOException {
+        HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
+
+        if (role == null || !role.equals(requiredRole)) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json; charset=UTF-8");
+            response.getWriter().write(String.format("{\"error\": \"해당 API는 %s만 접근할 수 있습니다.\"}", requiredRole.equals("ADMIN") ? "관리자" : "일반 사용자"));
+            return false;
+        }
+        return true;
+    }
 }
