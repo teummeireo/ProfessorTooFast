@@ -35,7 +35,7 @@ public class CheckLoginIdServlet extends HttpServlet {
 
 
         response.setContentType("application/json; charset=UTF-8");
-
+        response.setStatus(HttpServletResponse.SC_OK); // 200 OK
         ObjectMapper objectMapper = new ObjectMapper();
         response.getWriter().write(objectMapper.writeValueAsString(responseData));
     }
