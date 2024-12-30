@@ -191,6 +191,7 @@ $( document ).ready(function() {
 				speed: $("#surveyInsert_speed").val(),
 				material: $("#surveyInsert_material").val(),
 				questions: $("#surveyInsert_questions").val(),
+				
 				comments: $("#surveyInsert_comments").val()
 	        };
 

@@ -230,3 +230,12 @@
 	.survey-button:hover {
 	    background-color: #D43F3F;
 }
+    .survey-options label {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    .survey-options input[type="radio"] {
+        margin-left: 5px;
+    }
