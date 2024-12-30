@@ -25,6 +25,7 @@ public class EncodingFilter implements Filter {
         // HttpServletRequest로 형변환하여 URI를 확인
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String uri = httpRequest.getRequestURI();
+
         String contextPath = httpRequest.getContextPath();
 
         // 정적 리소스 요청은 필터 제외
@@ -46,3 +47,4 @@ public class EncodingFilter implements Filter {
         // 필터 종료 작업 (필요하면 구현)
     }
 }
+
