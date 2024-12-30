@@ -13,17 +13,17 @@
 </head>
 <body>
 <form id="register">
-<input type="text" name="loginId" id="register_loginId"> 
-<input type="text" name="password" id="register_password"> 
-<input type="text" name="nickname" id="register_nickname">
-<input type="text" name="joinCode" id="register_joinCode">
+loginId		<input type="text" name="loginId" id="register_loginId"> 
+password	<input type="text" name="password" id="register_password"> 
+nickname	<input type="text" name="nickname" id="register_nickname">
+joinCode	<input type="text" name="joinCode" id="register_joinCode">
 <input type="button" id="register-btn" value="registerTransfer">
 </form>
 <hr><br>
 
 <form id="login">
-<input type="text" name="loginId" id="login_loginId"> 
-<input type="text" name="password" id="login_password"> 
+loginId		<input type="text" name="loginId" id="login_loginId"> 
+password	<input type="text" name="password" id="login_password"> 
 <input type="button" id="login-btn" value="loginTransfer">
 </form>
 <hr><br>
@@ -34,62 +34,62 @@
 <hr><br>
 
 <form id="surveyInsert">
-<input type="text" name="userId" id="surveyInsert_userId"> 
-<input type="text" name="difficulty" id="surveyInsert_difficulty"> 
-<input type="text" name="speed" id="surveyInsert_speed">
-<input type="text" name="material" id="surveyInsert_material">
-<input type="text" name="questions" id="surveyInsert_questions">
-<input type="text" name="comments" id="surveyInsert_comments">
+userId		<input type="text" name="userId" id="surveyInsert_userId"> 
+difficulty	<input type="text" name="difficulty" id="surveyInsert_difficulty"> 
+speed		<input type="text" name="speed" id="surveyInsert_speed">
+material	<input type="text" name="material" id="surveyInsert_material">
+questions	<input type="text" name="questions" id="surveyInsert_questions">
+comments	<input type="text" name="comments" id="surveyInsert_comments">
 <input type="button" id="surveyInsert-btn" value="surveyInsertTransfer">
 </form>
 <hr><br>
 
 <form id="userInfo">
-<input type="text" name="userId" id="userInfo_userId">
+userId		<input type="text" name="userId" id="userInfo_userId">
 <input type="button" id="userInfo-btn" value="userInfoTransfer">
 </form>
 <hr><br>
 
 <form id="checkLoginId">
-<input type="text" name="loginId" id="checkLoginId_loginId">
+loginId		<input type="text" name="loginId" id="checkLoginId_loginId">
 <input type="button" id="checkLoginId-btn" value="checkLoginIdTransfer">
 </form>
 <hr><br>
 
 <form id="checkNickname">
-<input type="text" name="nickname" id="checkNickname_nickname">
+nickname	<input type="text" name="nickname" id="checkNickname_nickname">
 <input type="button" id="checkNickname-btn" value="checkNicknameTransfer">
 </form>
 <hr><br>
 
 <form id="mySurveys">
-<input type="text" name="userId" id="mySurveys_userId">
+userId		<input type="text" name="userId" id="mySurveys_userId">
 <input type="button" id="mySurveys-btn" value="mySurveysTransfer">
 </form>
 <hr><br>
 
 <form id="dailySurveys">
-<input type="text" name="createAt" id="dailySurveys_createAt">
+createAt	<input type="text" name="createAt" id="dailySurveys_createAt">
 <input type="button" id="dailySurveys-btn" value="dailySurveysTransfer">
 </form>
 <hr><br>
 
 <form id="dailyStatistics">
-<input type="text" name="createAt" id="dailyStatistics_createAt">
+createAt	<input type="text" name="createAt" id="dailyStatistics_createAt">
 <input type="button" id="dailyStatistics-btn" value="dailyStatisticsTransfer">
 </form>
 <hr><br>
 
 
 <form id="monthlyStatistics">
-<input type="text" name="month" id="monthlyStatistics_month">
+month		<input type="text" name="month" id="monthlyStatistics_month">
 <input type="button" id="monthlyStatistics-btn" value="monthlyStatisticsTransfer">
 </form>
 <hr><br>
 
 <form id="periodStatistics">
-<input type="text" name="startDate" id="periodStatistics_startDate">
-<input type="text" name="endDate" id="periodStatistics_endDate">
+startDate	<input type="text" name="startDate" id="periodStatistics_startDate">
+endDate		<input type="text" name="endDate" id="periodStatistics_endDate">
 <input type="button" id="periodStatistics-btn" value="periodStatisticsTransfer">
 </form>
 <hr><br>
@@ -106,16 +106,33 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	$("#register-btn").click( function() { 
 	
-		var registerFormData = $("#register").serialize();
+	    var registerData = {
+	            loginId: $("#register_loginId").val(),
+	            password: $("#register_password").val(),
+	            nickname: $("#register_nickname").val(),
+	            joinCode: $("#register_joinCode").val()
+	        };
 
 	    $.ajax({
 	    	url  		: "/api/users" ,
 	    	method 		: 'POST' , 
-	    	data 		: registerFormData , 			
+	    	data 		: JSON.stringify(registerData) , 			
 	    	contentType : "application/json; charset=UTF-8",
 	    	//dataType 	: "String", 	
 	    	success 	: function(res) { console.log("응답:" + res) }   ,
-	    	error 		: function(err) { console.log("에러:" + err) }  
+	    	error: function(xhr, status, error) {
+	    	        // xhr 객체에서 응답 텍스트를 가져오기
+	    	        console.log("에러 상태:", status);
+	    	        console.log("에러 메시지:", error);
+	    	        console.log("응답 텍스트:", xhr.responseText); // 서버에서 반환한 응답
+	    	        // 필요에 따라 xhr 객체를 JSON으로 변환하여 출력
+	    	        try {
+	    	            var response = JSON.parse(xhr.responseText);
+	    	            console.log("응답 객체:", response);
+	    	        } catch (e) {
+	    	            console.log("응답이 JSON 형식이 아닙니다:", xhr.responseText);
+	    	        }
+	    	    }  
 	    });	    		
 	});
 	
@@ -125,11 +142,15 @@ $( document ).ready(function() {
 	$("#login-btn").click( function() {
 		
 		var loginFormData = $("#login").serialize();
+		var loginData = {
+	            loginId: $("#login_loginId").val(),
+	            password: $("#login_password").val(),	
+		};
 
 	    $.ajax({
 	    	url  		: "/api/login" ,
 	    	method 		: 'POST' , 
-	    	data 		: loginFormData , 			
+	    	data 		: JSON.stringify(loginData) , 			
 	    	contentType : "application/json; charset=UTF-8",
 	    	dataType 	: "json",  	
 	    	success 	: function(obj) {
@@ -157,29 +178,49 @@ $( document ).ready(function() {
 	    	error 		: function(err) { console.log("에러:" + err) }  
 	    });	    		
 	});
+
 	
 	//----------------------------------------------------------------------------------
 	//설문 제출
 	//----------------------------------------------------------------------------------
 	$("#surveyInsert-btn").click( function() {
 		
-		var surveyInsertFormData = $("#surveyInsert").serialize();
+		var surveyInsertData = {
+				userId: $("#surveyInsert_userId").val(),
+				difficulty: $("#surveyInsert_difficulty").val(),
+				speed: $("#surveyInsert_speed").val(),
+				material: $("#surveyInsert_material").val(),
+				questions: $("#surveyInsert_questions").val(),
+				comments: $("#surveyInsert_comments").val()
+	        };
 
 	    $.ajax({
 	    	url  		: "/api/surveys" ,
 	    	method 		: 'POST' , 
-	    	data 		: surveyInsertFormData , 			
+	    	data 		: JSON.stringify(surveyInsertData) , 			
 	    	contentType : "application/json; charset=UTF-8",
 	    	//dataType 	: "String", 	
 	    	success 	: function(res) { console.log("응답:" + res) }   ,
-	    	error 		: function(err) { console.log("에러:" + err) }  
+	    	error: function(xhr, status, error) {
+    	        // xhr 객체에서 응답 텍스트를 가져오기
+    	        console.log("에러 상태:", status);
+    	        console.log("에러 메시지:", error);
+    	        console.log("응답 텍스트:", xhr.responseText); // 서버에서 반환한 응답
+    	        // 필요에 따라 xhr 객체를 JSON으로 변환하여 출력
+    	        try {
+    	            var response = JSON.parse(xhr.responseText);
+    	            console.log("응답 객체:", response);
+    	        } catch (e) {
+    	            console.log("응답이 JSON 형식이 아닙니다:", xhr.responseText);
+    	        }
+    	    }  
 	    });	    		
 	});	
 	
 	//----------------------------------------------------------------------------------
 	//유저 정보
 	//----------------------------------------------------------------------------------
-	$("userInfo-btn").click( function() {  
+	$("#userInfo-btn").click( function() {  
 	    userId = $("#userInfo_userId").val();
 	    $.ajax({
 	    	url  		: "/api/users" ,
@@ -202,7 +243,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//아이디 중복 체크
 	//----------------------------------------------------------------------------------
-	$("checkLoginId-btn").click( function() {  
+	$("#checkLoginId-btn").click( function() {  
 	    loginId = $("#checkLoginId_loginId").val();
 	    $.ajax({
 	    	url  		: "/api/users/check-duplicate-id" ,
@@ -222,7 +263,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//닉네임 중복 체크
 	//----------------------------------------------------------------------------------
-	$("checkNickname-btn").click( function() {  
+	$("#checkNickname-btn").click( function() {  
 	    nickname = $("#checkNickname_nickname").val();
 	    $.ajax({
 	    	url  		: "/api/users/check-duplicate-nickname" ,
@@ -242,7 +283,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//내 설문 리스트 조회
 	//----------------------------------------------------------------------------------
-	$("mySurveys-btn").click( function() {  
+	$("#mySurveys-btn").click( function() {  
 		userId = $("#mySurveys_userId").val();
 	    $.ajax({
 	    	url  		: "/api/mysurveys" ,
@@ -272,7 +313,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//일별 설문 리스트 조회
 	//----------------------------------------------------------------------------------
-	$("dailySurveys-btn").click( function() {  
+	$("#dailySurveys-btn").click( function() {  
 		createAt = $("dailySurveys_createAt").val();
 	    $.ajax({
 	    	url  		: "/api/surveys" ,
@@ -302,7 +343,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//일별 통계 보기
 	//----------------------------------------------------------------------------------
-	$("dailyStatistics-btn").click( function() {  
+	$("#dailyStatistics-btn").click( function() {  
 		createAt = $("dailyStatistics_createAt").val();
 	    $.ajax({
 	    	url  		: "/api/daily-statistics" ,
@@ -325,7 +366,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//월별 통계 보기
 	//----------------------------------------------------------------------------------
-	$("monthlyStatistics-btn").click( function() {  
+	$("#monthlyStatistics-btn").click( function() {  
 		month = $("monthlyStatistics_month").val();
 	    $.ajax({
 	    	url  		: "/api/monthly-statistics" ,
@@ -348,7 +389,7 @@ $( document ).ready(function() {
 	//----------------------------------------------------------------------------------
 	//기간별 통계 보기
 	//----------------------------------------------------------------------------------
-	$("periodStatistics-btn").click( function() {  
+	$("#periodStatistics-btn").click( function() {  
 		startDate = $("periodStatistics_startDate").val();
 		endDate = $("periodStatistics_endDate").val();
 	    $.ajax({
