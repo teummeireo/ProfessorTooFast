@@ -14,6 +14,16 @@
 <title>Tomato Survey</title>
 <link rel ="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 
+<script>
+function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+}
+
+</script>
 </head>
 <body>
 
@@ -198,10 +208,21 @@
         <textarea style="width: 100%; height: 80px; border-radius: 5px; border: 1px solid #DDD; padding: 10px;"></textarea>
     </div>
 	<br>
-    <button class="submit-button" onclick="location.href='main.jsp'">제출하기</button>
-    
-	<br>
-	</div>
+    <button class="submit-button" onclick="openModal()">제출하기</button>
+    <br>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h2>제출 완료되었습니다!</h2>
+        <p>답변이 성공적으로 제출되었습니다. <br>원하시는 다음 작업을 선택하세요.</p>
+        <div class="modal-buttons">
+            <button class="home-button" onclick="location.href='main.jsp'">홈으로 가기</button>
+            <button class="survey-button" onclick="location.href='my_survey.jsp'">내 설문 확인하기</button>
+            <br>
+        </div>
+    </div>
+</div>
+
+</div>
 	<button class="custom-button" onclick="location.href='login.jsp'">Logout</button>
 </body>
 </html>

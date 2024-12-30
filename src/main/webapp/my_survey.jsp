@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar with Statistics and Surveys</title>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+
 
     <style>
         /* 전체 레이아웃 */
@@ -347,6 +349,7 @@
             transition: transform 0.2s ease;
         }
     </style>
+
 </head>
 
 <body>

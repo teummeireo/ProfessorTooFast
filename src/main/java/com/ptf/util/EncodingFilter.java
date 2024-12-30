@@ -8,11 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-
+import javax.servlet.http.HttpServletRequest;
 
 @WebFilter("/*")
 public class EncodingFilter implements Filter {
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,6 +21,19 @@ public class EncodingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+
+        // HttpServletRequest로 형변환하여 URI를 확인
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String uri = httpRequest.getRequestURI();
+
+        String contextPath = httpRequest.getContextPath();
+
+        // 정적 리소스 요청은 필터 제외
+        if (uri.startsWith(contextPath + "/css/") || uri.startsWith(contextPath + "/js/") || uri.startsWith(contextPath + "/images/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         // 요청과 응답에 UTF-8 인코딩 설정
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
@@ -35,3 +47,4 @@ public class EncodingFilter implements Filter {
         // 필터 종료 작업 (필요하면 구현)
     }
 }
+
