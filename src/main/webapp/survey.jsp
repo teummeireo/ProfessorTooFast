@@ -28,7 +28,8 @@ function closeModal() {
 </script>
 </head>
 <body>
-
+<jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
+<jsp:include page = "${pageContext.request.contextPath}/check_user.jsp" />
 <div class="rectangle">
 <div class="header-bar"></div>
     

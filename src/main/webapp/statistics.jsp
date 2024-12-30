@@ -218,6 +218,8 @@ select {
     </style>
 </head>
 <body>
+<jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
+<jsp:include page = "${pageContext.request.contextPath}/check_admin.jsp" />
     <div id="calendar"></div>
     <p id="selected-dates">선택된 날짜: 없음</p>
 
