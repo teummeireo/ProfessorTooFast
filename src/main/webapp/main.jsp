@@ -11,10 +11,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Tomato Survey</title>
+<title>강사님넘빨라요</title>
+<link rel ="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-
+<div class="rectangle">
+</div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
