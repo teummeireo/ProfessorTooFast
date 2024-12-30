@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-  body {
+  	body {
     background-color: #FFBCBC;
     margin: 0;
     display: flex;
@@ -33,6 +33,7 @@
 	    background: #F7F7F7;
 	}
 	
+	/* Survey Section */
 	.survey-options {
 	    display: flex;
 	    justify-content: space-between;
@@ -161,3 +162,84 @@
 	    font-size: 14px;
 	    cursor: pointer;
 	}
+	.modal {
+	    display: none; /* 기본적으로 숨김 */
+	    position: fixed;
+	    z-index: 1;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    overflow: auto;
+	    background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
+	}
+	
+	.modal-content {
+	    background-color: #fff;
+	    margin: 15% auto; /* 화면 중앙 정렬 */
+	    padding: 20px;
+	    border: 1px solid #888;
+	    width: 40%; /* 적절한 너비 */
+	    border-radius: 8px;
+	    text-align: center; /* 텍스트 정렬 */
+	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+	}
+	
+	.modal-content h2 {
+	    margin: 0;
+	    margin-bottom: 10px;
+	    font-size: 22px;
+	    color: #333;
+	}
+	
+	.modal-content p {
+	    font-size: 16px;
+	    color: #666;
+	    margin-bottom: 20px;
+	}
+	
+	
+	.modal-buttons button {
+	    margin: 0 5px; /* 왼쪽과 오른쪽 간격을 5px로 설정 */
+	}
+	
+	.home-button {
+	    background-color: #F5576D; 
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    font-size: 14px;
+	}
+	
+	.home-button:hover {
+	    background-color: #D43F3F;
+	}
+	
+	.survey-button {
+	    background-color: #F5576D;
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    font-size: 14px;
+	}
+	
+	.survey-button:hover {
+	    background-color: #D43F3F;
+}
+    .survey-options label {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    .survey-options input[type="radio"] {
+        margin-left: 5px;
+    }
+    
+    .main-page{
+    	text-align:center;
+    }

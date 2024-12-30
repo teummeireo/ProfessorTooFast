@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+/* 공통 스타일 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* 컨테이너 */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* 왼쪽 패널 - 이미지 */
+.left-panel {
+    flex: 1;
+    background: url("../images/login_register.jpg") no-repeat center center/cover;
+}
+
+/* 오른쪽 패널 - 로그인 폼 */
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+}
+
+form {
+    width: 80%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 3px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 입력 필드 */
+input[type="text"],
+input[type="password"] {
+  font-family: 'Open Sans Condensed', sans-serif;
+  text-decoration: none;
+  position: relative;
+  width: 80%;
+  display: block;
+  margin: 9px auto;
+  font-size: 17px;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(3,3,3,.1);
+  -webkit-transition: all 2s ease-in-out;
+  -moz-transition: all 2s ease-in-out;
+  -o-transition: all 2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 버튼 */
+button{
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover{
+    background-color: #555;
+}
+
+/* 서브 버튼 */
+button#register-btn, button#login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: white; /* 기본 배경 흰색 */
+    color: black; /* 기본 글자색 검정 */
+    border: 1px solid black; /* 테두리 검정 */
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button#register-btn:hover, button#login-btn:hover {
+    background-color: black; /* 호버 시 배경 검정색 */
+    color: white; /* 호버 시 글자 흰색 */
+    border: 1px solid black; /* 테두리 유지 */
+}

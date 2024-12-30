@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffd6d6; /* 배경색 (연한 빨강) */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 80%; /* 컨테이너 너비 */
+    height: 70%; /* 컨테이너 높이 */
+    background-color: #ffc0c0; /* 박스 배경색 (좀 더 진한 빨강) */
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.title {
+    font-size: 4rem; /* 제목 크기 */
+    font-weight: bold;
+    color: #ff4444; /* 텍스트 색상 */
+    margin-top: 20px;
+}
+
+.image-container {
+    flex-grow: 1; /* 이미지가 컨테이너 내에서 공간을 채우도록 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tomato-image {
+    width: 150px; /* 이미지 너비 */
+    height: auto; /* 비율 유지 */
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.custom-button {
+    background-color: #ff7777; /* 버튼 색상 */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.custom-button:active {
+    transform: scale(1);
+    box-shadow: none;
+}
