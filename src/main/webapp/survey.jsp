@@ -14,10 +14,12 @@
 <title>Tomato Survey</title>
 <link rel ="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
 <script>
 function openModal() {
     document.getElementById('myModal').style.display = 'block';
 }
+
 
 function closeModal() {
     document.getElementById('myModal').style.display = 'none';
@@ -38,7 +40,9 @@ function closeModal() {
 
 
  <div class="survey-section">
+
     <p>1. 오늘 수업의 난이도는 어땠나요? (1: 쉽다 → 10: 어렵다)</p>
+
     <br>
     <div class="survey-options">
         <label>
@@ -80,12 +84,15 @@ function closeModal() {
         <label>
             10
             <input type="radio" class="userId" name="userId" value="10">
+
         </label>
     </div>
 </div>
 
 <div class="survey-section">
     <p>2. 오늘 수업의 진도의 빠르기 정도를 체크해주세요. (1: 느리다 → 10: 빠르다)</p>
+
+
     <br>
     <div class="survey-options">
         <label>
@@ -127,11 +134,10 @@ function closeModal() {
         <label>
             10
             <input type="radio" class="speed" name="speed" value="10">
+
         </label>
     </div>
 </div>
-
-
 
 <div class="survey-section">
     <p>3. 오늘 수업 자료의 유용했던 정도를 체크해주세요. (1: 내용 추가가 필요하다 → 10: 유용했다)</p>
@@ -180,6 +186,7 @@ function closeModal() {
     </div>
 </div>
 
+
 <div class="survey-section">
     <p>4. 오늘 수업 중 궁금했던 내용이 있다면 어떤 내용인지 입력해주세요. (선택)</p>
     <textarea id="questions" style="width: 100%; height: 80px; border-radius: 5px; border: 1px solid #DDD; padding: 10px;"></textarea>
@@ -200,12 +207,11 @@ function closeModal() {
         <div class="modal-buttons">
             <button class="home-button" onclick="location.href='main.jsp'">홈으로 가기</button>
             <button class="survey-button" onclick="location.href='my_survey.jsp'">내 설문 확인하기</button>
-           
             <br>
         </div>
     </div>
-    
 </div>
+
 
 </div>
 	<button class="custom-button" onclick="location.href='login.jsp'">Logout</button>
