@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인페이지</title>
+
+<title>강사님넘빨라요</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main_css.css"> <!-- 스타일 경로 -->
 <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico.png">
 </head>
