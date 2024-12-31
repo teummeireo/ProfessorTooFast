@@ -50,9 +50,15 @@ $(document).ready(function() {
 	    						console.log(obj['userId']);
 	    						console.log(obj['nickname']);
 	    						console.log(obj['role']);
-	    						window.location.href = "${pageContext.request.contextPath}/main.jsp";
+	    						window.location.href = "";
 	    					}   ,
-	    	error 		: function(err) { console.log("에러:" + err) }  
+	    			    	error: function(xhr, status, error) {
+	    		    	        // xhr 객체에서 응답 텍스트를 가져오기
+	    		    	        console.log("에러 상태:", status);
+	    		    	        console.log("에러 메시지:", error);
+	    		    	        console.log("응답 텍스트:", xhr.responseText); // 서버에서 반환한 응답
+	    		
+	    		    	}
 	    });	    		
 	});
     
