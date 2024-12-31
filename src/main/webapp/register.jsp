@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Register in P.T.F</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login_register.css"> <!-- 스타일 경로 -->
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
 </head>
 <body>
     <div class="container">
@@ -113,18 +113,51 @@ $(document).ready(function () {
             }
         });
     });
+    
+ // 회원가입 버튼 클릭 이벤트 핸들러
+    $("#register-btn").click(function () {
+        var registerData = {
+            loginId: $("#register_loginId").val(),
+            password: $("#register_password").val(),
+            nickname: $("#register_nickname").val(),
+            joinCode: $("#register_joinCode").val()
+        };
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/users",
+            method: "POST",
+            data: JSON.stringify(registerData),
+            contentType: "application/json; charset=UTF-8",
+            success: function (res) {
+                alert("회원가입이 성공적으로 완료되었습니다.");
+                console.log("응답:", res);
+                // 회원가입 후 로그인 페이지로 이동
+                location.assign("login.jsp");
+            },
+            error: function (xhr, status, error) {
+                console.error("에러 상태:", status);
+                console.error("에러 메시지:", error);
+                console.error("응답 텍스트:", xhr.responseText);
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    alert("오류 발생: " + response.message);
+                } catch (e) {
+                    alert("회원가입 중 오류가 발생했습니다.");
+                }
+            }
+        });
+    });
 
     $("#register-btn").prop("disabled", true);
 });
 
 </script>
 
-
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
-//로그인 페이지로 이동
+	//로그인 페이지로 이동
 	function goToLogin() {
-	    window.location.href = "login.jsp";
+		location.assign("login.jsp");
 	}
 </script>
 </body>

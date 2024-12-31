@@ -12,6 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Tomato Survey</title>
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
