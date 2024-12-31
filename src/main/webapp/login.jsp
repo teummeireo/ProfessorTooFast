@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Login in P.T.F</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login_register.css"> <!-- 스타일 경로 -->
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
 </head>
 <body>
     <div class="container">
@@ -31,33 +31,37 @@
 <script>
 $(document).ready(function() {
     // 로그인 버튼 클릭 이벤트
-    $("#login-btn").click( function() {
-		
-		var loginFormData = $("#login").serialize();
-		var loginData = {
-	            loginId: $("#login_loginId").val(),
-	            password: $("#login_password").val(),	
-		};
+    $("#login-btn").click(function() {
+        var loginData = {
+            loginId: $("#login_loginId").val(),
+            password: $("#login_password").val()
+        };
 
-	    $.ajax({
-	    	url: "${pageContext.request.contextPath}/api/login",
-	    	method 		: 'POST' , 
-	    	data 		: JSON.stringify(loginData) , 			
-	    	contentType : "application/json; charset=UTF-8",
-	    	dataType 	: "json",  	
-	    	success 	: function(obj) {
-	    						console.log("응답:" + obj);
-	    						console.log(obj['userId']);
-	    						console.log(obj['nickname']);
-	    						console.log(obj['role']);
-	    						window.location.href = "${pageContext.request.contextPath}/main.jsp";
-	    					}   ,
-	    	error 		: function(err) { console.log("에러:" + err) }  
-	    });	    		
-	});
-    
- 	// Enter 키로 로그인 처리
-    $("#loginForm").on("keydown", function (e) {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/login",
+            method: 'POST',
+            data: JSON.stringify(loginData),
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            success: function(obj) {
+                // role에 따라 분기 처리
+                if (obj.role === "ADMIN") {
+                    window.location.href = "${pageContext.request.contextPath}/statistics.jsp";
+                } else if (obj.role === "USER") {
+                    window.location.href = "${pageContext.request.contextPath}/main.jsp";
+                } else {
+                    alert("알수없는 유저입니다.");
+                }
+            },
+            error: function(err) {
+                console.log("에러:", err);
+                alert("로그인 실패. 다시 시도해주세요.");
+            }
+        });
+    });
+
+    // Enter 키로 로그인 처리
+    $("#loginForm").on("keydown", function(e) {
         if (e.keyCode === 13) {
             e.preventDefault(); // 기본 Enter 키 동작 방지 (폼 제출 방지)
             $("#login-btn").click(); // 로그인 버튼 클릭 트리거
@@ -67,13 +71,15 @@ $(document).ready(function() {
 });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
-//회원가입 페이지로 이동
 	function goToRegister() {
-	    window.location.href = "register.jsp";
+	    location.assign("register.jsp"); // 히스토리 남김
+	    // 또는
+	    // location.replace("register.jsp"); // 히스토리 남기지 않음
 	}
 </script>
+
+
 
 </body>
 </html>

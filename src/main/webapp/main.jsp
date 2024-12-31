@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main_css.css"> <!-- 스타일 경로 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

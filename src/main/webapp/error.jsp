@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
 <meta charset="UTF-8">
 <title>Tomato Survey</title>
 </head>
