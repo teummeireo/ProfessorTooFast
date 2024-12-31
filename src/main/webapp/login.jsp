@@ -21,7 +21,7 @@
                 <input type="text" id="login_loginId" placeholder="Enter Your email address" name="loginId" required>
                 <input type="password" id="login_password" placeholder="Enter Password" name="password" required>
 
-                <button type="button" id="login-btn" value="loginTransfer">Log In</button>
+                <button type="button" id="login-btn" class="loginForm" value="loginTransfer">Log In</button>
                 <button type="button" class="secondary-button" onclick="goToRegister()">Go To Sign Up</button>
             </form>
         </div>
@@ -54,6 +54,14 @@ $(document).ready(function() {
 	    	error 		: function(err) { console.log("에러:" + err) }  
 	    });	    		
 	});
+    
+ 	// Enter 키로 로그인 처리
+    $("#loginForm").on("keydown", function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault(); // 기본 Enter 키 동작 방지 (폼 제출 방지)
+            $("#login-btn").click(); // 로그인 버튼 클릭 트리거
+        }
+    });
     
 });
 </script>

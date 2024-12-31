@@ -54,21 +54,12 @@ p {
 /* 입력 필드 */
 input[type="text"],
 input[type="password"] {
-  font-family: 'Open Sans Condensed', sans-serif;
-  text-decoration: none;
-  position: relative;
-  width: 80%;
-  display: block;
-  margin: 9px auto;
-  font-size: 17px;
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(3,3,3,.1);
-  -webkit-transition: all 2s ease-in-out;
-  -moz-transition: all 2s ease-in-out;
-  -o-transition: all 2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+    width: 93%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 /* 버튼 */
@@ -105,4 +96,53 @@ button#register-btn:hover, button#login-btn:hover {
     background-color: black; /* 호버 시 배경 검정색 */
     color: white; /* 호버 시 글자 흰색 */
     border: 1px solid black; /* 테두리 유지 */
+}
+
+/* 입력 그룹 스타일 */
+.input-group {
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    flex: 3; /* 입력창이 더 넓어지도록 설정 */
+    height: 40px; /* 입력창과 버튼 높이 동일 */
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px; /* 왼쪽 모서리 둥글게 */
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.input-group .check-button {
+    flex: 1; /* 버튼이 입력창보다 좁게 설정 */
+    height: 40px; /* 버튼 높이 입력창과 동일 */
+    padding: 0 15px;
+    background-color: #333; /* 검정색 배경 */
+    color: white; /* 흰색 텍스트 */
+    border: none;
+    border-radius: 0 4px 4px 0; /* 오른쪽 모서리 둥글게 */
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.input-group .check-button:hover {
+    background-color: #555; /* 호버 시 더 밝은 검정색 */
+}
+
+/* 추가: 입력창과 버튼 간격 없애기 */
+.input-group input,
+.input-group .check-button {
+    margin: 0; /* 간격 제거 */
+}
+
+/* 버튼 비활성화 스타일 */
+button#register-btn:disabled {
+    background-color: #ddd; /* 비활성화 배경 흐린 회색 */
+    color: #aaa; /* 비활성화 텍스트 흐린 회색 */
+    border: 1px solid #bbb; /* 비활성화 테두리 흐린 색 */
+    cursor: not-allowed; /* 마우스 포인터 변경 */
 }

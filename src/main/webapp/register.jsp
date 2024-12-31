@@ -34,7 +34,7 @@
                     <input type="text" id="register_joinCode" placeholder="Enter Code" name="joinCode" maxlength="64" required>
                 </div>
 
-                <button type="button" id="register-btn" value="registerTransfer">Sign Up</button>
+                <button type="button" id="register-btn" value="registerTransfer" disabled>Sign Up</button>
                 <button type="button" class="secondary-button" onclick="goToLogin()">Go To Log In</button>
             </form>
         </div>
@@ -43,7 +43,19 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 $(document).ready(function () {
-    // 아이디 중복 체크
+    let isLoginIdValid = false;
+    let isNicknameValid = false;
+
+    function updateRegisterButtonState() {
+        console.log("Login ID Valid:", isLoginIdValid);
+        console.log("Nickname Valid:", isNicknameValid);
+        if (isLoginIdValid && isNicknameValid) {
+            $("#register-btn").prop("disabled", false);
+        } else {
+            $("#register-btn").prop("disabled", true);
+        }
+    }
+
     $("#checkLoginId-btn").click(function () {
         var loginId = $("#register_loginId").val();
 
@@ -60,9 +72,12 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.isLoginIdUnique) {
                     alert("사용 가능한 아이디입니다.");
+                    isLoginIdValid = true;
                 } else {
                     alert("이미 사용 중인 아이디입니다.");
+                    isLoginIdValid = false;
                 }
+                updateRegisterButtonState();
             },
             error: function () {
                 alert("아이디 중복 체크 중 오류가 발생했습니다.");
@@ -70,7 +85,6 @@ $(document).ready(function () {
         });
     });
 
-    // 닉네임 중복 체크
     $("#checkNickname-btn").click(function () {
         var nickname = $("#register_nickname").val();
 
@@ -87,9 +101,12 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.isNicknameUnique) {
                     alert("사용 가능한 닉네임입니다.");
+                    isNicknameValid = true;
                 } else {
                     alert("이미 사용 중인 닉네임입니다.");
+                    isNicknameValid = false;
                 }
+                updateRegisterButtonState();
             },
             error: function () {
                 alert("닉네임 중복 체크 중 오류가 발생했습니다.");
@@ -97,58 +114,11 @@ $(document).ready(function () {
         });
     });
 
-    // joinCode 유효성 체크
-    $("#checkJoinCode-btn").click(function () {
-        var joinCode = $("#register_joinCode").val();
-
-        if (!joinCode) {
-            alert("joinCode를 입력해주세요.");
-            return;
-        }
-
-        $.ajax({
-            url: "${pageContext.request.contextPath}/api/users/check-join-code",
-            method: "GET",
-            data: { joinCode: joinCode },
-            dataType: "json",
-            success: function (response) {
-                if (response.isValid) {
-                    alert("유효한 joinCode입니다.");
-                } else {
-                    alert("유효하지 않은 joinCode입니다.");
-                }
-            },
-            error: function () {
-                alert("joinCode 확인 중 오류가 발생했습니다.");
-            }
-        });
-    });
-
-    // 회원가입 요청
-    $("#register-btn").click(function () {
-        var registerData = {
-            loginId: $("#register_loginId").val(),
-            password: $("#register_password").val(),
-            nickname: $("#register_nickname").val(),
-            joinCode: $("#register_joinCode").val()
-        };
-
-        $.ajax({
-            url: "${pageContext.request.contextPath}/api/users",
-            method: "POST",
-            data: JSON.stringify(registerData),
-            contentType: "application/json; charset=UTF-8",
-            success: function () {
-                alert("회원가입이 완료되었습니다.");
-                window.location.href = "login.jsp";
-            },
-            error: function (xhr) {
-                alert("회원가입 중 오류가 발생했습니다: " + xhr.responseText);
-            }
-        });
-    });
+    $("#register-btn").prop("disabled", true);
 });
+
 </script>
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
