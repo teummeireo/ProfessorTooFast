@@ -80,6 +80,46 @@ public class SurveyDAO {
 
 	    return surveyList;
 	}
+	
+	//------------------------------select by userId and createAt---------------------------------
+	public SurveyVO surveySelect(int userId, Date createAt) {
+	    SurveyVO survey = null;
+	    DBManager dbm = OracleDBManager.getInstance();
+
+	    String sql = "SELECT * FROM survey WHERE user_id = ? AND create_at BETWEEN ? AND ?";
+
+	    try (Connection conn = dbm.connect();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        // 자정 계산
+	        java.sql.Date startDate = new java.sql.Date(createAt.getTime());
+	        java.sql.Date endDate = new java.sql.Date(createAt.getTime() + 86400000 - 1); // 자정 + 하루 - 1밀리초
+
+	        pstmt.setInt(1, userId);
+	        pstmt.setDate(2, startDate);
+	        pstmt.setDate(3, endDate);
+
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            if (rs.next()) {
+	                survey = new SurveyVO();
+	                survey.setSurveyId(rs.getInt("survey_id"));
+	                survey.setUserId(rs.getInt("user_id"));
+	                survey.setStatisticsId(rs.getInt("statistics_id"));
+	                survey.setDifficulty(rs.getInt("difficulty"));
+	                survey.setSpeed(rs.getInt("speed"));
+	                survey.setMaterial(rs.getInt("material"));
+	                survey.setQuestions(rs.getString("questions"));
+	                survey.setComments(rs.getString("comments"));
+	                survey.setCreateAt(rs.getDate("create_at"));
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return survey;
+	}
+
 
 	
 	//------------------------------select by createAt---------------------------------

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" 	uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
-<%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,90 +12,120 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form id="register">
-loginId		<input type="text" name="loginId" id="register_loginId"> 
-password	<input type="text" name="password" id="register_password"> 
-nickname	<input type="text" name="nickname" id="register_nickname">
-joinCode	<input type="text" name="joinCode" id="register_joinCode">
-<input type="button" id="register-btn" value="registerTransfer">
-</form>
-<hr><br>
+	<form id="register">
+		loginId <input type="text" name="loginId" id="register_loginId">
+		password <input type="text" name="password" id="register_password">
+		nickname <input type="text" name="nickname" id="register_nickname">
+		joinCode <input type="text" name="joinCode" id="register_joinCode">
+		<input type="button" id="register-btn" value="registerTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="login">
-loginId		<input type="text" name="loginId" id="login_loginId"> 
-password	<input type="text" name="password" id="login_password"> 
-<input type="button" id="login-btn" value="loginTransfer">
-</form>
-<hr><br>
+	<form id="login">
+		loginId <input type="text" name="loginId" id="login_loginId">
+		password <input type="text" name="password" id="login_password">
+		<input type="button" id="login-btn" value="loginTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="logout">
-<input type="button" id="logout-btn" value="logoutTransfer">
-</form>
-<hr><br>
+	<form id="logout">
+		<input type="button" id="logout-btn" value="logoutTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="surveyInsert">
-userId		<input type="text" name="userId" id="surveyInsert_userId"> 
-difficulty	<input type="text" name="difficulty" id="surveyInsert_difficulty"> 
-speed		<input type="text" name="speed" id="surveyInsert_speed">
-material	<input type="text" name="material" id="surveyInsert_material">
-questions	<input type="text" name="questions" id="surveyInsert_questions">
-comments	<input type="text" name="comments" id="surveyInsert_comments">
-<input type="button" id="surveyInsert-btn" value="surveyInsertTransfer">
-</form>
-<hr><br>
+	<form id="surveyInsert">
+		userId <input type="text" name="userId" id="surveyInsert_userId">
+		difficulty <input type="text" name="difficulty"
+			id="surveyInsert_difficulty"> speed <input type="text"
+			name="speed" id="surveyInsert_speed"> material <input
+			type="text" name="material" id="surveyInsert_material">
+		questions <input type="text" name="questions"
+			id="surveyInsert_questions"> comments <input type="text"
+			name="comments" id="surveyInsert_comments"> <input
+			type="button" id="surveyInsert-btn" value="surveyInsertTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="userInfo">
-userId		<input type="text" name="userId" id="userInfo_userId">
-<input type="button" id="userInfo-btn" value="userInfoTransfer">
-</form>
-<hr><br>
+	<form id="userInfo">
+		userId <input type="text" name="userId" id="userInfo_userId">
+		<input type="button" id="userInfo-btn" value="userInfoTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="checkLoginId">
-loginId		<input type="text" name="loginId" id="checkLoginId_loginId">
-<input type="button" id="checkLoginId-btn" value="checkLoginIdTransfer">
-</form>
-<hr><br>
+	<form id="checkLoginId">
+		loginId <input type="text" name="loginId" id="checkLoginId_loginId">
+		<input type="button" id="checkLoginId-btn"
+			value="checkLoginIdTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="checkNickname">
-nickname	<input type="text" name="nickname" id="checkNickname_nickname">
-<input type="button" id="checkNickname-btn" value="checkNicknameTransfer">
-</form>
-<hr><br>
+	<form id="checkNickname">
+		nickname <input type="text" name="nickname"
+			id="checkNickname_nickname"> <input type="button"
+			id="checkNickname-btn" value="checkNicknameTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="mySurveys">
-userId		<input type="text" name="userId" id="mySurveys_userId">
-<input type="button" id="mySurveys-btn" value="mySurveysTransfer">
-</form>
-<hr><br>
+	<form id="mySurveys">
+		userId <input type="text" name="userId" id="mySurveys_userId">
+		<input type="button" id="mySurveys-btn" value="mySurveysTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="dailySurveys">
-createAt	<input type="text" name="createAt" id="dailySurveys_createAt">
-<input type="button" id="dailySurveys-btn" value="dailySurveysTransfer">
-</form>
-<hr><br>
+	<form id="dailySurveys">
+		createAt <input type="text" name="createAt" id="dailySurveys_createAt">
+		<input type="button" id="dailySurveys-btn"
+			value="dailySurveysTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="dailyStatistics">
-createAt	<input type="text" name="createAt" id="dailyStatistics_createAt">
-<input type="button" id="dailyStatistics-btn" value="dailyStatisticsTransfer">
-</form>
-<hr><br>
+	<form id="dailyStatistics">
+		createAt <input type="text" name="createAt"
+			id="dailyStatistics_createAt"> <input type="button"
+			id="dailyStatistics-btn" value="dailyStatisticsTransfer">
+	</form>
+	<hr>
+	<br>
 
 
-<form id="monthlyStatistics">
-month		<input type="text" name="month" id="monthlyStatistics_month">
-<input type="button" id="monthlyStatistics-btn" value="monthlyStatisticsTransfer">
-</form>
-<hr><br>
+	<form id="monthlyStatistics">
+		month <input type="text" name="month" id="monthlyStatistics_month">
+		<input type="button" id="monthlyStatistics-btn"
+			value="monthlyStatisticsTransfer">
+	</form>
+	<hr>
+	<br>
 
-<form id="periodStatistics">
-startDate	<input type="text" name="startDate" id="periodStatistics_startDate">
-endDate		<input type="text" name="endDate" id="periodStatistics_endDate">
-<input type="button" id="periodStatistics-btn" value="periodStatisticsTransfer">
-</form>
-<hr><br>
+	<form id="periodStatistics">
+		startDate <input type="text" name="startDate"
+			id="periodStatistics_startDate"> endDate <input type="text"
+			name="endDate" id="periodStatistics_endDate"> <input
+			type="button" id="periodStatistics-btn"
+			value="periodStatisticsTransfer">
+	</form>
+	<hr>
+	<br>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script>
+	<form id="dailyMySurvey">
+		userId <input type="text" name="userId" id="dailyMySurvey_userId">
+		createAt <input type="text" name="createAt"
+			id="dailyMySurvey_createAt"> <input type="button"
+			id="dailyMySurvey" value="dailyMySurveyTransfer">
+	</form>
+	<hr>
+	<br>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script>
 $( document ).ready(function() {
 	//$("#btn").click( function() {  
 	//    	$("#input").val();
@@ -411,7 +441,34 @@ $( document ).ready(function() {
 	    	error 		: function(err) { console.log("에러:" + err) }  
 	    });
 	});
-
+	
+	//----------------------------------------------------------------------------------
+	// 특정 날짜 내 설문 조회
+	//----------------------------------------------------------------------------------
+	$("#dailyMySurvey-btn").click( function() {  
+		userId = $("#dailyMySurvey_userId").val();
+		userId = $("#dailyMySurvey_createAt").val();
+	    $.ajax({
+	    	url  		: "/api/mysurveys" ,
+	    	method 		: 'GET' , 
+	    	data 		: "userId="+userId+"&createAt="+createAt , 			
+	    	//contentType : "application/x-www-form-urlencoded; charset=UTF-8", 
+	    	dataType 	: "json",	
+	    	success 	: function(obj) {
+				console.log("응답:" + obj);
+				console.log(obj['userId']);
+				console.log(obj['surveyId']);
+				console.log(obj['statisticsId']);
+				console.log(obj['speed']);
+				console.log(obj['difficulty']);
+				console.log(obj['material']);
+				console.log(obj['questions']);
+				console.log(obj['comments']);
+				});
+			}   ,
+	    	error 		: function(err) { console.log("에러:" + err) }  
+	    });
+	});
 	
 	
 	
