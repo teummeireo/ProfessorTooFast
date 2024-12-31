@@ -57,7 +57,7 @@ public class MySurveyServlet extends HttpServlet {
 
 		if (sessionUserId == null || !sessionUserId.equals(userId)) {
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			response.getWriter().write("{\"error\": \"세션 userId와 요청 userId가 일치하지 않습니다.\"}");
+			response.getWriter().write("{\"error\": \"로그인한 ID와 요청한 ID가 일치하지 않습니다.\"}");
 			return;
 		}
 
