@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet("/api/mysurveys")
 public class MySurveyServlet extends HttpServlet {
@@ -61,27 +63,56 @@ public class MySurveyServlet extends HttpServlet {
 			return;
 		}
 
-		try {
-			SurveyDAO surveyDAO = new SurveyDAO();
-			ArrayList<SurveyVO> mySurveys = surveyDAO.surveySelect(userId);
-			
-	        if (mySurveys.isEmpty()) {
-	            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	            response.getWriter().write("{\"message\": \"작성한 설문 데이터가 없습니다.\"}");
-	            return;
-	        }
+		// createAt 파라미터 처리
+		String createAtParam = request.getParameter("createAt");
+		SurveyDAO surveyDAO = new SurveyDAO();
 
-			
-			response.setStatus(HttpServletResponse.SC_OK); // 200 OK
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-			response.getWriter().write(objectMapper.writeValueAsString(mySurveys));
+		try {
+			if (createAtParam == null || createAtParam.isEmpty()) {
+				// createAt 파라미터가 없는 경우 기존 작업 수행
+				ArrayList<SurveyVO> mySurveys = surveyDAO.surveySelect(userId);
+				
+				if (mySurveys.isEmpty()) {
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					response.getWriter().write("{\"message\": \"작성한 설문 데이터가 없습니다.\"}");
+					return;
+				}
+
+				response.setStatus(HttpServletResponse.SC_OK); // 200 OK
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+				response.getWriter().write(objectMapper.writeValueAsString(mySurveys));
+			} else {
+				// createAt 파라미터가 있는 경우 특정 날짜 설문 조회
+				Date createAt;
+				try {
+					createAt = new SimpleDateFormat("yyyy-MM-dd").parse(createAtParam);
+				} catch (java.text.ParseException e) {
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.getWriter().write("{\"error\": \"날짜는 yyyy-MM-dd 형식이어야 합니다.\"}");
+					return;
+				}
+
+				SurveyVO survey = surveyDAO.surveySelect(userId, createAt);
+
+				if (survey == null) {
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					response.getWriter().write("{\"message\": \"해당 날짜의 설문 데이터가 없습니다.\"}");
+					return;
+				}
+
+				response.setStatus(HttpServletResponse.SC_OK); // 200 OK
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+				response.getWriter().write(objectMapper.writeValueAsString(survey));
+			}
+
 			SessionUtil.refreshSessionTimeout(request);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("{\"error\": \"서버 오류가 발생했습니다.\"}");
 		}
-
 	}
 }
+
