@@ -487,10 +487,15 @@
 
                     // 같은 날짜 클릭 시 API 호출
                     if (startDate === endDate) {
-                        fetchSurveyData(startDate); // API 호출
+                        // 1. 종료 날짜도 UI에 표시
+                        updateSelectedDates();
+
+                        console.log("fetchsurveyData 진입 직전 startDate = ", startDate);
+                        // 2. 해당 일자 설문 데이터 요청
+                        fetchSurveyData(startDate);                        
                         return; // 이후 동작 방지
                     }
-                    endDate = date;
+                    //endDate = date;
                     updateSelectedDates();
                     calendar.removeAllEvents();
                     calendar.addEvent({
@@ -501,13 +506,15 @@
                     });
 
 
+                    //통계 모달 호출
                     if (startDate && endDate) {
                         console.log("Calling loadStatistics with:", startDate, endDate);
                         loadStatistics(startDate, endDate); // 명시적으로 값 전달
                         showModal("stats-modal");
                     }
                 } else {
-                    startDate = date;
+                    // 다시 새로운 날짜를 시작 날짜로 설정
+                	startDate = date;
                     endDate = null;
                     updateSelectedDates();
                     calendar.removeAllEvents();
@@ -525,94 +532,137 @@
             }
 
             // API 요청 함수 추가
-            async function fetchSurveyData(date) {
-            	
-                if (!date) {
-                    console.error("The createAt parameter is missing.");
-                    alert("날짜를 선택해주세요.");
-                    return;
-                }
-
-                //const token = getSessionId();
-                const token = "C38C112FEB5D43B89364CE7637156922";
-
-                
-
-                try {
-                    // 일별 설문 데이터 API 호출
-                    const response = await fetch(`/api/daily-statistics?createAt=${date}`, {
-                        method: "GET",
-                        credentials: 'include', // 쿠키 포함 설정
-
-                        headers: {
-                            'Accept': 'application/json',
-                            "Cookie": `SESSIONID=${token}`
-                        }
-                    });
-            
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-            
-                    const data = await response.json();
-                    
-                    // 기존 showSurveyResults 함수 호출
-                    showSurveyResults(data);
-            
-                } catch (error) {
-                    console.error("Failed to fetch survey data:", error);
-                    document.getElementById('stats-content').innerHTML = `
-                        <div class="error">
-                            <p>데이터를 불러오는 중 오류가 발생했습니다: ${error.message}</p>
-                        </div>
-                    `;
-                }
-
-            }
+				async function fetchSurveyData(date) {
+				    if (!date) {
+				        console.error("The createAt parameter is missing.");
+				        alert("날짜를 선택해주세요.");
+				        return;
+				    }
+				
+				    const surveysUrl = "/api/surveys?createAt=" + date;
+				    const statsUrl = "/api/daily-statistics?createAt=" + date;
+				
+				    console.log(surveysUrl);
+				    console.log(statsUrl);
+				
+				    try {
+				        // 일별 설문 데이터 API 호출
+				        const surveysResponse = await fetch(surveysUrl, {
+				            method: "GET",
+				            credentials: "include",
+				            headers: {
+				                Accept: "application/json",
+				                Cookie: `SESSIONID=${token}`, // 명세에 맞게 쿠키 헤더 포함
+				            },
+				        });
+				
+				        if (!surveysResponse.ok) {
+				            console.error(`Surveys fetch failed with status: ${surveysResponse.status}`);
+				            throw new Error(`Surveys fetch error: ${surveysResponse.status}`);
+				        }
+				
+				        // JSON 데이터로 변환
+				        const surveysData = await surveysResponse.json();
+				        console.log("Surveys Data:", surveysData);
+				
+				        // `/api/daily-statistics` API 호출
+				        const statsResponse = await fetch(statsUrl, {
+				            method: "GET",
+				            credentials: "include",
+				            headers: {
+				                Accept: "application/json",
+				                Cookie: `SESSIONID=${token}`, // 명세에 맞게 쿠키 헤더 포함
+				            },
+				        });
+				
+				        if (!statsResponse.ok) {
+				            console.error(`Statistics fetch failed with status: ${statsResponse.status}`);
+				            throw new Error(`Statistics fetch error: ${statsResponse.status}`);
+				        }
+				
+				        // JSON 데이터로 변환
+				        const statsData = await statsResponse.json();
+				        console.log("Statistics Data:", statsData);
+				
+				        // UI 업데이트 함수 호출
+				        showSurveyResults(surveysData, statsData);
+				
+				    } catch (error) {
+				        console.error("Failed to fetch survey data:", error);
+				        document.getElementById("stats-content").innerHTML = `
+				            <div class="error">
+				                <p>데이터를 불러오는 중 오류가 발생했습니다: ${error.message}</p>
+				            </div>
+				        `;
+				    }
+				}
 
             // 설문 결과를 UI에 표시 (옵션)
-            function showSurveyResults(data) {
-                const statsContent = document.getElementById('stats-content');
+			function showSurveyResults(surveysData, statsData) {
+			    const statsContent = document.getElementById("stats-content");
+			
+			    console.log("가져온 Surveys Data:", surveysData);
+			    console.log("가져온 Statistics Data:", statsData);
+			
+			    // 질문과 코멘트 리스트 초기화
+			    let questionsList = "";
+			    let commentsList = "";
+			
+			    // 통계 계산 준비
+			    let totalDifficulty = 0;
+			    let totalSpeed = 0;
+			    
+			    console.log("Number of surveys:", surveysData.length); // 데이터 개수 확인
+			
+			    surveysData.forEach((item,index) => {
+			    	console.log("각항목 로딩 ")
+			        console.log(`Processing item ${index}:`, item); // 각 항목 로깅
+			        
+		
+			        //questionsList += `<li>${item.questions != null ? item.questions : "질문 없음"}</li>`;
+			        //commentsList += `<li>${item.comments != null ? item.comments : "코멘트 없음"}</li>`;
+		            questionsList += "<li>" + (item.questions != null ? item.questions : "질문 없음") + "</li>";
+				    commentsList += "<li>" + (item.comments != null ? item.comments : "코멘트 없음") + "</li>";
 
-                // 질문과 코멘트 리스트 초기화
-                let questionsList = "";
-                let commentsList = "";
+			        totalDifficulty += item.difficulty || 0;
+			        totalSpeed += item.speed || 0;
+			    });
+			
+			    const totalCount = surveysData.length;
+			    const avgDifficulty = totalCount > 0 ? (totalDifficulty / totalCount).toFixed(2) : 0;
+			    const avgSpeed = totalCount > 0 ? (totalSpeed / totalCount).toFixed(2) : 0;
+			    
+			    
+			    
+			    console.log("Generated Lists:", {
+			        questionsList,
+			        commentsList,
+			        avgDifficulty,
+			        avgSpeed
+			    });
+			    
+			
+			    statsContent.innerHTML =
+			        "<div class='survey-results-container'>" +
+			        "    <div class='survey-column'>" +
+			        "        <h3>질문 답변</h3>" +
+			        "        <ul class='survey-list'>" + questionsList + "</ul>" +
+			        "    </div>" +
+			        "    <div class='survey-column'>" +
+			        "        <h3>코멘트</h3>" +
+			        "        <ul class='survey-list'>" + commentsList + "</ul>" +
+			        "    </div>" +
+			        "</div>" +
+			        "<div>" +
+			        "    <p><strong>참여자 수:</strong> " + (statsData.population || 0) + "명</p>" +
+			        "    <p><strong>평균 난이도:</strong> " + avgDifficulty + "</p>" +
+			        "    <p><strong>평균 속도:</strong> " + avgSpeed + "</p>" +
+			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0) + "</p>" +
+			        "</div>";
 
-                // 통계 계산 준비
-                let totalDifficulty = 0;
-                let totalSpeed = 0;
-
-                data.forEach((item) => {
-                    questionsList += `<li>${item.questions}</li>`;
-                    commentsList += `<li>${item.comments}</li>`;
-                    totalDifficulty += item.difficulty;
-                    totalSpeed += item.speed;
-                });
-
-                const totalCount = data.length;
-                const avgDifficulty = (totalCount > 0) ? (totalDifficulty / totalCount).toFixed(2) : 0;
-                const avgSpeed = (totalCount > 0) ? (totalSpeed / totalCount).toFixed(2) : 0;
-
-                statsContent.innerHTML = `
-                    <div class="survey-results-container">
-                        <div class="survey-column">
-                            <h3>질문 답변</h3>
-                            <ul class="survey-list">${questionsList}</ul>
-                        </div>
-                        <div class="survey-column">
-                            <h3>코멘트</h3>
-                            <ul class="survey-list">${commentsList}</ul>
-                        </div>
-                    </div>
-                    <div>
-                        <p><strong>참여자 수:</strong> ${totalCount}명</p>
-                        <p><strong>평균 난이도:</strong> ${avgDifficulty}</p>
-                        <p><strong>평균 속도:</strong> ${avgSpeed}</p>
-                    </div>
-                `;
-
-                showModal("stats-modal");
-            }
+			
+			    showModal("stats-modal");
+			}
 
             function updateSelectedDates() {
                 const startDateEl = document.getElementById("start-date");
@@ -645,7 +695,7 @@
                 console.log("params.toString = ", params.toString()); 
                 console.log("query = ",`/api/period-statistics?startDate=${startDate}&endDate=${endDate}`);
 
-                const token = "C38C112FEB5D43B89364CE7637156922";
+                //const token = "C38C112FEB5D43B89364CE7637156922";
                 //const token = getSessionToken(); // Implement this function based on your auth strategy
                   
                 // 먼저 모달 내용 초기화 및 생성
@@ -689,8 +739,6 @@
 					const url = '/api/period-statistics?startDate=' + startDate + '&endDate=' + endDate;
 
 					console.log("Generated URL:", url);
-					//fetch(`/api/period-statistics?startDate=${startDate}&endDate=${endDate}`, {
-					//fetch('/api/period-statistics?startDate=2024-12-01&endDate=2024-12-27', {
 
 					fetch(url, {
                         method: 'GET',
@@ -830,6 +878,7 @@
             }
         }
        
+        
 
 
 
