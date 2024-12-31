@@ -29,33 +29,55 @@
     </div>
 
 <form action="submitSurvey" method="post">
-<button class="custom-button" onclick="location.href='login.jsp'">Logout</button>
+이거 설문지?
+</form>
+<button id="custom-button" class="custom-button">Logout</button>
 <script>
-$( document ).ready(function() {
-	$("#mySurveys-btn").click( function() {  
-		userId = $("#mySurveys_userId").val();
-	    $.ajax({
-	    	url  		: "${pageContext.request.contextPath}/api/mysurveys" ,
-	    	method 		: 'GET' , 
-	    	data 		: "userId="+userId , 			
-	    	dataType 	: "json",	
-	    	success 	: function(obj) {
-								console.log("응답:" + obj);
+$(document).ready(function () {
+    // "내 응답 보기" 버튼 클릭 이벤트
+    $("#mySurveys-btn").click(function () {
+        userId = $("#mySurveys_userId").val();
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/mysurveys",
+            method: "GET",
+            data: "userId=" + userId,
+            dataType: "json",
+            success: function (obj) {
+                console.log("응답:" + obj);
 
-								$(obj).map(function(i, vo) {
-									console.log(vo.userId);
-									console.log(vo.surveyId);
-									console.log(vo.difficulty);
-									console.log(vo.speed);
-									console.log(vo.material);
-									console.log(vo.questions);
-									console.log(vo.comments);
-									console.log(vo.createAt);
-				});
-			}   ,
-	    	error 		: function(err) { console.log("에러:" + err) }  
-	    });
-	});
+                $(obj).map(function (i, vo) {
+                    console.log(vo.userId);
+                    console.log(vo.surveyId);
+                    console.log(vo.difficulty);
+                    console.log(vo.speed);
+                    console.log(vo.material);
+                    console.log(vo.questions);
+                    console.log(vo.comments);
+                    console.log(vo.createAt);
+                });
+            },
+            error: function (err) {
+                console.log("에러:" + err);
+            },
+        });
+    });
+
+    // 로그아웃 버튼 클릭 이벤트
+    $("#custom-button").click(function () {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/logout",
+            method: "POST",
+            success: function () {
+                alert("로그아웃이 완료되었습니다.");
+                window.location.href = "${pageContext.request.contextPath}/main.jsp"; // 메인 페이지로 이동
+            },
+            error: function (err) {
+                alert("로그아웃 중 오류가 발생했습니다.");
+                console.error(err);
+            },
+        });
+    });
+});
 </script>
 </body>
 </html>
