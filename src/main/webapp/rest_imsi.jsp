@@ -155,14 +155,8 @@ $( document ).ready(function() {
 	    	        console.log("에러 상태:", status);
 	    	        console.log("에러 메시지:", error);
 	    	        console.log("응답 텍스트:", xhr.responseText); // 서버에서 반환한 응답
-	    	        // 필요에 따라 xhr 객체를 JSON으로 변환하여 출력
-	    	        try {
-	    	            var response = JSON.parse(xhr.responseText);
-	    	            console.log("응답 객체:", response);
-	    	        } catch (e) {
-	    	            console.log("응답이 JSON 형식이 아닙니다:", xhr.responseText);
-	    	        }
-	    	    }  
+	
+	    	}
 	    });	    		
 	});
 	

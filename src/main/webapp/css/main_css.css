@@ -1,101 +1,118 @@
 @charset "UTF-8";
-
-body {
+body, html {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #FFBCBC;
-    color: white;
+    padding: 0;
+	font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #790604, #FF4500);
+    color: #fff;
     overflow-x: hidden;
 }
 
-.navbar {
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+/* Header */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 10%;
-}
-
-.navbar .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.navbar .nav-links a {
-    text-decoration: none;
-    color: white;
-    margin: 0 15px;
-    font-weight: 500;
-}
-
-.navbar .launch-btn {
-    background-color: #4a007f;
-    padding: 10px 20px;
+    background: #000;
+    padding: 20px 40px;
     border-radius: 20px;
+    width: 200%; /* Keep width as 200% */
+    margin: 0; /* No margin */
+    position: relative; /* Allow translation */
+    left: 50%; /* Move the header to the right */
+    transform: translateX(-50%); /* Center the header */
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.nav a {
     text-decoration: none;
     color: white;
-    font-weight: bold;
+    margin-left: 20px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-.hero {
+
+
+.nav .btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Content */
+.main-content {
     text-align: center;
-    padding: 80px 10%;
+    margin: 100px auto;
 }
 
-.hero h1 {
-    font-size: 3em;
+.main-content h1 {
+    font-size: 3.5rem;
     margin-bottom: 20px;
+    line-height: 1.2;
 }
 
-.hero p {
-    font-size: 1.2em;
+.main-content p {
+    font-size: 1.2rem;
     margin-bottom: 30px;
 }
 
-.hero .cta-btn {
-    background-color: white;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.banner {
-    background: white;
-    color: black;
-    text-align: center;
-    padding: 10px 0;
-    font-weight: bold;
-}
-
-.cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 50px 10%;
-}
-
-.card {
-    background-color: #240554;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-}
-
-.card h3 {
-    margin-bottom: 10px;
-}
-
-.card p {
-    margin-bottom: 20px;
-}
-
-.card a {
-    background-color: #6e00b5;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
+.main-content .btn.primary {
+    background: linear-gradient(135deg,  #035f14, #035f14);
     color: white;
-    font-weight: bold;
+    padding: 12px 30px;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.main-content .btn.primary:hover {
+    background: #9d4edd;
+}
+
+/* Background Gradient and Effects */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-cgradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
+    z-index: -1;
+}
+/* PNG 이미지 이동 및 회전 애니메이션 */
+.animated-image {
+    width: 50px; /* 이미지 크기 조정 */
+    height: auto;
+    animation: moveAndRotate 5s linear infinite; /* 이동 및 회전 애니메이션 적용 */
+}
+
+/* 애니메이션 정의 */
+@keyframes moveAndRotate {
+    0% {
+        transform: translateX(0) rotate(0deg); /* 처음 위치 및 회전 */
+    }
+    50% {
+        transform: translateX(300px) rotate(180deg); /* 오른쪽으로 이동 및 180도 회전 */
+    }
+    100% {
+        transform: translateX(0) rotate(360deg); /* 원래 위치 및 360도 회전 */
+    }
 }
