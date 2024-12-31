@@ -175,15 +175,17 @@
 	}
 	
 	.modal-content {
-	    background-color: #fff;
-	    margin: 15% auto; /* 화면 중앙 정렬 */
-	    padding: 20px;
-	    border: 1px solid #888;
-	    width: 40%; /* 적절한 너비 */
-	    border-radius: 8px;
-	    text-align: center; /* 텍스트 정렬 */
-	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-	}
+    background-color: #fff;
+    margin: calc(50vh - 150px) auto; /* 화면 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* 정사각형 너비 */
+    height: 300px; /* 정사각형 높이 */
+    border-radius: 8px;
+    text-align: center; /* 텍스트 정렬 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 	
 	.modal-content h2 {
 	    margin: 0;
