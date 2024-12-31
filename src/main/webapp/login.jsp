@@ -50,6 +50,7 @@ $(document).ready(function() {
 	    						console.log(obj['userId']);
 	    						console.log(obj['nickname']);
 	    						console.log(obj['role']);
+	    						window.location.href = "${pageContext.request.contextPath}/main.jsp";
 	    					}   ,
 	    	error 		: function(err) { console.log("에러:" + err) }  
 	    });	    		
