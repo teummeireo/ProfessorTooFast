@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar with Statistics and Surveys</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics.css"> <!-- 스타일 경로 -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 </head>
 
