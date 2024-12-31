@@ -47,7 +47,7 @@ public class SurveyServlet extends HttpServlet {
 
 	    if (createAtParam == null || createAtParam.isEmpty()) {
 	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	        response.getWriter().write("{\"error\": \"createAt 쿼리 파라미터를 제공해주세요.\"}");
+	        response.getWriter().write("{\"error\": \"날짜 파라미터를 제공해주세요.\"}");
 	        return;
 	    }
 
@@ -57,7 +57,7 @@ public class SurveyServlet extends HttpServlet {
 	        createAt = new SimpleDateFormat("yyyy-MM-dd").parse(createAtParam);
 	    } catch (java.text.ParseException e) {
 	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	        response.getWriter().write("{\"error\": \"createAt는 yyyy-MM-dd 형식이어야 합니다.\"}");
+	        response.getWriter().write("{\"error\": \"날짜는 yyyy-MM-dd 형식이어야 합니다.\"}");
 	        return;
 	    }
 
@@ -119,7 +119,7 @@ public class SurveyServlet extends HttpServlet {
 
 			if (sessionUserId == null || !sessionUserId.equals(userId)) {
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				response.getWriter().write("세션 userId와 요청 userId가 일치하지 않습니다.");
+				response.getWriter().write("로그인한 ID와 요청한 ID가 일치하지 않습니다.");
 				return;
 			}
 			
