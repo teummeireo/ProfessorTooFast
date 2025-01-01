@@ -78,6 +78,7 @@ public class UserServlet extends HttpServlet {
 
 			// 응답 데이터 생성
 			Map<String, Object> responseData = new HashMap<>();
+			
 			responseData.put("loginId", user.getLoginId());
 			responseData.put("nickname", user.getNickname());
 			responseData.put("role", user.getRole().toString());
