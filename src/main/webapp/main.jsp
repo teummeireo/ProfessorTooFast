@@ -26,7 +26,7 @@
                     <c:choose>
                         <c:when test="${not empty sessionScope.userId}">
                             <!-- 로그아웃 버튼 -->
-                            <button id="logout-btn" class="logout-btn">Logout</button>
+                            <a id="logout-btn" class="logout-btn">Logout</a>
                         </c:when>
                         <c:otherwise>
                             <!-- 로그인 버튼 -->
