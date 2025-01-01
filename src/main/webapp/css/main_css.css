@@ -173,3 +173,11 @@ body::before {
     font-size: 0.9rem;
     color: red;
 }
+
+#view-survey-btn {
+	cursor: pointer;
+}
+#view-survey-btn:disabled {
+    background-color: #ddd; /* 비활성화 배경 흐린 회색 */
+    cursor: not-allowed; /* 마우스 포인터 변경 */
+}
