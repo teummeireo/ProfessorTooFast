@@ -18,24 +18,24 @@
 
                 <!-- 아이디 입력란과 중복 확인 버튼 -->
                 <div class="input-group">
-                    <input type="text" id="register_loginId" placeholder="Enter Your email address" name="loginId" maxlength="16" required>
+                    <input type="text" id="register_loginId" placeholder="아이디" name="loginId" maxlength="16" required>
                     <button type="button" id="checkLoginId-btn" class="check-button">중복확인</button>
                 </div>
 
                 <!-- 닉네임 입력란과 중복 확인 버튼 -->
                 <div class="input-group">
-                    <input type="text" id="register_nickname" placeholder="Enter Nickname" name="nickname" maxlength="16" required>
+                    <input type="text" id="register_nickname" placeholder="닉네임" name="nickname" maxlength="16" required>
                     <button type="button" id="checkNickname-btn" class="check-button">중복확인</button>
                 </div>
 				<div class="input-group">
-                <input type="password" id="register_password" placeholder="Enter Password" name="password" maxlength="16" required>
+                <input type="password" id="register_password" placeholder="비밀번호" name="password" maxlength="16" required>
                 </div>
                 <div class="input-group">
-                    <input type="text" id="register_joinCode" placeholder="Enter Code" name="joinCode" maxlength="64" required>
+                    <input type="text" id="register_joinCode" placeholder="코드번호를 입력하세요." name="joinCode" maxlength="64" required>
                 </div>
 
-                <button type="button" id="register-btn" value="registerTransfer" disabled>Sign Up</button>
-                <button type="button" class="secondary-button" onclick="goToLogin()">Go To Log In</button>
+                <button type="button" id="register-btn" value="registerTransfer" disabled>회원가입하기</button>
+                <button type="button" class="secondary-button" onclick="goToLogin()">로그인하기</button>
             </form>
         </div>
     </div>
