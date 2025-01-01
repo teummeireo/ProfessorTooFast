@@ -1,4 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" 	uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="x" 	uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="sql" 	uri="http://java.sun.com/jsp/jstl/sql" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,11 +25,14 @@
                 <h2>로그인</h2>
                 <p>Please enter your details to continue.</p>
                 
-                <input type="text" id="login_loginId" placeholder="Enter Your email address" name="loginId" required>
-                <input type="password" id="login_password" placeholder="Enter Password" name="password" required>
-
-                <button type="button" id="login-btn" class="loginForm" value="loginTransfer">Log In</button>
-                <button type="button" class="secondary-button" onclick="goToRegister()">Go To Sign Up</button>
+                <input type="text" id="login_loginId" placeholder="아이디" name="loginId" required>
+                <input type="password" id="login_password" placeholder="비밀번호" name="password" required>
+	<br>
+	<br>
+                <button type="button" id="login-btn" class="loginForm" value="loginTransfer">로그인</button>
+                <button type="button" class="secondary-button" onclick="goToRegister()">회원가입</button>
+                <br>
+                <br>
             </form>
         </div>
     </div>
