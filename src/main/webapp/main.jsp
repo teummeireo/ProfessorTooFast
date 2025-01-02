@@ -61,6 +61,12 @@
 		<script>
 		$(document).ready(function () {
 			
+			$(window).on('pageshow', function(event) {
+			    if (event.originalEvent.persisted) {
+			        location.reload(); // 동적 데이터만 새로 고침
+			    }
+			});
+			
 			let isSubmit = null; // 초기 상태를 null로 설정
 	        var userId = "${sessionScope.userId}";
 	        
