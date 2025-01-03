@@ -56,16 +56,16 @@ $(document).ready(function() {
             success: function(obj) {
                 // role에 따라 분기 처리
                 if (obj.role === "ADMIN") {
-                    window.location.href = "${pageContext.request.contextPath}/statistics.jsp";
+                    window.location.href = "${pageContext.request.contextPath}/statistics";
                 } else if (obj.role === "USER") {
-                    window.location.href = "${pageContext.request.contextPath}/main.jsp";
+                    window.location.href = "${pageContext.request.contextPath}/";
                 } else {
                     alert("알수없는 유저입니다.");
                 }
             },
-            error: function(err) {
-                console.log("에러:", err);
-                alert("로그인 실패. 다시 시도해주세요.");
+            error: function(xhr, status, error) {
+                console.log("에러:", status);
+                alert(xhr.responseJSON.error);
             }
         });
     });
@@ -83,7 +83,7 @@ $(document).ready(function() {
 
 <script>
 	function goToRegister() {
-	    location.assign("register.jsp"); // 히스토리 남김
+	    location.assign("${pageContext.request.contextPath}/register"); // 히스토리 남김
 	    // 또는
 	    // location.replace("register.jsp"); // 히스토리 남기지 않음
 	}

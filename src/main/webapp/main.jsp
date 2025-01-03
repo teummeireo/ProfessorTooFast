@@ -30,7 +30,7 @@
                         </c:when>
                         <c:otherwise>
                             <!-- 로그인 버튼 -->
-                            <a href="${pageContext.request.contextPath}/login.jsp" class="login-btn">Login</a>
+                            <a href="${pageContext.request.contextPath}/login" class="login-btn">Login</a>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -90,7 +90,7 @@
 
 	        // userId가 세션에 있는 경우에만 요청 실행
 	        $.ajax({
-	            url: "/api/users",
+	            url: "${pageContext.request.contextPath}/api/users",
 	            method: 'GET',
 	            data: { userId: userId }, // 객체로 전달
 	            dataType: "json",
@@ -117,7 +117,7 @@
                 method: "POST",
                 success: function () {
                     alert("로그아웃이 완료되었습니다.");
-                    window.location.href = "${pageContext.request.contextPath}/main.jsp"; // 메인 페이지로 이동
+                    window.location.href = "${pageContext.request.contextPath}/"; // 메인 페이지로 이동
                 },
                 error: function (err) {
                     alert("로그아웃 중 오류가 발생했습니다.");
@@ -129,13 +129,13 @@
         // "내 설문 보기" 버튼 클릭 이벤트
         $("#view-mysurvey-btn").click(function (e) {
             e.preventDefault(); // 기본 동작 막기
-            window.location.href = "${pageContext.request.contextPath}/my_survey.jsp"; // 세션 유지 상태로 이동
+            window.location.href = "${pageContext.request.contextPath}/surveys/my"; // 세션 유지 상태로 이동
         });
 
         // "설문 작성" 버튼 클릭 이벤트
         $("#view-survey-btn").click(function (e) {
             e.preventDefault(); // 기본 동작 막기
-            window.location.href = "${pageContext.request.contextPath}/survey.jsp"; //세션 유지 상태로 이동
+            window.location.href = "${pageContext.request.contextPath}/surveys/new"; //세션 유지 상태로 이동
         });
     });
 </script>

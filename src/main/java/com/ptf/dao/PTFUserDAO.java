@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.ptf.util.DBManager;
 import com.ptf.util.OracleDBManager;
@@ -159,6 +160,35 @@ public class PTFUserDAO {
 	        dbm.close(conn, pstmt, rs);
 	    }
 	    return role; // 일치하는 role이 없으면 null 반환
+	}
+	
+	//------------------------------select ADMINS------------------------------------
+	public ArrayList<PTFUserVO> selectAllAdmins() {
+	    ArrayList<PTFUserVO> admins = new ArrayList<>();
+	    DBManager dbm = OracleDBManager.getInstance();
+	    Connection conn = dbm.connect();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String sql = "SELECT * FROM ptfuser WHERE role = 'ADMIN'";
+	        pstmt = conn.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            PTFUserVO admin = new PTFUserVO();
+	            admin.setUserId(rs.getInt("user_id"));
+	            admin.setLoginId(rs.getString("login_id"));
+	            admin.setNickname(rs.getString("nickname"));
+	            admin.setRole(Role.ADMIN);
+	            admins.add(admin);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        dbm.close(conn, pstmt, rs);
+	    }
+	    return admins;
 	}
 
 }

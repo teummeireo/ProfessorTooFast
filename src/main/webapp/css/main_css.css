@@ -154,8 +154,8 @@ body::before {
     padding: 12px 25px;
     font-size: 1.1rem;
     border-radius: 8px;
-    cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
 }
 
 .card .btn:hover {
@@ -174,10 +174,12 @@ body::before {
     color: red;
 }
 
-#view-survey-btn {
-	cursor: pointer;
-}
+
 #view-survey-btn:disabled {
     background-color: #ddd; /* 비활성화 배경 흐린 회색 */
     cursor: not-allowed; /* 마우스 포인터 변경 */
+}
+
+.logout-btn {
+    cursor: pointer; 
 }
