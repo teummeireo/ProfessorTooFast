@@ -246,8 +246,8 @@
 				        return;
 				    }
 				
-				    const surveysUrl = "/api/surveys?createAt=" + date;
-				    const statsUrl = "/api/daily-statistics?createAt=" + date;
+				    const surveysUrl = "${pageContext.request.contextPath}/api/surveys?createAt=" + date;
+				    const statsUrl = "${pageContext.request.contextPath}/api/daily-statistics?createAt=" + date;
 				
 				    console.log(surveysUrl);
 				    console.log(statsUrl);
@@ -443,7 +443,7 @@
                     // Make the API call
 
 					console.log("fetch URL:", `/api/period-statistics?startDate=${startDate}&endDate=${endDate}`);
-					const url = '/api/period-statistics?startDate=' + startDate + '&endDate=' + endDate;
+					const url = '${pageContext.request.contextPath}/api/period-statistics?startDate=' + startDate + '&endDate=' + endDate;
 
 					console.log("Generated URL:", url);
 

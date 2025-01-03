@@ -64,7 +64,7 @@
 
             // 설문 데이터 요청
             function fetchSurveyData(date, userId) {
-                const url = '/api/mysurveys?userId=' + userId + '&createAt=' + date;
+                const url = '${pageContext.request.contextPath}/api/mysurveys?userId=' + userId + '&createAt=' + date;
                 console.log("Fetching data from:", url);
 
                 fetch(url, {
