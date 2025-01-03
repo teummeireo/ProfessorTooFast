@@ -17,8 +17,46 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 </head>
+    <div id="notifications"></div>
+
+    <script>
+        const eventSource = new EventSource('/sse');
+
+     	// 서버에서 메시지를 수신했을 때
+        eventSource.onmessage = function(event) {
+            console.log('알림:', event.data);
+            showNotification(event.data);
+        };
+
+        // SSE 연결 에러 처리
+        eventSource.onerror = function(event) {
+            console.error("SSE 연결 에러:", event);
+            eventSource.close();
+        };
+
+        // 알림 표시 함수
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerText = message;
+
+            document.getElementById('notifications').appendChild(notification);
+
+            // 알림이 3초 후에 사라지도록 설정
+            setTimeout(() => {
+                notification.classList.add('hide');
+                // 사라진 후 DOM에서 제거
+                notification.addEventListener('transitionend', () => {
+                    notification.remove();
+                });
+            }, 3000);
+        }
+        
+    </script>
 
 <body>
+<jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
+<jsp:include page = "${pageContext.request.contextPath}/check_admin.jsp" />
     <div id="calendar"></div>
     <!-- <p id="selected-dates">선택된 날짜: 없음</p> -->
     <!-- 선택된 날짜 섹션 -->

@@ -56,9 +56,9 @@ $(document).ready(function() {
             success: function(obj) {
                 // role에 따라 분기 처리
                 if (obj.role === "ADMIN") {
-                    window.location.href = "${pageContext.request.contextPath}/statistics.jsp";
+                    window.location.href = "${pageContext.request.contextPath}/statistics";
                 } else if (obj.role === "USER") {
-                    window.location.href = "${pageContext.request.contextPath}/main.jsp";
+                    window.location.href = "${pageContext.request.contextPath}/main";
                 } else {
                     alert("알수없는 유저입니다.");
                 }

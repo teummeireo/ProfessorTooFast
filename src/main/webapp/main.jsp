@@ -124,18 +124,18 @@
                     console.error(err);
                 }
             });
+        });
+        
+        // "내 설문 보기" 버튼 클릭 이벤트
+        $("#view-mysurvey-btn").click(function (e) {
+            e.preventDefault(); // 기본 동작 막기
+            window.location.href = "${pageContext.request.contextPath}/statistics_user.jsp"; // 세션 유지 상태로 이동
+        });
 
-            // "내 설문 보기" 버튼 클릭 이벤트
-            $("#view-mysurvey-btn").click(function (e) {
-                e.preventDefault(); // 기본 동작 막기
-                window.location.href = "${pageContext.request.contextPath}/my_survey.jsp"; // 세션 유지 상태로 이동
-            });
-
-            // "설문 작성" 버튼 클릭 이벤트
-            $("#view-survey-btn").click(function (e) {
-                e.preventDefault(); // 기본 동작 막기
-                window.location.href = "${pageContext.request.contextPath}/survey.jsp"; //세션 유지 상태로 이동
-            });
+        // "설문 작성" 버튼 클릭 이벤트
+        $("#view-survey-btn").click(function (e) {
+            e.preventDefault(); // 기본 동작 막기
+            window.location.href = "${pageContext.request.contextPath}/survey.jsp"; //세션 유지 상태로 이동
         });
     });
 </script>

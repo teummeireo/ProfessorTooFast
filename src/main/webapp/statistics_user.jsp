@@ -145,6 +145,8 @@
 </head>
 
 <body>
+<jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
+<jsp:include page = "${pageContext.request.contextPath}/check_user.jsp" />
     <div id="calendar"></div>
 
     <div id="selected-dates" class="dates-container">

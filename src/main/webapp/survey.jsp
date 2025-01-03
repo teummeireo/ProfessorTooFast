@@ -138,7 +138,7 @@ $(document).ready(function () {
             method: "POST",
             success: function () {
                 alert("로그아웃이 완료되었습니다.");
-                window.location.href = "${pageContext.request.contextPath}/main.jsp"; // 메인 페이지로 이동
+                window.location.href = "${pageContext.request.contextPath}/main"; // 메인 페이지로 이동
             },
             error: function (err) {
                 alert("로그아웃 중 오류가 발생했습니다.");
