@@ -154,11 +154,11 @@ public class SurveyServlet extends HttpServlet {
 
 			
 			int rowsInserted = surveyDAO.surveyInsert(survey);
+			System.out.println("row : " +rowsInserted);
 			if (rowsInserted == 1) {
 				response.setStatus(HttpServletResponse.SC_CREATED);
 				response.getWriter().write("설문이 성공적으로 제출되었습니다.");
 				SessionUtil.refreshSessionTimeout(request);
-				response.sendRedirect("");
 			} else {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				response.getWriter().write("설문 데이터를 저장하는 중 오류가 발생했습니다.");
