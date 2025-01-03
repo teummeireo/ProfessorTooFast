@@ -132,15 +132,15 @@ $(document).ready(function () {
                 alert("회원가입이 성공적으로 완료되었습니다.");
                 console.log("응답:", res);
                 // 회원가입 후 로그인 페이지로 이동
-                location.assign("login.jsp");
+                location.assign("/login");
             },
             error: function (xhr, status, error) {
                 console.error("에러 상태:", status);
                 console.error("에러 메시지:", error);
-                console.error("응답 텍스트:", xhr.responseText);
+                console.error("응답 텍스트:", xhr);
                 try {
-                    var response = JSON.parse(xhr.responseText);
-                    alert("오류 발생: " + response.message);
+                    var response = xhr.responseText;
+                    alert(response);
                 } catch (e) {
                     alert("회원가입 중 오류가 발생했습니다.");
                 }
@@ -157,7 +157,7 @@ $(document).ready(function () {
 <script>
 	//로그인 페이지로 이동
 	function goToLogin() {
-		location.assign("login.jsp");
+		location.assign("/login");
 	}
 </script>
 </body>
