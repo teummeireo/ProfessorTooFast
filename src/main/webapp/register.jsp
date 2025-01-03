@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     function updateRegisterButtonState() {
         console.log("Login ID Valid:", isLoginIdValid);
-        consollog("Nickname Valid:", isNicknameValid);
+        console.log("Nickname Valid:", isNicknameValid);
         if (isLoginIdValid && isNicknameValid) {
             $("#register-btn").prop("disabled", false);
         } else {
