@@ -126,7 +126,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error("에러:", error, "상태:", status);
-                console.error("응답 텍스트:", xhr.responseText);
+                alert(xhr.responseText);
             }
         });
     });

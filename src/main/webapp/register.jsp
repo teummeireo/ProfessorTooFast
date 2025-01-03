@@ -140,7 +140,7 @@ $(document).ready(function () {
                 console.error("응답 텍스트:", xhr);
                 try {
                     var response = xhr.responseText;
-                    alert("오류 발생: " + response);
+                    alert(response);
                 } catch (e) {
                     alert("회원가입 중 오류가 발생했습니다.");
                 }
