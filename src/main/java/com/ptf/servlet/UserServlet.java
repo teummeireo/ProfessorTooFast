@@ -26,6 +26,10 @@ import com.ptf.util.SessionUtil;
 //@WebServlet("/api/users")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String LOGIN_ID_REGEX = "^[a-z0-9_-]{5,16}$";
+	//private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[a-z\\d@$!%*?&]{4,16}$";
+	private static final String PASSWORD_REGEX = "^[a-zA-Z0-9@$!%*?&~]{4,16}$";
+	private static final String NICKNAME_REGEX = "^[가-힣a-z0-9A-Z]{2,16}$";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -124,28 +128,32 @@ public class UserServlet extends HttpServlet {
 
 		// 필수 필드 확인
 		if (loginId == null || plainPassword == null || nickname == null || joinCode == null) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
-			response.getWriter().write("모든 필드를 입력해주세요.");
-			return;
-		}
-		// 입력값 길이 검사 (64자 제한)
-		if (loginId.length() > 64) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
-			response.getWriter().write("로그인 ID는 64자 이하로 입력해주세요.");
-			return;
+		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+		    response.getWriter().write("모든 필드를 입력해주세요.");
+		    return;
 		}
 
-		if (plainPassword.length() > 64) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
-			response.getWriter().write("비밀번호는 64자 이하로 입력해주세요.");
-			return;
+		// 입력값 패턴 검사
+		if (!loginId.matches(LOGIN_ID_REGEX)) {
+		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+		    response.getWriter().write("아이디: 5~16자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
+		    return;
 		}
 
-		if (nickname.length() > 64) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
-			response.getWriter().write("닉네임은 64자 이하로 입력해주세요.");
-			return;
+		if (!plainPassword.matches(PASSWORD_REGEX)) {
+		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+		    //response.getWriter().write("비밀번호: 4~16자의 영문 소문자, 숫자와 특수문자(@$!%*?&)를 포함해야 합니다.");
+		    response.getWriter().write("비밀번호: 4~16자의 영문 대/소문자, 숫자만 사용 가능합니다.");
+		    return;
 		}
+
+		if (!nickname.matches(NICKNAME_REGEX)) {
+		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+		    response.getWriter().write("닉네임: 2~16자의 한글, 숫자, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)");
+		    return;
+		}
+		
+		
 
 		// 비밀번호 해싱
 		String hashedPassword = PasswordUtil.hashPassword(plainPassword);
