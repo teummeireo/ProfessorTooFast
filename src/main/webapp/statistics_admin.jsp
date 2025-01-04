@@ -16,6 +16,8 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
     <div id="notifications"></div>
 
@@ -51,13 +53,41 @@
                 });
             }, 3000);
         }
+        let markedDatesCache = []; // 전역 변수로 저장
+
+        async function fetchMarkedDates() {
+            try {
+                // 전체 기간 통계를 가져와서 마킹된 날짜 추출
+                const response = await fetch('/api/admin-marked-dates', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                const data = await response.json();
+                markedDatesCache = data;
+
+                console.log("Fetched Period Statistics:", data);
+
+                // 결과 데이터에서 날짜 배열 추출
+                return data;
+            } catch (error) {
+                console.error("Error fetching marked dates:", error);
+                return [];
+            }
+        }
+
         
     </script>
 
 <body>
 <jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
 <jsp:include page = "${pageContext.request.contextPath}/check_admin.jsp" />
+ 
+ 
     <div id="calendar"></div>
+	<button id="logout-btn">로그아웃</button>
+
     <!-- <p id="selected-dates">선택된 날짜: 없음</p> -->
     <!-- 선택된 날짜 섹션 -->
     <div id="selected-dates" class="dates-container">
@@ -133,9 +163,7 @@
 
 
 
-        document.addEventListener("DOMContentLoaded", () => {
-
-
+        document.addEventListener("DOMContentLoaded", async () => {
 
             let startDate = null;
             let endDate = null;
@@ -143,7 +171,9 @@
             const calendarEl = document.getElementById("calendar");
             //const selectedDatesEl = document.getElementById("selected-dates");
             
-
+                    // 초기 이벤트 데이터 로드
+        	await fetchMarkedDates();
+            
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
                 locale: "ko",
@@ -157,6 +187,43 @@
                         return;
                     }
                     handleDateClick(info.dateStr);
+                },
+                eventContent: function(info) {
+                	  if (info.event.extendedProps.type === "dot") {
+                    return {
+                        html: '<span style="font-size:12px;color:red;"></span>' // 빨간 점 표시
+                    };
+                	  }
+                	    // 배경 이벤트는 null 반환 (렌더링하지 않음)
+                	    if (info.event.extendedProps.type === "background") {
+                	        return null;
+                	    }
+
+                	    // 강조 이벤트는 별도로 처리
+                	    if (info.event.extendedProps.type === "highlight") {
+                	        return {
+                	            html: '<span style="background-color:#ff6f91;border-radius:50%;display:inline-block;width:20px;height:20px;"></span>',
+                	        };
+                	    }
+                	  return null;
+                },
+                events: async function(fetchInfo, successCallback, failureCallback) {
+                    try {
+                        const markedDates = await fetchMarkedDates();
+                        console.log("Adding Events:", markedDates); // 디버깅용 로그
+
+                        const events = markedDates.map(date => ({
+                            start: date,
+                            //display: "background", // 배경으로 표시
+                            //color: "#ff91ac"      // 배경 색상
+                             extendedProps: { isMarkedDate: true, type:"dot"}, // 데이터가 있는 날
+                        }));
+
+                        successCallback(events); // FullCalendar에 이벤트 추가
+                    } catch (error) {
+                        console.error("Error loading events:", error);
+                        failureCallback(error);
+                    }
                 },
             });
 
@@ -174,12 +241,13 @@
                     startDate = date;
                     endDate = null;
                     updateSelectedDates();
-                    calendar.removeAllEvents();
+                    
                     calendar.addEvent({
                         start: startDate,
                         end: startDate,
                         display: "background",
                         color: "#ffa7d2",
+                        extendedProps: { type: "background" },
                     });
                 } else if (!endDate) {
                     endDate = date;
@@ -187,9 +255,7 @@
                     const endDateObj = new Date(endDate);
 
                     if (startDateObj > endDateObj) {
-                        alert("종료 날짜는 시작 날짜보다 이후여야 합니다.");
-                        endDate = null;
-                        return;
+                        [startDate, endDate] = [endDate, startDate];
                     }
 
                     // 같은 날짜 클릭 시 API 호출
@@ -204,12 +270,17 @@
                     }
                     //endDate = date;
                     updateSelectedDates();
-                    calendar.removeAllEvents();
+
+                    
+                    //calendar.removeAllEvents();
                     calendar.addEvent({
                         start: startDate,
-                        end: new Date(new Date(endDate).getTime() + 86400000).toISOString().slice(0, 10),
+                       	end: new Date(new Date(endDate).getTime() + 86400000).toISOString().slice(0, 10),
+                        //end: startDate,
                         display: "background",
                         color: "#ffa7d2",
+                        extendedProps: { type: "background" },
+
                     });
 
 
@@ -224,12 +295,21 @@
                 	startDate = date;
                     endDate = null;
                     updateSelectedDates();
-                    calendar.removeAllEvents();
+                    
+                    // 기존 선택 이벤트만 찾아서 제거
+                    calendar.getEvents().forEach(event => {
+                        if (event.display === "background" && event.backgroundColor === "#ffa7d2") {
+                            event.remove();
+                        }
+                    });
+                    //calendar.removeAllEvents();
                     calendar.addEvent({
                         start: startDate,
-                        end: startDate,
+                        end: new Date(new Date(endDate).getTime() + 86400000).toISOString().slice(0, 10), // 종료일 다음날까지 표시
                         display: "background",
                         color: "#ffa7d2",
+                        extendedProps: { type: "background" },
+
                     });
                 }
 
@@ -585,7 +665,21 @@
             }
         }
        
-        
+        // 로그아웃 버튼 이벤트
+        $("#logout-btn").click(function () {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/api/logout",
+                method: "POST",
+                success: function () {
+                    alert("로그아웃이 완료되었습니다.");
+                    window.location.href = "${pageContext.request.contextPath}/";
+                },
+                error: function (err) {
+                    alert("로그아웃 중 오류가 발생했습니다.");
+                    console.error(err);
+                }
+            });
+        });
 
 
 

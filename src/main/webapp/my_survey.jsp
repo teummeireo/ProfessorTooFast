@@ -11,13 +11,71 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/my_survey_css.css"> <!-- 스타일 경로 -->
     
+<script>
+async function fetchUserMarkedDates() {
+    const userId = <%= (Integer) session.getAttribute("userId") %>; 
+    console.log("User ID:", userId); // 디버깅 추가
+    const url = `/api/user-marked-dates?userId=${userId}`;
+    console.log("Fetching URL:", url); // 디버깅 추가
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Accept': 'application/json' },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        markedDatesCache = data; // 데이터를 전역 변수에 캐시
+        console.log("Fetched User Marked Dates:", data);
+
+        return data;
+    } catch (error) {
+        console.error("Error fetching user marked dates:", error);
+        return [];
+    }
+}
+</script>
+<style>
+.custom-line {
+    display: block;
+    height: 2px;
+    background-color: #ff91ac; /* 분홍색 */
+    width: 80%; /* 셀 너비의 80% */
+    margin: 0 auto; /* 중앙 정렬 */
+    position: relative;
+    top: 50%; /* 셀 중앙에 위치 */
+    transform: translateY(-50%);
+}
+
+#main-page-btn {
+    top: 20px;
+    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
+    width: 8%;
+}
+#logout-btn {
+    top: 20px;
+    right: 20px;
+}
+ 
+</style>
 
 </head>
 <body>
 	<jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
 	<jsp:include page = "${pageContext.request.contextPath}/check_user.jsp" />
-	<button class="custom-button">Logout</button>
+
+
+    
     <div id="calendar"></div>
+        <!-- 로그아웃 및 메인 페이지 이동 버튼 -->
+   <div class="button-container">
+        <button class="custom-button" id="main-page-btn">메인 페이지로</button>
+        <button class="custom-button" id="logout-btn">로그아웃</button>
+    </div>
 
     <div id="selected-dates" class="dates-container">
         <div class="date-box">
@@ -36,6 +94,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -57,6 +117,31 @@
                     const selectedDate = info.dateStr;
                     selectedDateEl.textContent = selectedDate;
                     fetchSurveyData(selectedDate, userId);
+                },
+                events: async function(fetchInfo, successCallback, failureCallback) {
+                    try {
+                        const markedDates = await fetchUserMarkedDates(); // 사용자 데이터 가져오기
+                        console.log("Adding Events:", markedDates);
+
+                        const events = markedDates.map(date => ({
+                            start: date,
+                            extendedProps: { isMarkedDate: true , type: "marked"}, // 추가 속성
+                        }));
+
+                        successCallback(events);
+                    } catch (error) {
+                        console.error("Error loading user events:", error);
+                        failureCallback(error);
+                    }
+                },
+                eventContent: function(info) {
+                    console.log("Event Info:", info);
+
+                    if (info.event.extendedProps.type === "marked") {
+                        return {
+                            html: '<div class="custom-line">!!</div>', // 라인 삽입
+                        };
+                    }
                 },
             });
 
@@ -81,17 +166,23 @@
                     }
                     return response.json();
                 })
-                .then(data => {
-                    console.log("Received data:", data);
-                    updateModalContent(data);
-                })
-                .catch(error => {
-                    console.error("Error fetching data:", error);
-                    modalContent.innerHTML = `<p>${error.message}</p>`;
-                });
-
+			    .then(data => {
+			        console.log("Received data:", data);
+			
+			        // 데이터가 없는 경우 모달 열지 않음
+			        if (!data || Object.keys(data).length === 0) { // 데이터가 비어 있으면 처리
+			            console.log("No survey data for this date:", date);
+			            alert("이날은 제출한 설문이 없습니다."); // 사용자 알림 추가
+			            return; // 모달 열지 않고 종료
+			        }
+			
+		        updateModalContent(data); // 데이터가 있을 때만 모달 업데이트
                 showModal("survey-modal");
-            }
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            }); // catch 블록 추가 및 체이닝 종료
+        }
 
             // 모달 내용 업데이트
             function updateModalContent(data) {
@@ -150,6 +241,29 @@
                     closeModal("survey-modal");
                 }
             });
+            
+            // 로그아웃 버튼 이벤트
+            $("#logout-btn").click(function () {
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/api/logout",
+                    method: "POST",
+                    success: function () {
+                        alert("로그아웃이 완료되었습니다.");
+                        window.location.href = "${pageContext.request.contextPath}/";
+                    },
+                    error: function (err) {
+                        alert("로그아웃 중 오류가 발생했습니다.");
+                        console.error(err);
+                    }
+                });
+            });
+
+            // 메인 페이지 이동 버튼 이벤트
+            $("#main-page-btn").click(function () {
+                window.location.href = "${pageContext.request.contextPath}/";
+            });
+            
+            
         });
     </script>
 </body>

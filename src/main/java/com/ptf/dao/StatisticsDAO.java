@@ -195,5 +195,54 @@ public class StatisticsDAO {
 
 		return statisticsList; // 결과 리스트 반환
 	}
+	
+	
+	
+	//-----------------------------admin-marked-dates---------------------------------
+	
+	public ArrayList<Date> getMarkedDates() throws SQLException {
+	    ArrayList<Date> markedDates = new ArrayList<>();
+	    String query = "SELECT DISTINCT record_date FROM statistics";
+		DBManager dbm = OracleDBManager.getInstance();
+		Connection conn = dbm.connect();
+
+	    try (
+	         PreparedStatement pstmt = conn.prepareStatement(query);
+	         ResultSet rs = pstmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            markedDates.add(rs.getDate("record_date"));
+	        }
+	    }
+	    return markedDates;
+	}
+	
+	//---------------------------user-marked-dates-------------------------
+
+	public ArrayList<Date> getUserMarkedDates(int userId) throws SQLException {
+	    ArrayList<Date> markedDates = new ArrayList<>();
+	    String query = "SELECT DISTINCT CREATE_AT " +
+	    				"FROM survey WHERE USER_ID = ? ORDER BY CREATE_AT";
+
+	    DBManager dbm = OracleDBManager.getInstance();
+	    Connection conn = dbm.connect();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        pstmt = conn.prepareStatement(query);
+	        pstmt.setInt(1, userId); // 특정 사용자의 데이터만 조회
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            markedDates.add(rs.getDate("CREATE_AT"));
+	        }
+	    } finally {
+	        dbm.close(conn, pstmt, rs);
+	    }
+
+	    return markedDates;
+	}
+
 
 }
