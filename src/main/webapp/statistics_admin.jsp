@@ -16,50 +16,8 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-	<style>
-/* FullCalendar 기본 이벤트 스타일 초기화 */
-.fc-event {
-    background: #ff6f91 !important; /* 모든 이벤트를 찐한 분홍색으로 강제 */
-    border: 1px solid #ff6f91 !important;
-}
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-.fc-event[data-type="background"] {
-    background: #ffa7d2 !important;
-    border: none !important;
-}
-
-.fc-event[data-type="highlight"] {
-    background: #ff6f91 !important;
-    border: none !important;
-}
-
-
-
-/* 빨간 점 스타일 */
-.fc-event[data-type="dot"] {
-  width: 10px !important;
-  height: 10px !important;
-  background: red !important; /* 빨간색 점 */
-  border-radius: 50%; /* 원형 */
-  border: none !important;
-  position: relative; /* 점 위치 조정 */
-  margin: auto; /* 가운데 정렬 */
-  z-index: 2; /* 분홍 배경 위로 배치 */
-  display: inline-block !important; /* 점만 표시 */
-}
-
-/* 분홍 배경 스타일 */
-.fc-event[data-type="background"] {
-  background: rgba(255, 167, 210, 0.5) !important; /* 분홍색 반투명 */
-  border: none !important;
-  pointer-events: none !important; /* 클릭 불가능 */
-  position: absolute !important; /* 셀 전체 덮기 */
-  z-index: 3; /* 빨간 점 아래 배치 */
-  width: 100%; /* 셀 전체 폭 덮기 */
-  height: 100%; /* 셀 전체 높이 덮기 */
-}
-
-	</style>
 </head>
     <div id="notifications"></div>
 
@@ -125,7 +83,11 @@
 <body>
 <jsp:include page = "${pageContext.request.contextPath}/check_session.jsp" />
 <jsp:include page = "${pageContext.request.contextPath}/check_admin.jsp" />
+ 
+ 
     <div id="calendar"></div>
+	<button id="logout-btn">로그아웃</button>
+
     <!-- <p id="selected-dates">선택된 날짜: 없음</p> -->
     <!-- 선택된 날짜 섹션 -->
     <div id="selected-dates" class="dates-container">
@@ -703,7 +665,21 @@
             }
         }
        
-        
+        // 로그아웃 버튼 이벤트
+        $("#logout-btn").click(function () {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/api/logout",
+                method: "POST",
+                success: function () {
+                    alert("로그아웃이 완료되었습니다.");
+                    window.location.href = "${pageContext.request.contextPath}/";
+                },
+                error: function (err) {
+                    alert("로그아웃 중 오류가 발생했습니다.");
+                    console.error(err);
+                }
+            });
+        });
 
 
 
