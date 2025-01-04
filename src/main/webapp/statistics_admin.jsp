@@ -16,6 +16,50 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+	<style>
+/* FullCalendar 기본 이벤트 스타일 초기화 */
+.fc-event {
+    background: #ff6f91 !important; /* 모든 이벤트를 찐한 분홍색으로 강제 */
+    border: 1px solid #ff6f91 !important;
+}
+
+.fc-event[data-type="background"] {
+    background: #ffa7d2 !important;
+    border: none !important;
+}
+
+.fc-event[data-type="highlight"] {
+    background: #ff6f91 !important;
+    border: none !important;
+}
+
+
+
+/* 빨간 점 스타일 */
+.fc-event[data-type="dot"] {
+  width: 10px !important;
+  height: 10px !important;
+  background: red !important; /* 빨간색 점 */
+  border-radius: 50%; /* 원형 */
+  border: none !important;
+  position: relative; /* 점 위치 조정 */
+  margin: auto; /* 가운데 정렬 */
+  z-index: 2; /* 분홍 배경 위로 배치 */
+  display: inline-block !important; /* 점만 표시 */
+}
+
+/* 분홍 배경 스타일 */
+.fc-event[data-type="background"] {
+  background: rgba(255, 167, 210, 0.5) !important; /* 분홍색 반투명 */
+  border: none !important;
+  pointer-events: none !important; /* 클릭 불가능 */
+  position: absolute !important; /* 셀 전체 덮기 */
+  z-index: 3; /* 빨간 점 아래 배치 */
+  width: 100%; /* 셀 전체 폭 덮기 */
+  height: 100%; /* 셀 전체 높이 덮기 */
+}
+
+	</style>
 </head>
     <div id="notifications"></div>
 
@@ -51,6 +95,30 @@
                 });
             }, 3000);
         }
+        let markedDatesCache = []; // 전역 변수로 저장
+
+        async function fetchMarkedDates() {
+            try {
+                // 전체 기간 통계를 가져와서 마킹된 날짜 추출
+                const response = await fetch('/api/marked-dates', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                const data = await response.json();
+                markedDatesCache = data;
+
+                console.log("Fetched Period Statistics:", data);
+
+                // 결과 데이터에서 날짜 배열 추출
+                return data;
+            } catch (error) {
+                console.error("Error fetching marked dates:", error);
+                return [];
+            }
+        }
+
         
     </script>
 
@@ -133,9 +201,7 @@
 
 
 
-        document.addEventListener("DOMContentLoaded", () => {
-
-
+        document.addEventListener("DOMContentLoaded", async () => {
 
             let startDate = null;
             let endDate = null;
@@ -143,7 +209,9 @@
             const calendarEl = document.getElementById("calendar");
             //const selectedDatesEl = document.getElementById("selected-dates");
             
-
+                    // 초기 이벤트 데이터 로드
+        	await fetchMarkedDates();
+            
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
                 locale: "ko",
@@ -157,6 +225,43 @@
                         return;
                     }
                     handleDateClick(info.dateStr);
+                },
+                eventContent: function(info) {
+                	  if (info.event.extendedProps.type === "dot") {
+                    return {
+                        html: '<span style="font-size:12px;color:red;"></span>' // 빨간 점 표시
+                    };
+                	  }
+                	    // 배경 이벤트는 null 반환 (렌더링하지 않음)
+                	    if (info.event.extendedProps.type === "background") {
+                	        return null;
+                	    }
+
+                	    // 강조 이벤트는 별도로 처리
+                	    if (info.event.extendedProps.type === "highlight") {
+                	        return {
+                	            html: '<span style="background-color:#ff6f91;border-radius:50%;display:inline-block;width:20px;height:20px;"></span>',
+                	        };
+                	    }
+                	  return null;
+                },
+                events: async function(fetchInfo, successCallback, failureCallback) {
+                    try {
+                        const markedDates = await fetchMarkedDates();
+                        console.log("Adding Events:", markedDates); // 디버깅용 로그
+
+                        const events = markedDates.map(date => ({
+                            start: date,
+                            //display: "background", // 배경으로 표시
+                            //color: "#ff91ac"      // 배경 색상
+                             extendedProps: { isMarkedDate: true, type:"dot"}, // 데이터가 있는 날
+                        }));
+
+                        successCallback(events); // FullCalendar에 이벤트 추가
+                    } catch (error) {
+                        console.error("Error loading events:", error);
+                        failureCallback(error);
+                    }
                 },
             });
 
@@ -174,12 +279,13 @@
                     startDate = date;
                     endDate = null;
                     updateSelectedDates();
-                    calendar.removeAllEvents();
+                    
                     calendar.addEvent({
                         start: startDate,
                         end: startDate,
                         display: "background",
                         color: "#ffa7d2",
+                        extendedProps: { type: "background" },
                     });
                 } else if (!endDate) {
                     endDate = date;
@@ -187,9 +293,7 @@
                     const endDateObj = new Date(endDate);
 
                     if (startDateObj > endDateObj) {
-                        alert("종료 날짜는 시작 날짜보다 이후여야 합니다.");
-                        endDate = null;
-                        return;
+                        [startDate, endDate] = [endDate, startDate];
                     }
 
                     // 같은 날짜 클릭 시 API 호출
@@ -204,12 +308,17 @@
                     }
                     //endDate = date;
                     updateSelectedDates();
-                    calendar.removeAllEvents();
+
+                    
+                    //calendar.removeAllEvents();
                     calendar.addEvent({
                         start: startDate,
-                        end: new Date(new Date(endDate).getTime() + 86400000).toISOString().slice(0, 10),
+                       	end: new Date(new Date(endDate).getTime() + 86400000).toISOString().slice(0, 10),
+                        //end: startDate,
                         display: "background",
                         color: "#ffa7d2",
+                        extendedProps: { type: "background" },
+
                     });
 
 
@@ -224,12 +333,21 @@
                 	startDate = date;
                     endDate = null;
                     updateSelectedDates();
-                    calendar.removeAllEvents();
+                    
+                    // 기존 선택 이벤트만 찾아서 제거
+                    calendar.getEvents().forEach(event => {
+                        if (event.display === "background" && event.backgroundColor === "#ffa7d2") {
+                            event.remove();
+                        }
+                    });
+                    //calendar.removeAllEvents();
                     calendar.addEvent({
                         start: startDate,
-                        end: startDate,
+                        end: new Date(new Date(endDate).getTime() + 86400000).toISOString().slice(0, 10), // 종료일 다음날까지 표시
                         display: "background",
                         color: "#ffa7d2",
+                        extendedProps: { type: "background" },
+
                     });
                 }
 
