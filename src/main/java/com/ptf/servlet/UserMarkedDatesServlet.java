@@ -15,19 +15,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ptf.dao.StatisticsDAO;
 
 /**
- * Servlet implementation class MarkedDatesServlet
+ * Servlet implementation class UserMarkedDatesServlet
  */
-@WebServlet("/api/admin-marked-dates")
-public class MarkedDatesServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+@WebServlet("/api/user-marked-dates")
+public class UserMarkedDatesServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
 
         try {
+            // 쿼리 파라미터에서 사용자 ID 추출
+            String userIdParam = request.getParameter("userId");
+            if (userIdParam == null || userIdParam.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"userId가 필요합니다.\"}");
+                return;
+            }
+
+            int userId = Integer.parseInt(userIdParam);
+
             StatisticsDAO statisticsDAO = new StatisticsDAO();
-            // 데이터베이스에서 통계가 존재하는 모든 날짜 가져오기
-            ArrayList<Date> markedDates = statisticsDAO.getMarkedDates();
+            // 사용자 전용 마킹된 날짜 가져오기
+            ArrayList<Date> markedDates = statisticsDAO.getUserMarkedDates(userId);
 
             // 날짜 리스트를 JSON 배열로 변환
             ArrayList<String> markedDateStrings = new ArrayList<>();
@@ -45,5 +56,4 @@ public class MarkedDatesServlet extends HttpServlet {
             response.getWriter().write("{\"error\": \"서버 오류가 발생했습니다.\"}");
         }
     }
-
 }

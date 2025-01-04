@@ -100,7 +100,7 @@
         async function fetchMarkedDates() {
             try {
                 // 전체 기간 통계를 가져와서 마킹된 날짜 추출
-                const response = await fetch('/api/marked-dates', {
+                const response = await fetch('/api/admin-marked-dates', {
                     method: 'GET',
                     credentials: 'include',
                     headers: { 'Accept': 'application/json' }
