@@ -15,6 +15,7 @@ import java.util.Map;
 @WebServlet("/api/users/check-duplicate-nickname")
 public class CheckNicknameServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final String NICKNAME_REGEX = "^[가-힣a-z0-9A-Z]{2,16}$";
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,9 +23,15 @@ public class CheckNicknameServlet extends HttpServlet {
 
         if (nickname == null || nickname.trim().isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("nickname을 입력해주세요.");
+            response.getWriter().write("닉네임을 입력해주세요.");
             return;
         }
+        
+		if (!nickname.matches(NICKNAME_REGEX)) {
+		    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+		    response.getWriter().write("닉네임: 2~16자의 한글, 숫자, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)");
+		    return;
+		}
 
         PTFUserDAO userDAO = new PTFUserDAO();
         boolean isNicknameUnique = userDAO.userSelectByNickname(nickname);

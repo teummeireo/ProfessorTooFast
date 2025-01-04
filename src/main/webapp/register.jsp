@@ -73,14 +73,18 @@ $(document).ready(function () {
                 if (response.isLoginIdUnique) {
                     alert("사용 가능한 아이디입니다.");
                     isLoginIdValid = true;
+                    // 입력란을 수정 불가능하게 설정
+                    $("#register_loginId").prop("readonly", true);
                 } else {
                     alert("이미 사용 중인 아이디입니다.");
                     isLoginIdValid = false;
                 }
                 updateRegisterButtonState();
             },
-            error: function () {
-                alert("아이디 중복 체크 중 오류가 발생했습니다.");
+            error: function (xhr, status, error) {
+            	alert(xhr.responseText);
+            	isLoginIdValid = false;
+            	updateRegisterButtonState();
             }
         });
     });
@@ -102,14 +106,18 @@ $(document).ready(function () {
                 if (response.isNicknameUnique) {
                     alert("사용 가능한 닉네임입니다.");
                     isNicknameValid = true;
+                	// 입력란을 수정 불가능하게 설정
+                    $("#register_nickname").prop("readonly", true);
                 } else {
                     alert("이미 사용 중인 닉네임입니다.");
                     isNicknameValid = false;
                 }
                 updateRegisterButtonState();
             },
-            error: function () {
-                alert("닉네임 중복 체크 중 오류가 발생했습니다.");
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                isNicknameValid = false;
+                updateRegisterButtonState();
             }
         });
     });
