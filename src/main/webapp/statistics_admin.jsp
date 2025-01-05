@@ -513,7 +513,7 @@
                         </div>
                         <div class="stat-item">
                             <div class="stat-title">총 인원</div>
-                            <div id="population" style="font-size: 1.2em; text-align: center;"></div>
+                            <div id="population" style="font-size:2em; text-align: left;"></div>
                         </div>
                     </div>
                 `;
@@ -549,7 +549,7 @@
                         // 통계 데이터 표시 업데이트
                         document.getElementById("date-range").textContent = 
                             //`Period: ${data.startDate} ~ ${data.endDate}`;
-                            "Period: " + (data.startDate || "N/A") + " ~ " + (data.endDate || "N/A");
+                            (data.startDate || "N/A") + " ~ " + (data.endDate || "N/A");
 
                             console.log("data.startDate $ 입력 체크 = ", `${data.startDate}`);
                             console.log("data.startDate 그냥 입력 체크 = ", startDate, endDate);
@@ -562,8 +562,8 @@
                         updateBar("material-bar", "material-label", data.avgMaterial || 0);
                 
                         const populationElement = document.getElementById("population");
-                        if (populationElement && data.totalCount != null) {
-                            populationElement.textContent = `${data.totalCount}명`;
+                        if (populationElement && data.population != null) {
+                            populationElement.textContent = data.population +" 명";//`${data.population}명`;
                         }
 
                         showModal("stats-modal"); // 1208수정

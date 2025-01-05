@@ -173,6 +173,7 @@
     width: 70%;
     max-width: 700px;
     border-radius: 5px;
+    text-align: left;
     z-index: 1001;
     /* 모달 배경보다 앞에 표시 */
 }
