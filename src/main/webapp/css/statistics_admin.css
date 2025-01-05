@@ -139,6 +139,14 @@
     background-color: #ff7fa4;
     border-radius: 10px;
     transition: width 1.5s ease-in-out;
+        justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    font-weight: bold; /* 텍스트 강조 */
+    font-size: 20px; /* 텍스트 크기 */
+    transition: width 1s ease; /* 애니메이션 */
+    overflow: hidden; /* 텍스트 넘침 방지 */
+        color: #fff; /* 텍스트 색상 */
+    
 }
 
 .bar-label {
