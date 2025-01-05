@@ -458,7 +458,6 @@ $( document ).ready(function() {
 				console.log(obj['material']);
 				console.log(obj['questions']);
 				console.log(obj['comments']);
-				});
 			}   ,
 	    	error 		: function(err) { console.log("에러:" + err) }  
 	    });

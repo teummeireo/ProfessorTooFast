@@ -1,3 +1,5 @@
 # Ignore mydb.properties file
 src/main/resources/mydb.properties
 build/classes/mydb.properties
+build/classes/fileupload.properties
+docker-compose.yml

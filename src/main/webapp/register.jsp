@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     function updateRegisterButtonState() {
         console.log("Login ID Valid:", isLoginIdValid);
-        consollog("Nickname Valid:", isNicknameValid);
+        console.log("Nickname Valid:", isNicknameValid);
         if (isLoginIdValid && isNicknameValid) {
             $("#register-btn").prop("disabled", false);
         } else {
@@ -73,14 +73,18 @@ $(document).ready(function () {
                 if (response.isLoginIdUnique) {
                     alert("사용 가능한 아이디입니다.");
                     isLoginIdValid = true;
+                    // 입력란을 수정 불가능하게 설정
+                    $("#register_loginId").prop("readonly", true);
                 } else {
                     alert("이미 사용 중인 아이디입니다.");
                     isLoginIdValid = false;
                 }
                 updateRegisterButtonState();
             },
-            error: function () {
-                alert("아이디 중복 체크 중 오류가 발생했습니다.");
+            error: function (xhr, status, error) {
+            	alert(xhr.responseText);
+            	isLoginIdValid = false;
+            	updateRegisterButtonState();
             }
         });
     });
@@ -102,14 +106,18 @@ $(document).ready(function () {
                 if (response.isNicknameUnique) {
                     alert("사용 가능한 닉네임입니다.");
                     isNicknameValid = true;
+                	// 입력란을 수정 불가능하게 설정
+                    $("#register_nickname").prop("readonly", true);
                 } else {
                     alert("이미 사용 중인 닉네임입니다.");
                     isNicknameValid = false;
                 }
                 updateRegisterButtonState();
             },
-            error: function () {
-                alert("닉네임 중복 체크 중 오류가 발생했습니다.");
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                isNicknameValid = false;
+                updateRegisterButtonState();
             }
         });
     });
@@ -132,15 +140,15 @@ $(document).ready(function () {
                 alert("회원가입이 성공적으로 완료되었습니다.");
                 console.log("응답:", res);
                 // 회원가입 후 로그인 페이지로 이동
-                location.assign("login.jsp");
+                location.assign("/login");
             },
             error: function (xhr, status, error) {
                 console.error("에러 상태:", status);
                 console.error("에러 메시지:", error);
-                console.error("응답 텍스트:", xhr.responseText);
+                console.error("응답 텍스트:", xhr);
                 try {
-                    var response = JSON.parse(xhr.responseText);
-                    alert("오류 발생: " + response.message);
+                    var response = xhr.responseText;
+                    alert(response);
                 } catch (e) {
                     alert("회원가입 중 오류가 발생했습니다.");
                 }
@@ -157,7 +165,7 @@ $(document).ready(function () {
 <script>
 	//로그인 페이지로 이동
 	function goToLogin() {
-		location.assign("login.jsp");
+		location.assign("/login");
 	}
 </script>
 </body>

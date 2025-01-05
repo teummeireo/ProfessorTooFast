@@ -330,3 +330,83 @@ select {
     transform: translateY(-2px);
     transition: transform 0.2s ease;
 }
+/* 알림 스타일 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50; /* 성공적인 알림 색상 */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+
+/* FullCalendar 기본 이벤트 스타일 초기화 */
+.fc-event {
+    background: #ff6f91 !important; /* 모든 이벤트를 찐한 분홍색으로 강제 */
+    border: 1px solid #ff6f91 !important;
+}
+
+.fc-event[data-type="background"] {
+    background: #ffa7d2 !important;
+    border: none !important;
+}
+
+.fc-event[data-type="highlight"] {
+    background: #ff6f91 !important;
+    border: none !important;
+}
+
+/* 빨간 점 스타일 */
+.fc-event[data-type="dot"] {
+  width: 10px !important;
+  height: 10px !important;
+  background: red !important; /* 빨간색 점 */
+  border-radius: 50%; /* 원형 */
+  border: none !important;
+  position: relative; /* 점 위치 조정 */
+  margin: auto; /* 가운데 정렬 */
+  z-index: 2; /* 분홍 배경 위로 배치 */
+  display: inline-block !important; /* 점만 표시 */
+}
+
+/* 분홍 배경 스타일 */
+.fc-event[data-type="background"] {
+  background: rgba(255, 167, 210, 0.5) !important; /* 분홍색 반투명 */
+  border: none !important;
+  pointer-events: none !important; /* 클릭 불가능 */
+  position: absolute !important; /* 셀 전체 덮기 */
+  z-index: 3; /* 빨간 점 아래 배치 */
+  width: 100%; /* 셀 전체 폭 덮기 */
+  height: 100%; /* 셀 전체 높이 덮기 */
+}
+
+#logout-btn {
+    background-color: #ff91ac; /* 기존 버튼 색상 참고 */
+    color: white;
+    border: none;
+    font-size: 14px;
+  	 border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: fixed; /* 고정 위치 */
+    top: 20px; /* 화면 위에서 20px */
+    right: 20px; /* 화면 오른쪽에서 20px */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+#logout-btn:hover {
+    background-color: #ff7fa4; /* 호버 색상 */
+}

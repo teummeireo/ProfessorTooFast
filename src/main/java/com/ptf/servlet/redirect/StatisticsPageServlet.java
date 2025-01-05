@@ -15,7 +15,7 @@ public class StatisticsPageServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+		 request.getRequestDispatcher("/statistics_admin.jsp").forward(request, response);
 	}
 
 

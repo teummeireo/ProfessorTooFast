@@ -6,6 +6,6 @@
 <c:if test = "${sessionScope.role != 'ADMIN'}">
 	<script>
 		alert("관리자만 사용가능합니다");
-		location.href = "${pageContext.request.contextPath}";
+		location.href = "${pageContext.request.contextPath}/";
 	</script>
 </c:if>

@@ -91,8 +91,8 @@ function closeModal() {
             <h2>제출 완료되었습니다!</h2>
             <p>답변이 성공적으로 제출되었습니다.<br>원하시는 다음 작업을 선택하세요.</p>
             <div class="modal-buttons">
-                <button class="home-button" onclick="location.href='main.jsp'">홈으로 가기</button>
-                <button class="survey-button" onclick="location.href='my_survey.jsp'">내 설문 확인하기</button>
+                <button class="home-button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로 가기</button>
+                <button class="survey-button" onclick="location.href='${pageContext.request.contextPath}/surveys/my'">내 설문 확인하기</button>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error("에러:", error, "상태:", status);
-                console.error("응답 텍스트:", xhr.responseText);
+                alert(xhr.responseText);
             }
         });
     });
@@ -138,7 +138,7 @@ $(document).ready(function () {
             method: "POST",
             success: function () {
                 alert("로그아웃이 완료되었습니다.");
-                window.location.href = "${pageContext.request.contextPath}/main.jsp"; // 메인 페이지로 이동
+                window.location.href = "${pageContext.request.contextPath}/"; // 메인 페이지로 이동
             },
             error: function (err) {
                 alert("로그아웃 중 오류가 발생했습니다.");
