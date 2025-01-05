@@ -23,6 +23,7 @@ public class SurveyDAO {
 	         PreparedStatement pstmt = conn.prepareStatement(
 	             "INSERT INTO survey(survey_id, user_id, statistics_id, difficulty, speed, material, questions, comments, create_at) "
 	           + "VALUES(seq_survey_id.nextval, ?, ?, ?, ?, ?, ?, ?, ?)"
+//	           + "VALUES(nextval('seq_survey_id'), ?, ?, ?, ?, ?, ?, ?, ?)"	//postgre 문법
 	         )) {
 
 	        conn.setAutoCommit(false);
