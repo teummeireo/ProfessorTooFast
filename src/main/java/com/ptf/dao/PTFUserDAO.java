@@ -26,6 +26,7 @@ public class PTFUserDAO {
 
 			String sql = "INSERT INTO ptfuser(user_id, role, login_id, password, nickname, join_code) "
 	                   + "VALUES(seq_ptfuser_id.nextval, ?, ?, ?, ?, ?)";
+			//		   + "VALUES(nextval('seq_ptfuser_id'), ?, ?, ?, ?, ?)";     	// postgre 문법
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, uvo.getRole().name());
 	        pstmt.setString(2, uvo.getLoginId());

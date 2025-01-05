@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="libs/lombok-1.18.34.jar"/>
 	<classpathentry kind="lib" path="libs/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="libs/javax.servlet-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/postgresql-42.6.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
