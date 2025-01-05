@@ -24,19 +24,13 @@ jobs:
         docker build -t $IMAGE_NAME .
         docker push $IMAGE_NAME
 
-    # 3. Prepare SSH Key for Google Cloud
-    - name: Prepare SSH Key
-      run: |
-        echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > gcp-key.pem
-        chmod 600 gcp-key.pem
-
-    # 4. Deploy to Google Cloud
+    # 3. Deploy to Google Cloud
     - name: Deploy via SSH
       uses: appleboy/ssh-action@v0.1.6
       with:
         host: ${{ secrets.GCP_SERVER_IP }}
         username: ${{ secrets.GCP_SSH_USERNAME }}
-        key: gcp-key.pem
+        key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/ptf-was:1.0
           docker-compose -f ${{ secrets.COMPOSE_FILE_PATH }} up -d
