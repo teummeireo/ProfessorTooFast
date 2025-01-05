@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.ptf.util.DBManager;
 import com.ptf.util.OracleDBManager;
+import com.ptf.util.PostgreDBManager;
 import com.ptf.vo.PTFUserVO;
 import com.ptf.vo.PTFUserVO.Role;
 
@@ -18,6 +19,7 @@ public class PTFUserDAO {
 	// -------------------------------insert------------------------
 	public int userInsert(PTFUserVO uvo) {
 		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		int rows = 0;
@@ -26,7 +28,7 @@ public class PTFUserDAO {
 
 			String sql = "INSERT INTO ptfuser(user_id, role, login_id, password, nickname, join_code) "
 	                   + "VALUES(seq_ptfuser_id.nextval, ?, ?, ?, ?, ?)";
-			//		   + "VALUES(nextval('seq_ptfuser_id'), ?, ?, ?, ?, ?)";     	// postgre 문법
+//					   + "VALUES(nextval('seq_ptfuser_id'), ?, ?, ?, ?, ?)";     	// postgre 문법
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, uvo.getRole().name());
 	        pstmt.setString(2, uvo.getLoginId());
@@ -57,6 +59,7 @@ public class PTFUserDAO {
 		PTFUserVO uvo = null; // 초기값을 null로 설정
 
 		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -85,6 +88,7 @@ public class PTFUserDAO {
 		PTFUserVO uvo = null; // 초기값을 null로 설정
 
 		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -112,7 +116,8 @@ public class PTFUserDAO {
 	}
 	//------------------------select by nickname-----------------------
 	public boolean userSelectByNickname(String nickname) {
-	    DBManager dbm = OracleDBManager.getInstance();  
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 	    Connection conn = dbm.connect();
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -140,7 +145,8 @@ public class PTFUserDAO {
 	
 	// -------------------------------select Role by joinCode------------------------
 	public PTFUserVO.Role getRoleByJoinCode(String joinCode) {
-	    DBManager dbm = OracleDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 	    Connection conn = dbm.connect();
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -166,7 +172,8 @@ public class PTFUserDAO {
 	//------------------------------select ADMINS------------------------------------
 	public ArrayList<PTFUserVO> selectAllAdmins() {
 	    ArrayList<PTFUserVO> admins = new ArrayList<>();
-	    DBManager dbm = OracleDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 	    Connection conn = dbm.connect();
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
