@@ -1,5 +1,16 @@
 @charset "UTF-8";
 
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #790604, #FF4500);
+    color: #fff;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 /* 전체 레이아웃 */
 #calendar {
     margin: 20px auto;
@@ -27,13 +38,13 @@
 }
 
 .fc-event {
-    background: #ff6f91 !important; /* 이벤트 배경색: 진한 분홍색 */
-    border: 1px solid #ff6f91 !important; /* 이벤트 테두리 */
+    background: #ff4400ce !important; /* 이벤트 배경색: 진한 분홍색 */
+    border: 1px solid #ff4400ce !important; /* 이벤트 테두리 */
 }
 
 /* 배경 이벤트 */
 .fc-event[data-type="background"] {
-    background: rgba(255, 167, 210, 0.5) !important; /* 분홍색 반투명 */
+    background: ff4400ce !important; /* 분홍색 반투명 */
     border: none !important;
     pointer-events: none !important; /* 클릭 불가능 */
     position: absolute !important; /* 셀 전체 덮기 */
@@ -59,16 +70,16 @@
 .fc-day-today {
 	background-color: #fff4f6;
 	border-radius: 50%;
-	border: 2px solid #ff91ac;
+	border: 2px solid #ff4400ce;
 	font-weight: bold;
-	color: #ff4b6e;
+	color: #ff4400ce;
 	height: auto;
 	/* 크기 자동 조정 */
 }
 
 /* 선택된 날짜 */
 .fc-highlight {
-	background-color: #ff91ac !important;
+	background-color: #ff4400ce !important;
 	/* FullCalendar의 highlight 스타일 */
 	color: #ff91ac;
 	font-weight: bold;
@@ -78,7 +89,7 @@
 
 /* 툴바 버튼 */
 .fc-button {
-	background-color: #ff91ac !important;
+	background-color: #f04b28 !important;
 	color: white;
 	border: none;
 	font-size: 14px;
@@ -88,12 +99,12 @@
 }
 
 .fc-button:hover {
-	background-color: #ff7fa4 !important;
+	background-color: #ff44003e !important;
 }
 
 .fc-toolbar-title {
 	font-size: 22px;
-	color: #ff4b6e;
+	color: #f04b28;
 	font-weight: bold;
 }
 
@@ -102,11 +113,11 @@
 	text-align: center;
 	font-size: 18px;
 	margin: 20px;
-	background-color: #ff7fa4;
-	border: 1px solid #ff91ac;
+	background-color: #b83809;
+	border: 1px solid #790604;
 	border-radius: 10px;
 	padding: 15px;
-	color: #ff4b6e;
+	color: #b83809;
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -136,7 +147,7 @@
 	/* 버튼의 높이 조정 */
 	font-size: 18px;
 	/* 텍스트 크기 */
-	background-color: #ff91ac;
+	background-color: #c1290ece;
 	color: white;
 	border: none;
 	cursor: pointer;
@@ -168,7 +179,7 @@
 .bar {
 	height: 100%;
 	width: 0;
-	background-color: #ff7fa4;
+	background-color: #ff4400ce;
 	border-radius: 10px;
 	transition: width 1.5s ease-in-out;
 }
@@ -275,7 +286,7 @@ select {
 	padding: 15px;
 	max-width: 800px;
 	background-color: #ffffff;
-	border: 1px solid #ff91ac;
+	border: 1px solid #ff4400ce;
 	border-radius: 10px;
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -283,24 +294,24 @@ select {
 .date-box {
 	text-align: center;
 	padding: 10px 20px;
-	border: 1px solid #ff91ac;
+	border: 1px solid #b83809;
 	border-radius: 8px;
-	background-color: #fff4f6;
-	color: #ff4b6e;
+	background-color: #fcdbd3;
+	color: #571b04;
 	font-size: 16px;
 	flex: 1;
 	/* 동일한 크기로 확장 */
 	margin: 0 10px;
 	/* 박스 간 여백 */
 }
-
+ 
 .date-label {
 	font-weight: bold;
 	display: block;
 	/* 줄바꿈 */
 	margin-bottom: 5px;
 	font-size: 14px;
-	color: #ff4b6e;
+	color: #571b04;
 }
 
 .survey-results-container {
@@ -378,7 +389,7 @@ body, html {
 	border-radius: 15px;
 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 	padding: 20px;
-	border: 2px solid #f8bfce;
+	border: 2px solid #ff4400ce;
 }
 
 .modal {
@@ -403,7 +414,7 @@ body, html {
 	width: 70%;
 	max-width: 500px;
 	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-	border: 1px solid #f8bfce;
+	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .modal-content h2 {
@@ -430,16 +441,16 @@ body, html {
 
 .survey-item {
 	padding: 12px;
-	border: 1px solid #f8bfce;
-	color: #292727;
+	border: 1px solid #f04b28;
+	color: #ffffff;
 	border-radius: 10px;
-	background-color: #ffeef2;
+	background-color: #f04b28;
 }
 
 .survey-item strong {
 	display: block;
 	margin-bottom: 5px;
-	color: #464141;
+	color: #ffffff;
 }
 
 .progress-bar-container {
@@ -451,9 +462,10 @@ body, html {
 	margin: 5px 0;
 }
 
+/* 모달에 게이지 바 */
 .progress-bar {
 	height: 100%;
-	background-color: #ff4b6e;
+	background-color: #035f14;
 	transition: width 0.3s ease;
 }
 
@@ -461,25 +473,21 @@ body, html {
 	max-width: 800px;
 	margin: 20px auto;
 	padding: 10px;
-	border: 1px solid #ff91ac;
+	border: 1px solid #ff4400ce;
 	border-radius: 10px;
 	background: #EAF4F8;
 	text-align: center;
 }
 
-.date-box {
-	font-size: 18px;
-	color: #ff7fa4;
-}
 
 .date-label {
 	font-weight: bold;
-	color: #ff7fa4;
+	color: #f04b28;
 }
 
 .action-button {
 	margin-top: 15px;
-	background-color: #ff7fa4;
+	background-color: #035f14;
 	border: none;
 	color: white;
 	padding: 10px 20px;
@@ -490,8 +498,34 @@ body, html {
 	transition: background-color 0.3s;
 }
 
+#main-page-btn {
+    top: 20px;
+    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
+    width: 8%;
+  	background-color: #035f14;
+    color:#ffffff;
+    font-weight: bold; /* 텍스트를 굵게 설정 */
+    
+}
+#main-page-btn:hover {
+	background-color: #05370e;
+	
+	}
+
+
+#logout-btn {
+    top: 20px;
+    right: 20px;
+ 	background-color: #035f14;
+    color:#ffffff;
+    font-weight: bold; /* 텍스트를 굵게 설정 */
+}
+#logout-btn:hover {
+  	background-color: #05370e;
+    }
+
 .action-button:hover {
-	background-color: #ff7fa4;
+	background-color: #ff4400ce;
 }
 
 .custom-button {
@@ -517,14 +551,14 @@ body, html {
 	}
 
 .custom-button:hover {
-	background: #D6455A;
+	background: #ff4400ce;
 }
 
 /* 통계 표시용 라인 스타일 */
 .custom-line {
     width: 80%; /* 셀 너비의 80% */
     height: 2px; /* 라인 높이 */
-    background-color: #ff91ac; /* 분홍색 라인 */
+    background-color: #ff4400ce; /* 분홍색 라인 */
     margin: 0 auto; /* 중앙 정렬 */
     position: relative;
     top: 50%; /* 셀 중앙 위치 */
