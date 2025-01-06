@@ -125,7 +125,7 @@ async function fetchUserMarkedDates() {
 
                         const events = markedDates.map(date => ({
                             start: date,
-                            extendedProps: { isMarkedDate: true , type: "marked"}, // 추가 속성
+                            extendedProps: { isMarkedDate: true , type: "line"}, // 추가 속성
                         }));
 
                         successCallback(events);
@@ -136,12 +136,25 @@ async function fetchUserMarkedDates() {
                 },
                 eventContent: function(info) {
                     console.log("Event Info:", info);
-
-                    if (info.event.extendedProps.type === "marked") {
+                    // 이벤트 타입에 따라 렌더링 설정
+                    if (info.event.extendedProps.type === "dot") {
                         return {
-                            html: '<div class="custom-line">!!</div>', // 라인 삽입
+                            html: '<span style="font-size:12px;color:red;">•</span>' // 빨간 점
                         };
                     }
+
+                    if (info.event.extendedProps.type === "line") {
+                        return {
+                            html: '<div class="custom-line"></div>' // 중간 라인 삽입
+                        };
+                    }
+
+                    // 배경 이벤트는 null 반환 (렌더링하지 않음)
+                    if (info.event.extendedProps.type === "background") {
+                        return null;
+                    }
+
+                    return null;
                 },
             });
 
