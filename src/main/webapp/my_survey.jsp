@@ -73,8 +73,8 @@ async function fetchUserMarkedDates() {
     <div id="calendar"></div>
         <!-- 로그아웃 및 메인 페이지 이동 버튼 -->
    <div class="button-container">
-        <button class="custom-button" id="main-page-btn">메인 페이지로</button>
-        <button class="custom-button" id="logout-btn">로그아웃</button>
+        <button class="custom-button" id="main-page-btn">Main</button>
+        <button class="custom-button" id="logout-btn">Logout</button>
     </div>
 
     <div id="selected-dates" class="dates-container">
@@ -242,11 +242,9 @@ async function fetchUserMarkedDates() {
             }
 
             // 외부 클릭 시 모달 닫기
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    closeModal("survey-modal");
-                }
-            });
+ 			document.querySelector(".close-button").addEventListener("click", () => {
+       		 closeModal("survey-modal");
+   		 });
 
             // ESC 키로 모달 닫기
             window.addEventListener("keydown", (e) => {

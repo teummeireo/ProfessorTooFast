@@ -2,12 +2,15 @@
 
 /* 전체 레이아웃 */
 #calendar {
-	max-width: 900px;
-	margin: 20px auto;
-	border-radius: 0px;
-	overflow: hidden;
-	background-color: #ffffff;
-	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    overflow: hidden;
+    background-color: #ffffff;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	max-width: 800px;
+	background: #FFFFFF;
+	border-radius: 15px;
+	padding: 20px;
+	border: 2px solid #f8bfce;
 }
 
 /* 날짜 셀 스타일 */
@@ -359,8 +362,9 @@ select {
 	transition: transform 0.2s ease;
 }
 
-body {
-	font-family: 'Comic Sans MS', Arial, sans-serif;
+body, html {
+	font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 	background-color: #F5F9FA;
 	margin: 0;
 	padding: 0;
@@ -491,24 +495,26 @@ body {
 }
 
 .custom-button {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	padding: 14px 20px;
-	gap: 10px;
-	position: fixed;
-	width: 77px;
-	height: 44px;
-	top: 20px;
-	right: 20px;
-	background: #F5576D;
-	border-radius: 8px;
-	border: none;
-	color: white;
-	font-size: 14px;
-	cursor: pointer;
-}
+		font-family: 'Montserrat', sans-serif;
+    	font-weight: bold;
+	    display: flex;
+	    flex-direction: row;
+	    justify-content: center;
+	    align-items: center;
+	    padding: 14px 20px;
+	    gap: 6px;
+	    position: fixed;
+	    width: 77px;
+	    height: 44px;
+	    top: 20px;
+	    right: 20px;
+		font-size: 16px;
+	    border: none;
+	    background: none; /* 배경 제거 */
+	    color: black; /* 글자 흰색 */
+	    font-size: 15px;
+	    cursor: pointer;
+	}
 
 .custom-button:hover {
 	background: #D6455A;
