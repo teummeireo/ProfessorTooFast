@@ -53,7 +53,7 @@ async function fetchUserMarkedDates() {
 
 #main-page-btn {
     top: 20px;
-    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
+    right: 100px; /* Logout 버튼과 겹치지 않도록 수정 */
     width: 8%;
 }
 #logout-btn {
@@ -73,8 +73,8 @@ async function fetchUserMarkedDates() {
     <div id="calendar"></div>
         <!-- 로그아웃 및 메인 페이지 이동 버튼 -->
    <div class="button-container">
-        <button class="custom-button" id="main-page-btn">메인 페이지로</button>
-        <button class="custom-button" id="logout-btn">로그아웃</button>
+        <button class="custom-button" id="main-page-btn">Main</button>
+        <button class="custom-button" id="logout-btn">Logout</button>
     </div>
 
     <div id="selected-dates" class="dates-container">
@@ -112,7 +112,7 @@ async function fetchUserMarkedDates() {
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
                 locale: "ko",
-                selectable: true,
+                selectable: false,
                 dateClick: function (info) {
                     const selectedDate = info.dateStr;
                     selectedDateEl.textContent = selectedDate;

@@ -86,7 +86,7 @@
  
  
     <div id="calendar"></div>
-	<button id="logout-btn">로그아웃</button>
+	<button id="logout-btn">Logout</button>
 
     <!-- <p id="selected-dates">선택된 날짜: 없음</p> -->
     <!-- 선택된 날짜 섹션 -->
@@ -177,7 +177,7 @@
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
                 locale: "ko",
-                selectable: true,
+                selectable: false,
                 dateClick: function (info) {
                     const clickedDate = new Date(info.dateStr);
                     const today = new Date();
@@ -574,14 +574,10 @@
                         console.error("Failed to fetch statistics:", error);
                         document.getElementById('stats-content').innerHTML = `
                             <div class="error-message">
-                                <p>Failed to load statistics: ${error.message}</p>
+                                <p> 통계가 없습니다 ${error.message}</p>
                             </div>
                         `;
                     });
-                
-                
-
-    
 
                 // Helper function to get session token
                 function getSessionToken() {
