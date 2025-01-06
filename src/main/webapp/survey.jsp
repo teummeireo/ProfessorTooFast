@@ -148,7 +148,7 @@ $(document).ready(function () {
 });
 </script>
     <button class="custom-button">Logout</button>
-</div>
+
 
 <script>
 $(document).ready(function () {
