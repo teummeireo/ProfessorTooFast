@@ -131,6 +131,8 @@ $(document).ready(function () {
         });
     });
 
+    
+    
     // 로그아웃 버튼 클릭 이벤트
     $(".custom-button").click(function () {
         $.ajax({
