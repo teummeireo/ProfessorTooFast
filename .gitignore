@@ -4,3 +4,4 @@ build/classes/mydb.properties
 build/classes/fileupload.properties
 build/classes/mypostgre.properties
 docker-compose.yml
+build/

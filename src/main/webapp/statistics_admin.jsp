@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-	<script src="https://code.jqu ery.com/jquery-3.6.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
     <div id="notifications"></div>
