@@ -2,12 +2,13 @@
 
 /* 전체 레이아웃 */
 #calendar {
-    max-width: 800px;
-    margin: 20px auto;
-    border-radius: 15px;
-    overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+	max-width: 800px;
+	margin: 20px auto;
+	background: #FFFFFF;
+	border-radius: 15px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	border: 2px solid #f8bfce;
 }
 
 /* 날짜 셀 스타일 */
@@ -262,7 +263,7 @@ select {
     text-align: center;
     padding: 10px 20px;
     border: 1px solid #ff91ac;
-    border-radius: 8px;
+    border-radius: 1px;
     background-color: #fff4f6;
     color: #ff4b6e;
     font-size: 16px;
@@ -290,7 +291,7 @@ select {
 .survey-column {
     flex: 1;
     background-color: #fff4f6;
-    border-radius: 10px;
+    border-radius: 1px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -402,20 +403,25 @@ select {
 }
 
 #logout-btn {
-    background-color: #ff91ac; /* 기존 버튼 색상 참고 */
-    color: white;
-    border: none;
-    font-size: 14px;
-  	 border-radius: 10px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 20px;
+    gap: 6px;
     position: fixed; /* 고정 위치 */
+    width: 77px;
+    height: 44px;
     top: 20px; /* 화면 위에서 20px */
     right: 20px; /* 화면 오른쪽에서 20px */
+    font-size: 16px;
+    border: none;
+    background: none; /* 배경 없앰 */
+    color: black; /* 글자 색상 */
+    border-radius: 10px; /* 버튼 모서리 둥글게 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     z-index: 1000; /* 다른 요소 위에 표시 */
-}
-
-#logout-btn:hover {
-    background-color: #ff7fa4; /* 호버 색상 */
 }
