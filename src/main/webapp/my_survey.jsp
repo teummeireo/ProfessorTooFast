@@ -53,7 +53,7 @@ async function fetchUserMarkedDates() {
 
 #main-page-btn {
     top: 20px;
-    right: 100px; /* Logout 버튼과 겹치지 않도록 수정 */
+    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
     width: 8%;
 }
 #logout-btn {
@@ -229,11 +229,9 @@ async function fetchUserMarkedDates() {
             }
 
             // 외부 클릭 시 모달 닫기
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    closeModal("survey-modal");
-                }
-            });
+ 			document.querySelector(".close-button").addEventListener("click", () => {
+       		 closeModal("survey-modal");
+   		 });
 
             // ESC 키로 모달 닫기
             window.addEventListener("keydown", (e) => {

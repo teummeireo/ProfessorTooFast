@@ -103,10 +103,7 @@
 	    font-size: 14px;
 	    cursor: pointer;
 	}
-	
-	.custom-button:hover {
-	    color: #000; /* 호버 시 글자색 변경 */
-	}
+
 
 	/* Header Bar */
 	.header-bar {
