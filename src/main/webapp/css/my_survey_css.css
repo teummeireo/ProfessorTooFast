@@ -496,6 +496,7 @@ body, html {
 	border-radius: 5px;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	letter-spacing: -0.5px; /* 글자 간격을 더 가깝게 조정 */
 }
 
 #main-page-btn {
@@ -535,10 +536,10 @@ body, html {
 	    flex-direction: row;
 	    justify-content: center;
 	    align-items: center;
-	    padding: 14px 20px;
-	    gap: 6px;
+	    padding: 14px 10px;
+	    gap: 16px;
 	    position: fixed;
-	    width: 77px;
+	    width: 107px;
 	    height: 44px;
 	    top: 20px;
 	    right: 20px;
@@ -553,6 +554,7 @@ body, html {
 .custom-button:hover {
 	background: #ff4400ce;
 }
+
 
 /* 통계 표시용 라인 스타일 */
 .custom-line {

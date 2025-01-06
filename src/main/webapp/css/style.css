@@ -81,6 +81,7 @@
 	.submit-button:hover {
 	    background: #A00060;
 	}
+	
 	.custom-button {
 		font-family: 'Montserrat', sans-serif;
     	font-weight: bold;
@@ -88,9 +89,8 @@
 	    flex-direction: row;
 	    justify-content: center;
 	    align-items: center;
-	    padding: 14px 20px;
-	    gap: 10px;
-	
+	    padding: 14px 10px;
+	    gap: 16px;
 	    position: fixed;
 	    width: 77px;
 	    height: 44px;
@@ -99,8 +99,8 @@
 		font-size: 16px;
 	    border: none;
 	    background: none; /* 배경 제거 */
-	    color: white; /* 글자 흰색 */
-	    font-size: 14px;
+	    color: black; /* 글자 흰색 */
+	    font-size: 15px;
 	    cursor: pointer;
 	}
 
