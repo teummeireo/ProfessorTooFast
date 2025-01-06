@@ -216,8 +216,8 @@ async function fetchUserMarkedDates() {
                     "        </div>" +
                     "        <span>" + (data.material || "없음") + "/10</span>" +
                     "    </div>" +
-                    "    <div class='survey-item'><strong>질문:</strong> " + (data.questions || "없음") + "</div>" +
-                    "    <div class='survey-item'><strong>코멘트:</strong> " + (data.comments || "없음") + "</div>" +
+                    "    <div class='survey-item'><strong>수업 중 궁금했던 점:</strong> " + (data.questions || "없음") + "</div>" +
+                    "    <div class='survey-item'><strong>강사님께 하고싶은 말:</strong> " + (data.comments || "없음") + "</div>" +
                     "    <div class='survey-item'><strong>생성일:</strong> " + (data.createAt || "없음") + "</div>" +
                     "</div>";
 
