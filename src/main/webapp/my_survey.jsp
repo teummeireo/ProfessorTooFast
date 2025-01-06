@@ -50,16 +50,6 @@ async function fetchUserMarkedDates() {
     top: 50%; /* 셀 중앙에 위치 */
     transform: translateY(-50%);
 }
-
-#main-page-btn {
-    top: 20px;
-    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
-    width: 8%;
-}
-#logout-btn {
-    top: 20px;
-    right: 20px;
-}
  
 </style>
 
@@ -113,6 +103,9 @@ async function fetchUserMarkedDates() {
                 initialView: "dayGridMonth",
                 locale: "ko",
                 selectable: false,
+                buttonText:{
+                	today : "Today"
+                },
                 dateClick: function (info) {
                     const selectedDate = info.dateStr;
                     selectedDateEl.textContent = selectedDate;
