@@ -265,7 +265,12 @@
 
                         console.log("fetchsurveyData 진입 직전 startDate = ", startDate);
                         // 2. 해당 일자 설문 데이터 요청
-                        fetchSurveyData(startDate);                        
+                        fetchSurveyData(startDate);       
+                        
+                        // 모달 디자인 변경: 시작날짜=종료날짜 조건
+                        const statsModal = document.getElementById("stats-modal");
+                        statsModal.classList.add("single-date-modal");
+                        
                         return; // 이후 동작 방지
                     }
                     //endDate = date;
@@ -408,8 +413,8 @@
 		
 			        //questionsList += `<li>${item.questions != null ? item.questions : "질문 없음"}</li>`;
 			        //commentsList += `<li>${item.comments != null ? item.comments : "코멘트 없음"}</li>`;
-		            questionsList += "<li>" + (item.questions != null ? item.questions : "질문 없음") + "</li>";
-				    commentsList += "<li>" + (item.comments != null ? item.comments : "코멘트 없음") + "</li>";
+		            questionsList += "<li>" + (item.questions != null ? item.questions : "궁금한 점 없음") + "</li>";
+				    commentsList += "<li>" + (item.comments != null ? item.comments : "하고싶은 말 없음") + "</li>";
 
 			        totalDifficulty += item.difficulty || 0;
 			        totalSpeed += item.speed || 0;
@@ -432,11 +437,11 @@
 			    statsContent.innerHTML =
 			        "<div class='survey-results-container'>" +
 			        "    <div class='survey-column'>" +
-			        "        <h3>질문 답변</h3>" +
+			        "        <h3>궁금한 점</h3>" +
 			        "        <ul class='survey-list'>" + questionsList + "</ul>" +
 			        "    </div>" +
 			        "    <div class='survey-column'>" +
-			        "        <h3>코멘트</h3>" +
+			        "        <h3>하고 싶은 말</h3>" +
 			        "        <ul class='survey-list'>" + commentsList + "</ul>" +
 			        "    </div>" +
 			        "</div>" +
@@ -444,7 +449,7 @@
 			        "    <p><strong>참여자 수:</strong> " + (statsData.population || 0) + "명</p>" +
 			        "    <p><strong>평균 난이도:</strong> " + avgDifficulty + "</p>" +
 			        "    <p><strong>평균 속도:</strong> " + avgSpeed + "</p>" +
-			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0) + "</p>" +
+			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0).toFixed(2) + "</p>" +
 			        "</div>";
 
 			    showModal("stats-modal");
