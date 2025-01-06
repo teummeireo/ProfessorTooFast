@@ -86,9 +86,9 @@ body::before {
 
 /* PNG 이미지 이동 및 회전 애니메이션 */
 .animated-image {
-    width: 50px;
+    width: 55px;
     height: auto;
-    animation: moveAndRotate 5s linear infinite;
+    animation: moveAndRotate 15s linear infinite;
 }
 
 /* 애니메이션 정의 */
@@ -97,7 +97,7 @@ body::before {
         transform: translateX(0) rotate(0deg);
     }
     50% {
-        transform: translateX(300px) rotate(180deg);
+        transform: translateX(1200px) rotate(180deg);
     }
     100% {
         transform: translateX(0) rotate(360deg);
