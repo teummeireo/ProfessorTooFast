@@ -19,8 +19,8 @@ public class StatisticsDAO {
 
 	// ---------------------------------upsert-------------------
 	public int statisticsUpsert(int difficulty, int speed, int material) {
-//		DBManager dbm = OracleDBManager.getInstance();
-		DBManager dbm = PostgreDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -54,8 +54,8 @@ public class StatisticsDAO {
 				pstmt.executeUpdate();
 			} else {
 				String insertSql = "INSERT INTO Statistics(statistics_id, record_date, avg_difficulty, avg_speed, avg_material, population) "
-//						+ "VALUES(SEQ_STATISTICS_ID.NEXTVAL, ?, ?, ?, ?, 1)";
-						+ "VALUES(nextval('SEQ_STATISTICS_ID'), ?, ?, ?, ?, 1)";			// postgre 문법
+						+ "VALUES(SEQ_STATISTICS_ID.NEXTVAL, ?, ?, ?, ?, 1)";
+//						+ "VALUES(nextval('SEQ_STATISTICS_ID'), ?, ?, ?, ?, 1)";			// postgre 문법
 				pstmt = conn.prepareStatement(insertSql, new String[]{"STATISTICS_ID"});
 				pstmt.setDate(1, today);
 				pstmt.setFloat(2, difficulty);
@@ -87,8 +87,8 @@ public class StatisticsDAO {
 	// --------------------------------- select by recordDate
 	// ---------------------------------------------
 	public StatisticsVO statisticsSelectByDate(Date recordDate) {
-//		DBManager dbm = OracleDBManager.getInstance();
-		DBManager dbm = PostgreDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -121,8 +121,8 @@ public class StatisticsDAO {
 	// ---------------------------------select by month-------------------
 	public ArrayList<StatisticsVO> surveySelectByMonth(Date month) {
 		ArrayList<StatisticsVO> statisticsList = new ArrayList<>();
-//		DBManager dbm = OracleDBManager.getInstance();
-		DBManager dbm = PostgreDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -166,8 +166,8 @@ public class StatisticsDAO {
 	// ---------------------------------select by period-------------------
 	public ArrayList<StatisticsVO> surveySelectByPeriod(Date startDate, Date endDate) {
 		ArrayList<StatisticsVO> statisticsList = new ArrayList<>();
-//		DBManager dbm = OracleDBManager.getInstance();
-		DBManager dbm = PostgreDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -209,8 +209,8 @@ public class StatisticsDAO {
 	public ArrayList<Date> getMarkedDates() throws SQLException {
 	    ArrayList<Date> markedDates = new ArrayList<>();
 	    String query = "SELECT DISTINCT record_date FROM statistics";
-//		DBManager dbm = OracleDBManager.getInstance();
-		DBManager dbm = PostgreDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 		Connection conn = dbm.connect();
 
 	    try (
@@ -231,8 +231,8 @@ public class StatisticsDAO {
 	    String query = "SELECT DISTINCT CREATE_AT " +
 	    				"FROM survey WHERE USER_ID = ? ORDER BY CREATE_AT";
 
-//		DBManager dbm = OracleDBManager.getInstance();
-		DBManager dbm = PostgreDBManager.getInstance();
+		DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = PostgreDBManager.getInstance();
 	    Connection conn = dbm.connect();
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
