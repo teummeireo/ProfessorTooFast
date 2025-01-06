@@ -1,5 +1,6 @@
-# Ignore mydb.properties file
 src/main/resources/mydb.properties
+src/main/resources/mypostgre.properties
 build/classes/mydb.properties
 build/classes/fileupload.properties
+build/classes/mypostgre.properties
 docker-compose.yml

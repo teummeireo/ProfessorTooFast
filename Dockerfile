@@ -17,7 +17,7 @@ COPY ./build/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/
 EXPOSE 8080
 
 # 7. mydb.properties 파일 생성 및 Tomcat 실행
-CMD /bin/sh -c "echo 'oracle.url=${JDBC_URL}' > /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mydb.properties && \
-    echo 'oracle.id=${DB_USER}' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mydb.properties && \
-    echo 'oracle.pw=${DB_PASSWORD}' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mydb.properties && \
+CMD /bin/sh -c "echo 'postgre.url=${JDBC_URL}' > /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mypostgre.properties && \
+    echo 'postgre.id=${DB_USER}' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mypostgre.properties && \
+    echo 'postgre.pw=${DB_PASSWORD}' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mypostgre.properties && \
     catalina.sh run"
