@@ -10,19 +10,22 @@ import java.util.Date;
 
 import com.ptf.util.DBManager;
 import com.ptf.util.OracleDBManager;
+import com.ptf.util.PostgreDBManager;
 import com.ptf.vo.SurveyVO;
 
 public class SurveyDAO {
 	
 	//------------------------------insert---------------------------------
 	public int surveyInsert(SurveyVO svo) {
-	    DBManager dbm = OracleDBManager.getInstance();
+//	    DBManager dbm = OracleDBManager.getInstance();
+	    DBManager dbm = PostgreDBManager.getInstance();
 	    int rows = 0;
 
 	    try (Connection conn = dbm.connect();
 	         PreparedStatement pstmt = conn.prepareStatement(
 	             "INSERT INTO survey(survey_id, user_id, statistics_id, difficulty, speed, material, questions, comments, create_at) "
-	           + "VALUES(seq_survey_id.nextval, ?, ?, ?, ?, ?, ?, ?, ?)"
+//	           + "VALUES(seq_survey_id.nextval, ?, ?, ?, ?, ?, ?, ?, ?)"
+	           + "VALUES(nextval('seq_survey_id'), ?, ?, ?, ?, ?, ?, ?, ?)"	//postgre 문법
 	         )) {
 
 	        conn.setAutoCommit(false);
@@ -49,7 +52,8 @@ public class SurveyDAO {
 	//------------------------------select by userId---------------------------------
 	public ArrayList<SurveyVO> surveySelect(int userId) {
 	    ArrayList<SurveyVO> surveyList = new ArrayList<>();
-	    DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = OracleDBManager.getInstance();
+		DBManager dbm = PostgreDBManager.getInstance();
 
 	    String sql = "SELECT * FROM survey WHERE user_id = ?";
 
@@ -84,7 +88,8 @@ public class SurveyDAO {
 	//------------------------------select by userId and createAt---------------------------------
 	public SurveyVO surveySelect(int userId, Date createAt) {
 	    SurveyVO survey = null;
-	    DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = OracleDBManager.getInstance();
+		DBManager dbm = PostgreDBManager.getInstance();
 
 	    String sql = "SELECT * FROM survey WHERE user_id = ? AND create_at BETWEEN ? AND ?";
 
@@ -125,7 +130,8 @@ public class SurveyDAO {
 	//------------------------------select by createAt---------------------------------
 	public ArrayList<SurveyVO> surveySelectByCreateAt(Date createAt) {
 	    ArrayList<SurveyVO> surveyList = new ArrayList<>();
-	    DBManager dbm = OracleDBManager.getInstance();
+//		DBManager dbm = OracleDBManager.getInstance();
+		DBManager dbm = PostgreDBManager.getInstance();
 
 	    String sql = "SELECT * FROM survey WHERE create_at BETWEEN ? AND ?";
 

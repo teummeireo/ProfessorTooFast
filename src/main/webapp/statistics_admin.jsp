@@ -512,8 +512,8 @@
                             </div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-title">총 인원</div>
-                            <div id="population" style="font-size: 1.2em; text-align: center;"></div>
+                            <div class="stat-title">설문참여 총 인원</div>
+                            <div id="population" style="font-size:2em; text-align: left;"></div>
                         </div>
                     </div>
                 `;
@@ -549,7 +549,7 @@
                         // 통계 데이터 표시 업데이트
                         document.getElementById("date-range").textContent = 
                             //`Period: ${data.startDate} ~ ${data.endDate}`;
-                            "Period: " + (data.startDate || "N/A") + " ~ " + (data.endDate || "N/A");
+                            (data.startDate || "N/A") + " ~ " + (data.endDate || "N/A");
 
                             console.log("data.startDate $ 입력 체크 = ", `${data.startDate}`);
                             console.log("data.startDate 그냥 입력 체크 = ", startDate, endDate);
@@ -562,8 +562,8 @@
                         updateBar("material-bar", "material-label", data.avgMaterial || 0);
                 
                         const populationElement = document.getElementById("population");
-                        if (populationElement && data.totalCount != null) {
-                            populationElement.textContent = `${data.totalCount}명`;
+                        if (populationElement && data.population != null) {
+                            populationElement.textContent = data.population +" 명";//`${data.population}명`;
                         }
 
                         showModal("stats-modal"); // 1208수정
@@ -642,16 +642,25 @@
             const bar = document.getElementById(barId);
             const label = document.getElementById(labelId);
 
-
             // 초기화
             bar.style.width = '0%';
+            bar.textContent = ''; // 초기화: 이전 값 제거
 
             // 애니메이션 시작
             setTimeout(() => {
-                const percentage = (value / 10) * 100;
+                const percentage = (value / 10) * 100; // 그래프 너비 계산
                 bar.style.width = percentage + "%";
-                label.textContent = (value || 0).toFixed(1) + " / 10";
+                bar.textContent = value.toFixed(1); // 그래프 한가운데 값 표시
+                
+                // 텍스트 위치 중앙으로 이동
+                bar.style.display = "flex";
+                bar.style.justifyContent = "center";
+                bar.style.alignItems = "center";
+
             }, 100);
+
+            // 라벨 업데이트 (필요하면 유지하거나 삭제 가능)
+            label.textContent = "평균 값: " + value.toFixed(1) + " / 10";
         }
 
         function getSessionToken() {
