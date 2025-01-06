@@ -53,7 +53,7 @@ async function fetchUserMarkedDates() {
 
 #main-page-btn {
     top: 20px;
-    right: 100px; /* Logout 버튼과 겹치지 않도록 수정 */
+    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
     width: 8%;
 }
 #logout-btn {
@@ -125,7 +125,7 @@ async function fetchUserMarkedDates() {
 
                         const events = markedDates.map(date => ({
                             start: date,
-                            extendedProps: { isMarkedDate: true , type: "marked"}, // 추가 속성
+                            extendedProps: { isMarkedDate: true , type: "line"}, // 추가 속성
                         }));
 
                         successCallback(events);
@@ -136,12 +136,25 @@ async function fetchUserMarkedDates() {
                 },
                 eventContent: function(info) {
                     console.log("Event Info:", info);
-
-                    if (info.event.extendedProps.type === "marked") {
+                    // 이벤트 타입에 따라 렌더링 설정
+                    if (info.event.extendedProps.type === "dot") {
                         return {
-                            html: '<div class="custom-line">!!</div>', // 라인 삽입
+                            html: '<span style="font-size:12px;color:red;">•</span>' // 빨간 점
                         };
                     }
+
+                    if (info.event.extendedProps.type === "line") {
+                        return {
+                            html: '<div class="custom-line"></div>' // 중간 라인 삽입
+                        };
+                    }
+
+                    // 배경 이벤트는 null 반환 (렌더링하지 않음)
+                    if (info.event.extendedProps.type === "background") {
+                        return null;
+                    }
+
+                    return null;
                 },
             });
 
@@ -229,11 +242,9 @@ async function fetchUserMarkedDates() {
             }
 
             // 외부 클릭 시 모달 닫기
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    closeModal("survey-modal");
-                }
-            });
+ 			document.querySelector(".close-button").addEventListener("click", () => {
+       		 closeModal("survey-modal");
+   		 });
 
             // ESC 키로 모달 닫기
             window.addEventListener("keydown", (e) => {
