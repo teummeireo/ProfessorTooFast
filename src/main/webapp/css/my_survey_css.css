@@ -2,9 +2,9 @@
 
 /* 전체 레이아웃 */
 #calendar {
-	max-width: 800px;
+	max-width: 900px;
 	margin: 20px auto;
-	border-radius: 15px;
+	border-radius: 0px;
 	overflow: hidden;
 	background-color: #ffffff;
 	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -17,9 +17,40 @@
 	vertical-align: middle;
 	height: 50px;
 	line-height: 50px;
+	background-color: #ffffff;
+	
 	/* 날짜 정렬 간소화 */
 	border: none;
 }
+
+.fc-event {
+    background: #ff6f91 !important; /* 이벤트 배경색: 진한 분홍색 */
+    border: 1px solid #ff6f91 !important; /* 이벤트 테두리 */
+}
+
+/* 배경 이벤트 */
+.fc-event[data-type="background"] {
+    background: rgba(255, 167, 210, 0.5) !important; /* 분홍색 반투명 */
+    border: none !important;
+    pointer-events: none !important; /* 클릭 불가능 */
+    position: absolute !important; /* 셀 전체 덮기 */
+    width: 100%; /* 셀 전체 폭 덮기 */
+    height: 100%; /* 셀 전체 높이 덮기 */
+    z-index: 3; /* 빨간 점 아래 배치 */
+}
+
+/* 빨간 점 이벤트 */
+.fc-event[data-type="dot"] {
+    width: 10px !important;
+    height: 10px !important;
+    background: red !important; /* 빨간 점 색상 */
+    border-radius: 50%; /* 원형 점 */
+    border: none !important;
+    margin: auto; /* 점 중앙 정렬 */
+    z-index: 2; /* 다른 이벤트 위에 표시 */
+    display: inline-block !important; /* 점만 표시 */
+}
+
 
 /* 오늘 날짜 */
 .fc-day-today {
@@ -36,7 +67,7 @@
 .fc-highlight {
 	background-color: #ff91ac !important;
 	/* FullCalendar의 highlight 스타일 */
-	color: white;
+	color: #ff91ac;
 	font-weight: bold;
 	border-radius: 50%;
 	transition: all 0.3s ease-in-out;
@@ -68,7 +99,7 @@
 	text-align: center;
 	font-size: 18px;
 	margin: 20px;
-	background-color: #ffffff;
+	background-color: #ff7fa4;
 	border: 1px solid #ff91ac;
 	border-radius: 10px;
 	padding: 15px;
@@ -481,4 +512,15 @@ body {
 
 .custom-button:hover {
 	background: #D6455A;
+}
+
+/* 통계 표시용 라인 스타일 */
+.custom-line {
+    width: 80%; /* 셀 너비의 80% */
+    height: 2px; /* 라인 높이 */
+    background-color: #ff91ac; /* 분홍색 라인 */
+    margin: 0 auto; /* 중앙 정렬 */
+    position: relative;
+    top: 50%; /* 셀 중앙 위치 */
+    transform: translateY(-50%);
 }
