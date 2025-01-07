@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>내 설문 조회</title>
+<title>My Surveys</title>
 <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/my_survey_css.css"> <!-- 스타일 경로 -->
@@ -63,8 +63,8 @@ async function fetchUserMarkedDates() {
     <div id="calendar"></div>
         <!-- 로그아웃 및 메인 페이지 이동 버튼 -->
    <div class="button-container">
-        <button class="custom-button" id="main-page-btn">Main</button>
-        <button class="custom-button" id="logout-btn">Logout</button>
+        <button id="main-page-btn">Main</button>
+        <button id="logout-btn">Logout</button>
     </div>
 
     <div id="selected-dates" class="dates-container">
