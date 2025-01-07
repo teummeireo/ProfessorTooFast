@@ -495,6 +495,7 @@
 			        "        <div class='bar' id='material-bar'></div>" +
 			        "        <div class='bar-label' id='material-label'></div>" +
 			        "    </div>" +
+			        " <p><strong>참여자 수:</strong> " + (statsData.population || 0) + "명</p>" +
 			        "</div>";
 			        //게이지바 입력 테스트 로그
 			        console.log("Before Updating Bars:");
