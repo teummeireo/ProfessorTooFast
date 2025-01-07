@@ -3,5 +3,4 @@ src/main/resources/mypostgre.properties
 build/classes/mydb.properties
 build/classes/fileupload.properties
 build/classes/mypostgre.properties
-build/
 docker-compose.yml
