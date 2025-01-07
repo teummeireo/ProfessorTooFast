@@ -202,14 +202,17 @@
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
                 locale: "ko",
-                timeZone: "Asia/Seoul",
                 selectable: false,
                 buttonText:{
                 	today : "Today"
                 },
                 dateClick: function (info) {
-                    const clickedDate = convertUTCToKST(new Date(info.dateStr));
+                    const clickedDate = new Date(info.dateStr);
                     const today = new Date();
+                    
+                    // 시간 정보를 제거하여 비교
+                    clickedDate.setHours(0, 0, 0, 0);
+                    today.setHours(0, 0, 0, 0);
 
                     if (clickedDate > today) {
                         alert("미래 날짜는 선택할 수 없습니다.");
@@ -706,11 +709,6 @@
                 console.error("SESSIONID 쿠키가 없습니다.");
                 return null;
             }
-        }
-        
-        function convertUTCToKST(utcDate) {
-            const kstOffset = 9 * 60; // KST는 UTC+9
-            return new Date(utcDate.getTime() + kstOffset * 60000);
         }
        
         // 로그아웃 버튼 이벤트
