@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>내 설문 조회</title>
+<title>My Surveys</title>
 <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/tomaico2.png">
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/my_survey_css.css"> <!-- 스타일 경로 -->
@@ -50,16 +50,6 @@ async function fetchUserMarkedDates() {
     top: 50%; /* 셀 중앙에 위치 */
     transform: translateY(-50%);
 }
-
-#main-page-btn {
-    top: 20px;
-    right: 120px; /* Logout 버튼과 겹치지 않도록 수정 */
-    width: 8%;
-}
-#logout-btn {
-    top: 20px;
-    right: 20px;
-}
  
 </style>
 
@@ -73,8 +63,8 @@ async function fetchUserMarkedDates() {
     <div id="calendar"></div>
         <!-- 로그아웃 및 메인 페이지 이동 버튼 -->
    <div class="button-container">
-        <button class="custom-button" id="main-page-btn">메인 페이지로</button>
-        <button class="custom-button" id="logout-btn">로그아웃</button>
+        <button id="main-page-btn">Main</button>
+        <button id="logout-btn">Logout</button>
     </div>
 
     <div id="selected-dates" class="dates-container">
@@ -112,7 +102,10 @@ async function fetchUserMarkedDates() {
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: "dayGridMonth",
                 locale: "ko",
-                selectable: true,
+                selectable: false,
+                buttonText:{
+                	today : "Today"
+                },
                 dateClick: function (info) {
                     const selectedDate = info.dateStr;
                     selectedDateEl.textContent = selectedDate;
@@ -125,7 +118,7 @@ async function fetchUserMarkedDates() {
 
                         const events = markedDates.map(date => ({
                             start: date,
-                            extendedProps: { isMarkedDate: true , type: "marked"}, // 추가 속성
+                            extendedProps: { isMarkedDate: true , type: "line"}, // 추가 속성
                         }));
 
                         successCallback(events);
@@ -136,12 +129,25 @@ async function fetchUserMarkedDates() {
                 },
                 eventContent: function(info) {
                     console.log("Event Info:", info);
-
-                    if (info.event.extendedProps.type === "marked") {
+                    // 이벤트 타입에 따라 렌더링 설정
+                    if (info.event.extendedProps.type === "dot") {
                         return {
-                            html: '<div class="custom-line">!!</div>', // 라인 삽입
+                            html: '<span style="font-size:12px;color:red;">•</span>' // 빨간 점
                         };
                     }
+
+                    if (info.event.extendedProps.type === "line") {
+                        return {
+                            html: '<div class="custom-line"></div>' // 중간 라인 삽입
+                        };
+                    }
+
+                    // 배경 이벤트는 null 반환 (렌더링하지 않음)
+                    if (info.event.extendedProps.type === "background") {
+                        return null;
+                    }
+
+                    return null;
                 },
             });
 
@@ -210,8 +216,8 @@ async function fetchUserMarkedDates() {
                     "        </div>" +
                     "        <span>" + (data.material || "없음") + "/10</span>" +
                     "    </div>" +
-                    "    <div class='survey-item'><strong>질문:</strong> " + (data.questions || "없음") + "</div>" +
-                    "    <div class='survey-item'><strong>코멘트:</strong> " + (data.comments || "없음") + "</div>" +
+                    "    <div class='survey-item'><strong>수업 중 궁금했던 점:</strong> " + (data.questions || "없음") + "</div>" +
+                    "    <div class='survey-item'><strong>강사님께 하고싶은 말:</strong> " + (data.comments || "없음") + "</div>" +
                     "    <div class='survey-item'><strong>생성일:</strong> " + (data.createAt || "없음") + "</div>" +
                     "</div>";
 
@@ -229,11 +235,9 @@ async function fetchUserMarkedDates() {
             }
 
             // 외부 클릭 시 모달 닫기
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    closeModal("survey-modal");
-                }
-            });
+ 			document.querySelector(".close-button").addEventListener("click", () => {
+       		 closeModal("survey-modal");
+   		 });
 
             // ESC 키로 모달 닫기
             window.addEventListener("keydown", (e) => {

@@ -110,10 +110,22 @@ public class SurveyServlet extends HttpServlet {
 
 		try {
 			// 요청 데이터 파싱
+			String difficultyStr = requestData.get("difficulty");
+			String speedStr = requestData.get("speed");
+			String materialStr = requestData.get("material");
+
+			// 필수 설문 문항 확인
+			if (difficultyStr == null || difficultyStr.isEmpty() || speedStr == null || speedStr.isEmpty()
+					|| materialStr == null || materialStr.isEmpty()) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().write("필수 설문 문항에 모두 답해주세요.");
+				return;
+			}
+
 			int userId = Integer.parseInt(requestData.get("userId"));
-			int difficulty = Integer.parseInt(requestData.get("difficulty"));
-			int speed = Integer.parseInt(requestData.get("speed"));
-			int material = Integer.parseInt(requestData.get("material"));
+			int difficulty = Integer.parseInt(difficultyStr);
+			int speed = Integer.parseInt(speedStr);
+			int material = Integer.parseInt(materialStr);
 			String questions = requestData.get("questions");
 			String comments = requestData.get("comments");
 
@@ -157,30 +169,31 @@ public class SurveyServlet extends HttpServlet {
 
 			int rowsInserted = surveyDAO.surveyInsert(survey);
 
-	        if (rowsInserted == 1) {
-	            response.setStatus(HttpServletResponse.SC_CREATED);
-	            response.getWriter().write("설문이 성공적으로 제출되었습니다.");
-	            SessionUtil.refreshSessionTimeout(request);
+			if (rowsInserted == 1) {
+				response.setStatus(HttpServletResponse.SC_CREATED);
+				response.getWriter().write("설문이 성공적으로 제출되었습니다.");
+				SessionUtil.refreshSessionTimeout(request);
 
-	            // ADMIN 사용자에게 알림 전송
-	            PTFUserDAO userDAO = new PTFUserDAO();
-	            ArrayList<PTFUserVO> adminUsers = userDAO.selectAllAdmins(); // 새 메서드 필요
-	            String notificationMessage = "새로운 설문이 제출되었습니다.";
-	            
-	            for (PTFUserVO admin : adminUsers) {
-	                SseServlet.sendNotification(notificationMessage);
-	            }
-	            SessionUtil.refreshSessionTimeout(request);
-	            
-	        } else {
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            response.getWriter().write("설문 데이터를 저장하는 중 오류가 발생했습니다.");
-	            SessionUtil.refreshSessionTimeout(request);
-	        }
+				// ADMIN 사용자에게 알림 전송
+				PTFUserDAO userDAO = new PTFUserDAO();
+				ArrayList<PTFUserVO> adminUsers = userDAO.selectAllAdmins(); // 새 메서드 필요
+				String notificationMessage = "새로운 설문이 제출되었습니다.";
+
+				for (PTFUserVO admin : adminUsers) {
+					SseServlet.sendNotification(notificationMessage);
+				}
+				SessionUtil.refreshSessionTimeout(request);
+
+			} else {
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.getWriter().write("설문 데이터를 저장하는 중 오류가 발생했습니다.");
+				SessionUtil.refreshSessionTimeout(request);
+			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("서버 오류가 발생했습니다.");
 			e.printStackTrace();
 		}
 	}
+
 }

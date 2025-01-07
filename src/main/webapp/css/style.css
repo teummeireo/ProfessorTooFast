@@ -1,7 +1,10 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
   	body {
-    background-color: #FFBCBC;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+	background: linear-gradient(135deg, #c90076, #FF4500);
     margin: 0;
     display: flex;
     justify-content: center;
@@ -79,36 +82,33 @@
 	.submit-button:hover {
 	    background: #A00060;
 	}
+	
 	.custom-button {
+		font-family: 'Montserrat', sans-serif;
+    	font-weight: bold;
 	    display: flex;
 	    flex-direction: row;
 	    justify-content: center;
 	    align-items: center;
-	    padding: 14px 20px;
-	    gap: 10px;
-	
+	    padding: 14px 10px;
+	    gap: 16px;
 	    position: fixed;
 	    width: 77px;
 	    height: 44px;
 	    top: 20px;
 	    right: 20px;
-	
-	    background: #F5576D;
-	    border-radius: 8px;
-	
+		font-size: 16px;
 	    border: none;
-	    color: white;
-	    font-size: 14px;
+	    background: none; /* 배경 제거 */
+	    color: black; /* 글자 흰색 */
+	    font-size: 15px;
 	    cursor: pointer;
 	}
-	
-	.custom-button:hover {
-	    background: #D6455A; 
-	}
+
 
 	/* Header Bar */
 	.header-bar {
-	    background-color: #F5576D; /* 오렌지색 바 */
+	    background-color: #c90076; /* 오렌지색 바 */
 	    height: 10px;
 	    width: 100%;
 	    border-top-left-radius: 8px;
@@ -228,7 +228,18 @@
 	    cursor: pointer;
 	    font-size: 14px;
 	}
-	
+	.survey-button1 {
+		background-color: #8a8a8a;
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    font-size: 14px;
+	}
+	.survey-button1:hover {
+	    background-color: #000;
+}
 	.survey-button:hover {
 	    background-color: #D43F3F;
 }

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-	
 <%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" 	uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" 	uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -21,20 +20,22 @@
         <img src="${pageContext.request.contextPath}/images/tomaico2.png" alt="애니메이션 PNG" class="animated-image">
         <header class="header">
             <div class="logo">🍅 Teummeireo</div>
-            <nav class="nav">
-                <div class="nav-links">
-                    <c:choose>
-                        <c:when test="${not empty sessionScope.userId}">
-                            <!-- 로그아웃 버튼 -->
-                            <a id="logout-btn" class="logout-btn">Logout</a>
-                        </c:when>
-                        <c:otherwise>
-                            <!-- 로그인 버튼 -->
-                            <a href="${pageContext.request.contextPath}/login" class="login-btn">Login</a>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </nav>
+				<nav class="nav">
+				    <div class="nav-links">
+				        <c:choose>
+				            <c:when test="${not empty sessionScope.userId}">
+				            	<jsp:include page = "${pageContext.request.contextPath}/check_user.jsp" />
+				                <span>안녕하세요, ${sessionScope.nickname}님😉</span>
+				                <!-- 로그아웃 버튼 -->
+				                <a id="logout-btn" class="logout-btn">Logout</a>
+				            </c:when>
+				            <c:otherwise>
+				                <!-- 로그인 버튼 -->
+				                <a href="${pageContext.request.contextPath}/login" class="login-btn">Login</a>
+				            </c:otherwise>
+				        </c:choose>
+				    </div>
+				</nav>
         </header>
 
         <main class="main-content">
@@ -58,7 +59,8 @@
 	</div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-		<script>
+
+<script>
 		$(document).ready(function () {
 			
 			$(window).on('pageshow', function(event) {

@@ -27,14 +27,18 @@ body, html {
 .right-panel {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center;    /* 수직 중앙 정렬 */
     background: #ffffff;
 }
 
+/* form 내부의 .input-group 중앙 정렬 */
 form {
     width: 70%;
     max-width: 400px;
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    align-items: center;    /* 자식 요소를 수평 중앙 정렬 */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 1px 2px 3px rgba(0, 0, 0, 0.2);
@@ -102,10 +106,12 @@ button#register-btn:hover, button#login-btn:hover {
     border: 1px solid black; /* 테두리 유지 */
 }
 
-/* 입력 그룹 스타일 */
+/* input-group 스타일 */
 .input-group {
+    width: 80%;             /* 버튼과 동일한 너비 */
     display: flex;
-    align-items: center; /* 수직 정렬 */
+    align-items: center;    /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
     margin-bottom: 10px;
 }
 

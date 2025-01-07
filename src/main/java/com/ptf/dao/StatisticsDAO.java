@@ -55,7 +55,7 @@ public class StatisticsDAO {
 			} else {
 				String insertSql = "INSERT INTO Statistics(statistics_id, record_date, avg_difficulty, avg_speed, avg_material, population) "
 //						+ "VALUES(SEQ_STATISTICS_ID.NEXTVAL, ?, ?, ?, ?, 1)";
-						+ "VALUES(nextval('SEQ_STATISTICS_ID'), ?, ?, ?, ?, 1)";			// postgre 문법
+						+ "VALUES(nextval('SEQ_STATISTICS_ID'), ?, ?, ?, ?, 1) RETURNING statistics_id";			// postgre 문법
 				pstmt = conn.prepareStatement(insertSql, new String[]{"STATISTICS_ID"});
 				pstmt.setDate(1, today);
 				pstmt.setFloat(2, difficulty);
@@ -95,7 +95,7 @@ public class StatisticsDAO {
 		StatisticsVO statistics = null;
 
 		try {
-			String sql = "SELECT * FROM Statistics WHERE TRUNC(record_date) = TRUNC(?)"; // 날짜 비교
+			String sql = "SELECT statistics_id, record_date, avg_difficulty, avg_speed, avg_material, population FROM Statistics WHERE DATE(record_date) = DATE(?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setDate(1, new java.sql.Date(recordDate.getTime()));
 			rs = pstmt.executeQuery();

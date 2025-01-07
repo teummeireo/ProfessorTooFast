@@ -85,30 +85,32 @@ function closeModal() {
     </div>
 
     <button id="surveyInsert-btn" class="submit-button">제출하기</button>
+    <br>
 
-    <div id="myModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h2>제출 완료되었습니다!</h2>
-            <p>답변이 성공적으로 제출되었습니다.<br>원하시는 다음 작업을 선택하세요.</p>
-            <div class="modal-buttons">
-                <button class="home-button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로 가기</button>
-                <button class="survey-button" onclick="location.href='${pageContext.request.contextPath}/surveys/my'">내 설문 확인하기</button>
-            </div>
-        </div>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <button class="custom-button">Logout</button>
 </div>
 
 <script>
 $(document).ready(function () {
-    // 설문 제출 이벤트
     $("#surveyInsert-btn").click(function () {
+    	// 선택된 값 가져오기
+        var difficulty = $("input[name='difficulty']:checked").val();
+        var speed = $("input[name='speed']:checked").val();
+        var material = $("input[name='material']:checked").val();
+
+        // 필수 항목 체크
+        if (!difficulty || !speed || !material) {
+            alert("필수 설문 문항에 모두 답해주세요!");
+            return; // 함수 종료
+        }
+
         var surveyInsertData = {
             userId: "${sessionScope.userId}",
-            difficulty: $("input[name='difficulty']:checked").val(),
-            speed: $("input[name='speed']:checked").val(),
-            material: $("input[name='material']:checked").val(),
+            difficulty: difficulty,
+            speed: speed,
+            material: material,
             questions: $("#questions").val(),
             comments: $("#comments").val()
         };
@@ -122,7 +124,21 @@ $(document).ready(function () {
             contentType: "application/json; charset=UTF-8",
             success: function (res) {
                 console.log("응답:", res);
-                openModal(); // 모달 열기
+
+                // SweetAlert2로 모달 대체
+                Swal.fire({
+                    icon: 'success',
+                    title: '제출 완료되었습니다!',
+                    html: `
+                        <p>답변이 성공적으로 제출되었습니다.<br>원하시는 다음 작업을 선택하세요.</p>
+                        <div>
+                        	<button class="survey-button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로 가기</button>
+                        	<button class="survey-button1" onclick="location.href='${pageContext.request.contextPath}/surveys/my'">내 설문 확인하기</button>
+                        </div>
+                    `,
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
             },
             error: function (xhr, status, error) {
                 console.error("에러:", error, "상태:", status);
@@ -130,7 +146,13 @@ $(document).ready(function () {
             }
         });
     });
+});
+</script>
+    <button class="custom-button">Logout</button>
 
+
+<script>
+$(document).ready(function () {
     // 로그아웃 버튼 클릭 이벤트
     $(".custom-button").click(function () {
         $.ajax({
