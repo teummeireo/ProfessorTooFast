@@ -24,6 +24,7 @@
 				    <div class="nav-links">
 				        <c:choose>
 				            <c:when test="${not empty sessionScope.userId}">
+				            	<jsp:include page = "${pageContext.request.contextPath}/check_user.jsp" />
 				                <span>안녕하세요, ${sessionScope.nickname}님😉</span>
 				                <!-- 로그아웃 버튼 -->
 				                <a id="logout-btn" class="logout-btn">Logout</a>
