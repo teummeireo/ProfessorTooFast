@@ -17,7 +17,32 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/statistics_admin.css"> <!-- 스타일 경로 -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    	<script>         function updateBar(barId, labelId, value) {
+        const bar = document.getElementById(barId);
+        const label = document.getElementById(labelId);
 
+        // 초기화
+        bar.style.width = '0%';
+        bar.textContent = ''; // 초기화: 이전 값 제거
+
+        // 애니메이션 시작
+        setTimeout(() => {
+            const percentage = (value / 10) * 100; // 그래프 너비 계산
+            bar.style.width = percentage + "%";
+            bar.textContent = value.toFixed(1); // 그래프 한가운데 값 표시
+            
+            // 텍스트 위치 중앙으로 이동
+            bar.style.display = "flex";
+            bar.style.justifyContent = "center";
+            bar.style.alignItems = "center";
+
+        }, 100);
+
+        // 라벨 업데이트 (필요하면 유지하거나 삭제 가능)
+        if(label){
+        label.textContent = "평균 값: " + value.toFixed(1) + " / 10";
+        }
+    }</script>
 </head>
     <div id="notifications"></div>
 
@@ -406,6 +431,7 @@
 			    // 통계 계산 준비
 			    let totalDifficulty = 0;
 			    let totalSpeed = 0;
+			    let totalMaterial = 0;
 
 			    
 			    console.log("Number of surveys:", surveysData.length); // 데이터 개수 확인
@@ -422,22 +448,26 @@
 
 			        totalDifficulty += item.difficulty || 0;
 			        totalSpeed += item.speed || 0;
+			        totalMaterial += item.material || 0;
 			    });
 			
 			    const totalCount = surveysData.length;
 			    const avgDifficulty = totalCount > 0 ? (totalDifficulty / totalCount).toFixed(2) : 0;
 			    const avgSpeed = totalCount > 0 ? (totalSpeed / totalCount).toFixed(2) : 0;
-			    
+			    const avgMaterial = totalCount > 0 ? (totalMaterial / totalCount).toFixed(2) : 0;
 			    
 			    
 			    console.log("Generated Lists:", {
 			        questionsList,
 			        commentsList,
 			        avgDifficulty,
-			        avgSpeed
+			        avgSpeed,
+			        avgMaterial
 			    });
+			    console.log("Surveys Response Data:", surveysData);
+			    console.log("Statistics Response Data:", statsData);
+
 			    
-			
 			    statsContent.innerHTML =
 			        "<div class='survey-results-container'>" +
 			        "    <div class='survey-column'>" +
@@ -450,13 +480,32 @@
 			        "    </div>" +
 			        "</div>" +
 			        "<div>" +
-
-			        "    <p><strong>평균 난이도:</strong> " + avgDifficulty + "</p>" +
-			        "    <p><strong>평균 속도:</strong> " + avgSpeed + "</p>" +
-			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0).toFixed(2) + "</p>" +
-			        "    <p><strong>참여자 수:</strong> " + (statsData.population || 0) + "명</p>" +
+			        "    <div>평균 난이도</div>" +
+			        "    <div class='bar-container'>" +
+			        "        <div class='bar' id='difficulty-bar'></div>" +
+			        "        <div class='bar-label' id='difficulty-label'></div>" +
+			        "    </div>" +
+			        "    <div>평균 속도</div>" +
+			        "    <div class='bar-container'>" +
+			        "        <div class='bar' id='speed-bar'></div>" +
+			        "        <div class='bar-label' id='speed-label'></div>" +
+			        "    </div>" +
+			        "    <div>평균 자료 만족도</div>" +
+			        "    <div class='bar-container'>" +
+			        "        <div class='bar' id='material-bar'></div>" +
+			        "        <div class='bar-label' id='material-label'></div>" +
+			        "    </div>" +
 			        "</div>";
-
+			        //게이지바 입력 테스트 로그
+			        console.log("Before Updating Bars:");
+			        console.log("Difficulty:", statsData.avgDifficulty || 0);
+			        console.log("Speed:", statsData.avgSpeed || 0);
+			        console.log("Material:", statsData.avgMaterial || 0);
+			        
+			        updateBar("difficulty-bar", null, statsData.avgDifficulty || 0);
+			        updateBar("speed-bar", null, statsData.avgSpeed || 0);
+			        updateBar("material-bar", null, statsData.avgMaterial || 0);
+			
 			    showModal("stats-modal");
 			}
 
@@ -644,30 +693,7 @@
 
         });
 
-        function updateBar(barId, labelId, value) {
-            const bar = document.getElementById(barId);
-            const label = document.getElementById(labelId);
 
-            // 초기화
-            bar.style.width = '0%';
-            bar.textContent = ''; // 초기화: 이전 값 제거
-
-            // 애니메이션 시작
-            setTimeout(() => {
-                const percentage = (value / 10) * 100; // 그래프 너비 계산
-                bar.style.width = percentage + "%";
-                bar.textContent = value.toFixed(1); // 그래프 한가운데 값 표시
-                
-                // 텍스트 위치 중앙으로 이동
-                bar.style.display = "flex";
-                bar.style.justifyContent = "center";
-                bar.style.alignItems = "center";
-
-            }, 100);
-
-            // 라벨 업데이트 (필요하면 유지하거나 삭제 가능)
-            label.textContent = "평균 값: " + value.toFixed(1) + " / 10";
-        }
 
         function getSessionToken() {
             const cookies = document.cookie.split(';');
@@ -699,6 +725,7 @@
 
 
     </script>
+    
 </body>
 
 </html>
