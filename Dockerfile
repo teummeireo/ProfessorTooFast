@@ -13,11 +13,15 @@ COPY ./libs/*.jar /usr/local/tomcat/lib/
 # 5. 서블릿 및 클래스 파일 빌드 후 복사
 COPY ./build/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/  
 
-# 6. Tomcat 기본 포트 노출
+# 6. 환경 변수로 시간대 설정 (옵션 추가)
+ENV TZ=Asia/Seoul
+
+# 7. Tomcat 기본 포트 노출
 EXPOSE 8080
 
-# 7. mydb.properties 파일 생성 및 Tomcat 실행
+# 8. mydb.properties 파일 생성 및 Tomcat 실행
 CMD /bin/sh -c "echo 'postgre.url=${JDBC_URL}' > /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mypostgre.properties && \
     echo 'postgre.id=${DB_USER}' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mypostgre.properties && \
     echo 'postgre.pw=${DB_PASSWORD}' >> /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/mypostgre.properties && \
     catalina.sh run"
+
