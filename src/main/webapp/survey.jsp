@@ -88,16 +88,6 @@ function closeModal() {
     <br>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <div id="myModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h2>제출 완료되었습니다!</h2>
-            <p>답변이 성공적으로 제출되었습니다.<br>원하시는 다음 작업을 선택하세요.</p>
-            <div class="modal-buttons">
-                <button class="home-button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로 가기</button>
-                <button class="survey-button" onclick="location.href='${pageContext.request.contextPath}/surveys/my'">내 설문 확인하기</button>
-            </div>
-        </div>
-    </div>
 
     <button class="custom-button">Logout</button>
 </div>
@@ -105,14 +95,25 @@ function closeModal() {
 <script>
 $(document).ready(function () {
     $("#surveyInsert-btn").click(function () {
+    	// 선택된 값 가져오기
+        var difficulty = $("input[name='difficulty']:checked").val();
+        var speed = $("input[name='speed']:checked").val();
+        var material = $("input[name='material']:checked").val();
+
+        // 필수 항목 체크
+        if (!difficulty || !speed || !material) {
+            alert("필수 설문 문항에 모두 답해주세요!");
+            return; // 함수 종료
+        }
+
         var surveyInsertData = {
-                userId: "${sessionScope.userId}",
-                difficulty: $("input[name='difficulty']:checked").val(),
-                speed: $("input[name='speed']:checked").val(),
-                material: $("input[name='material']:checked").val(),
-                questions: $("#questions").val(),
-                comments: $("#comments").val()
-            };
+            userId: "${sessionScope.userId}",
+            difficulty: difficulty,
+            speed: speed,
+            material: material,
+            questions: $("#questions").val(),
+            comments: $("#comments").val()
+        };
 
         console.log("설문 데이터:", surveyInsertData);
 
@@ -131,8 +132,8 @@ $(document).ready(function () {
                     html: `
                         <p>답변이 성공적으로 제출되었습니다.<br>원하시는 다음 작업을 선택하세요.</p>
                         <div>
-                            <button class="survey-button" onclick="location.href='main.jsp'">홈으로 가기</button>
-                            <button class="survey-button1" onclick="location.href='my_survey.jsp'">내 설문 확인하기</button>
+                        	<button class="survey-button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로 가기</button>
+                        	<button class="survey-button1" onclick="location.href='${pageContext.request.contextPath}/surveys/my'">내 설문 확인하기</button>
                         </div>
                     `,
                     showConfirmButton: false,

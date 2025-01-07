@@ -140,7 +140,7 @@ $(document).ready(function () {
                 alert("회원가입이 성공적으로 완료되었습니다.");
                 console.log("응답:", res);
                 // 회원가입 후 로그인 페이지로 이동
-                location.assign("/login");
+                location.assign("${pageContext.request.contextPath}/login");
             },
             error: function (xhr, status, error) {
                 console.error("에러 상태:", status);
@@ -165,7 +165,7 @@ $(document).ready(function () {
 <script>
 	//로그인 페이지로 이동
 	function goToLogin() {
-		location.assign("/login");
+		location.assign("${pageContext.request.contextPath}/login");
 	}
 </script>
 </body>

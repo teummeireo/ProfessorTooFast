@@ -178,6 +178,9 @@
                 initialView: "dayGridMonth",
                 locale: "ko",
                 selectable: false,
+                buttonText:{
+                	today : "Today"
+                },
                 dateClick: function (info) {
                     const clickedDate = new Date(info.dateStr);
                     const today = new Date();
@@ -398,6 +401,7 @@
 			    // 통계 계산 준비
 			    let totalDifficulty = 0;
 			    let totalSpeed = 0;
+
 			    
 			    console.log("Number of surveys:", surveysData.length); // 데이터 개수 확인
 			
@@ -408,8 +412,8 @@
 		
 			        //questionsList += `<li>${item.questions != null ? item.questions : "질문 없음"}</li>`;
 			        //commentsList += `<li>${item.comments != null ? item.comments : "코멘트 없음"}</li>`;
-		            questionsList += "<li>" + (item.questions != null ? item.questions : "질문 없음") + "</li>";
-				    commentsList += "<li>" + (item.comments != null ? item.comments : "코멘트 없음") + "</li>";
+		            questionsList += "<li>" + (item.questions != null ? item.questions : "-") + "</li>";
+				    commentsList += "<li>" + (item.comments != null ? item.comments : "-") + "</li>";
 
 			        totalDifficulty += item.difficulty || 0;
 			        totalSpeed += item.speed || 0;
@@ -432,18 +436,18 @@
 			    statsContent.innerHTML =
 			        "<div class='survey-results-container'>" +
 			        "    <div class='survey-column'>" +
-			        "        <h3>질문 답변</h3>" +
+			        "        <h3>질문 목록</h3>" +
 			        "        <ul class='survey-list'>" + questionsList + "</ul>" +
 			        "    </div>" +
 			        "    <div class='survey-column'>" +
-			        "        <h3>코멘트</h3>" +
+			        "        <h3>코멘트 목록</h3>" +
 			        "        <ul class='survey-list'>" + commentsList + "</ul>" +
 			        "    </div>" +
 			        "</div>" +
 			        "<div>" +
 			        "    <p><strong>참여자 수:</strong> " + (statsData.population || 0) + "명</p>" +
-			        "    <p><strong>평균 난이도:</strong> " + avgDifficulty + "</p>" +
-			        "    <p><strong>평균 속도:</strong> " + avgSpeed + "</p>" +
+			        "    <p><strong>평균 난이도:</strong> " + (statsData.avgDifficulty|| 0) + "</p>" +
+			        "    <p><strong>평균 속도:</strong> " + (statsData.avgSpeed || 0) + "</p>" +
 			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0) + "</p>" +
 			        "</div>";
 
