@@ -441,19 +441,20 @@
 			    statsContent.innerHTML =
 			        "<div class='survey-results-container'>" +
 			        "    <div class='survey-column'>" +
-			        "        <h3>질문 목록</h3>" +
+			        "        <h3>궁금한 점</h3>" +
 			        "        <ul class='survey-list'>" + questionsList + "</ul>" +
 			        "    </div>" +
 			        "    <div class='survey-column'>" +
-			        "        <h3>코멘트 목록</h3>" +
+			        "        <h3>하고 싶은 말</h3>" +
 			        "        <ul class='survey-list'>" + commentsList + "</ul>" +
 			        "    </div>" +
 			        "</div>" +
 			        "<div>" +
+
+			        "    <p><strong>평균 난이도:</strong> " + avgDifficulty + "</p>" +
+			        "    <p><strong>평균 속도:</strong> " + avgSpeed + "</p>" +
+			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0).toFixed(2) + "</p>" +
 			        "    <p><strong>참여자 수:</strong> " + (statsData.population || 0) + "명</p>" +
-			        "    <p><strong>평균 난이도:</strong> " + (statsData.avgDifficulty|| 0) + "</p>" +
-			        "    <p><strong>평균 속도:</strong> " + (statsData.avgSpeed || 0) + "</p>" +
-			        "    <p><strong>평균 자료 만족도:</strong> " + (statsData.avgMaterial || 0) + "</p>" +
 			        "</div>";
 
 			    showModal("stats-modal");
