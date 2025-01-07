@@ -268,7 +268,12 @@
 
                         console.log("fetchsurveyData 진입 직전 startDate = ", startDate);
                         // 2. 해당 일자 설문 데이터 요청
-                        fetchSurveyData(startDate);                        
+                        fetchSurveyData(startDate);       
+                        
+                        // 모달 디자인 변경: 시작날짜=종료날짜 조건
+                        const statsModal = document.getElementById("stats-modal");
+                        statsModal.classList.add("single-date-modal");
+                        
                         return; // 이후 동작 방지
                     }
                     //endDate = date;
