@@ -33,4 +33,5 @@ jobs:
         key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/ptf-was:1.0
+          docker-compose -f ${{ secrets.COMPOSE_FILE_PATH }} down
           docker-compose -f ${{ secrets.COMPOSE_FILE_PATH }} up -d
