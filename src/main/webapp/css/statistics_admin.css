@@ -592,7 +592,10 @@ body, html {
     border-radius: 8px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
-
+/* 마지막 리스트 항목의 margin-bottom 제거 */
+.single-date-modal .survey-list li:last-child {
+    margin-bottom: 0;
+}
 /* 리스트 항목 호버 효과 */
 .single-date-modal .survey-list li:hover {
     background-color: #EAF4F8; /* 시작/종료 날짜 배경색과 동일 */
