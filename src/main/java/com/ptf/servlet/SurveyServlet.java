@@ -170,18 +170,16 @@ public class SurveyServlet extends HttpServlet {
 			int rowsInserted = surveyDAO.surveyInsert(survey);
 
 			if (rowsInserted == 1) {
-				response.setStatus(HttpServletResponse.SC_CREATED);
-				response.getWriter().write("설문이 성공적으로 제출되었습니다.");
-				SessionUtil.refreshSessionTimeout(request);
-
 				// ADMIN 사용자에게 알림 전송
 				PTFUserDAO userDAO = new PTFUserDAO();
 				ArrayList<PTFUserVO> adminUsers = userDAO.selectAllAdmins(); // 새 메서드 필요
 				String notificationMessage = "새로운 설문이 제출되었습니다.";
-
 				for (PTFUserVO admin : adminUsers) {
 					SseServlet.sendNotification(notificationMessage);
 				}
+				
+				response.setStatus(HttpServletResponse.SC_CREATED);
+				response.getWriter().write("설문이 성공적으로 제출되었습니다.");
 				SessionUtil.refreshSessionTimeout(request);
 
 			} else {
