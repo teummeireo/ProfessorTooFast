@@ -447,8 +447,8 @@
 		
 			        //questionsList += `<li>${item.questions != null ? item.questions : "질문 없음"}</li>`;
 			        //commentsList += `<li>${item.comments != null ? item.comments : "코멘트 없음"}</li>`;
-		            questionsList += "<li>" + (item.questions != null ? item.questions : "-") + "</li>";
-				    commentsList += "<li>" + (item.comments != null ? item.comments : "-") + "</li>";
+		            questionsList += "<li>" + (item.questions != null ? item.questions : "ㅡ") + "</li>";
+				    commentsList += "<li>" + (item.comments != null ? item.comments : "ㅡ") + "</li>";
 
 			        totalDifficulty += item.difficulty || 0;
 			        totalSpeed += item.speed || 0;
