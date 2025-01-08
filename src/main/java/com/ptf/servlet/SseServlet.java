@@ -1,6 +1,7 @@
 package com.ptf.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,33 +19,42 @@ public class SseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Connection", "keep-alive");
 
         synchronized (adminClients) {
             adminClients.add(response);
         }
 
         try {
-            while (true) {
+            while (!Thread.interrupted() && !response.isCommitted()) {
                 Thread.sleep(1000);
-                if (response.isCommitted()) {
-                    break;
-                }
             }
         } catch (Exception e) {
-            adminClients.remove(response);
+            // 예외 처리 후 리스트에서 제거
+        } finally {
+            synchronized (adminClients) {
+                adminClients.remove(response);
+            }
         }
     }
-
+    
     public static void sendNotification(String message) {
         synchronized (adminClients) {
+            List<HttpServletResponse> invalidClients = new ArrayList<>();
             for (HttpServletResponse client : adminClients) {
                 try {
-                    client.getWriter().write("data: " + message + "\n\n");
-                    client.getWriter().flush();
+                    if (!client.isCommitted()) {
+                        client.getWriter().write("data: " + message + "\n\n");
+                        client.getWriter().flush();
+                    } else {
+                        invalidClients.add(client);
+                    }
                 } catch (IOException e) {
-                    adminClients.remove(client);
+                    invalidClients.add(client);
                 }
             }
+            adminClients.removeAll(invalidClients);
         }
     }
 }
