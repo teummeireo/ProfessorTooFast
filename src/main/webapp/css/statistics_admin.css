@@ -509,7 +509,6 @@ body, html {
     padding: 10px 20px; /* 버튼 패딩 */
     border-radius: 5px; /* 모서리 둥글게 */
     font-size: 16px; /* 텍스트 크기 */
-    z-index: 1000; /* 다른 요소 위로 */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
     border: none; /* 테두리 제거 */
     cursor: pointer; /* 마우스 커서 포인터 *//* 텍스트를 굵게 설정 */
@@ -623,3 +622,23 @@ body, html {
 }
 
 
+/* 알림 스타일 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50; /* 성공적인 알림 색상 */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
