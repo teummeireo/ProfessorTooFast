@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/7aad0a7f-d7a7-4b6b-b906-2ffba19f226a)
+![image](https://github.com/user-attachments/assets/2f4386d9-510d-4e95-aadf-469a2c14cfd0)
 
 </a>
 
@@ -6,8 +6,7 @@
 <br/>
 
 # 0. Getting Started (시작하기)
-
-![mainPage](https://github.com/user-attachments/assets/beaf4beb-bd2f-4889-a497-9076cd160e77)
+![mainPage](https://github.com/user-attachments/assets/af0edd54-5ba9-4a7f-83bc-f27bb8fb35a0)
 
 [서비스 링크](http://professortoofast.store/)
 
@@ -25,7 +24,7 @@
 # 2. Team Members (팀원 및 팀 소개)
 | 김수민 | 백인권 | 이지수 | 홍윤기 |
 |:-------:|:------:|:------:|:------:|
-| <img width="170" alt="나" src="https://github.com/user-attachments/assets/26dbe670-7e04-4f3e-b3fb-ec75f6f3dff8" /> | <img width="200" alt="인권님" src="https://github.com/user-attachments/assets/30ed7901-e1cb-4776-9ad9-31afaf3a609b" /> | <img width="180" alt="지수님" src="https://github.com/user-attachments/assets/2bb43824-3c40-4970-988f-0ab26bf831ef" /> | <img width="160" alt="윤기님" src="https://github.com/user-attachments/assets/9d0ac806-7e39-4456-be65-dd7ac186882a" /> |
+| <img width="170" alt="나" src="https://github.com/user-attachments/assets/2f087063-8a03-454e-8b65-ba413022d92f" /> | <img width="200" alt="인권님" src="https://github.com/user-attachments/assets/19837119-69b3-4807-b2c9-1c3896231036" /> | <img width="180" alt="지수님" src="https://github.com/user-attachments/assets/9fbd75b2-6fe4-4b9f-b017-92458c0f160d" /> |<img width="160" alt="윤기님" src="https://github.com/user-attachments/assets/16820cc6-94e3-425e-92c9-e06095e9896d" />|
 | REST 개발<br> UI 디자인/설문 폼 구현 | REST 개발<br> 통계 비즈니스 로직 구현 | REST 개발<br> 로그인/회원가입 구현 | 백앤드 총괄<br> 설계 및 인프라 구축 |
 | [GitHub](https://github.com/Sumin0411) | [GitHub](https://github.com/BackInGone) | [GitHub](https://github.com/LJS-99) | [GitHub](https://github.com/dbsrl1026) |
 
