@@ -47,37 +47,44 @@
     <div id="notifications"></div>
 
     <script>
-        const eventSource = new EventSource('/sse');
-
-     	// 서버에서 메시지를 수신했을 때
-        eventSource.onmessage = function(event) {
-            console.log('알림:', event.data);
-            showNotification(event.data);
-        };
-
-        // SSE 연결 에러 처리
-        eventSource.onerror = function(event) {
-            console.error("SSE 연결 에러:", event);
-            eventSource.close();
-        };
-
-        // 알림 표시 함수
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerText = message;
-
-            document.getElementById('notifications').appendChild(notification);
-
-            // 알림이 3초 후에 사라지도록 설정
-            setTimeout(() => {
-                notification.classList.add('hide');
-                // 사라진 후 DOM에서 제거
-                notification.addEventListener('transitionend', () => {
-                    notification.remove();
-                });
-            }, 3000);
-        }
+    	let eventSource = new EventSource('/sse');
+    	eventSource.onopen = function() {
+    	    console.log("SSE 연결 성공");
+    	};
+		 // 서버에서 메시지를 수신했을 때
+		 eventSource.onmessage = function(event) {
+		     console.log('알림:', event.data);
+		     showNotification(event.data);
+		 };
+		
+		 // SSE 연결 에러 처리
+		 eventSource.onerror = function(event) {
+		     console.error("SSE 연결 에러:", event);
+		     eventSource.close();
+		     // 일정 시간 후 재연결 시도
+		     setTimeout(() => {
+		         eventSource = new EventSource('/sse'); // 새 EventSource 생성
+		     }, 3000); // 3초 후 재연결
+		 };
+		
+		 // 알림 표시 함수
+		 function showNotification(message) {
+		     const notification = document.createElement('div');
+		     notification.className = 'notification';
+		     notification.innerText = message;
+		
+		     document.getElementById('notifications').appendChild(notification);
+		
+		     // 알림이 3초 후에 사라지도록 설정
+		     setTimeout(() => {
+		         notification.classList.add('hide');
+		         // 사라진 후 DOM에서 제거
+		         notification.addEventListener('transitionend', () => {
+		             notification.remove();
+		         });
+		     }, 3000);
+		 }
+		 
         let markedDatesCache = []; // 전역 변수로 저장
 
         async function fetchMarkedDates() {
