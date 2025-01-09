@@ -24,7 +24,7 @@
 # 2. Team Members (팀원 및 팀 소개)
 | 김수민 | 백인권 | 이지수 | 홍윤기 |
 |:-------:|:------:|:------:|:------:|
-| <img width="170" alt="나" src="https://github.com/user-attachments/assets/2f087063-8a03-454e-8b65-ba413022d92f" /> | <img width="200" alt="인권님" src="https://github.com/user-attachments/assets/19837119-69b3-4807-b2c9-1c3896231036" /> | <img width="180" alt="지수님" src="https://github.com/user-attachments/assets/9fbd75b2-6fe4-4b9f-b017-92458c0f160d" /> |<img width="160" alt="윤기님" src="https://github.com/user-attachments/assets/16820cc6-94e3-425e-92c9-e06095e9896d" />|
+| <img width="170" alt="나" src="https://github.com/user-attachments/assets/2f087063-8a03-454e-8b65-ba413022d92f" /> | <img width="180" alt="인권님" src="https://github.com/user-attachments/assets/947aa62f-93ac-4548-9fae-31f1a76dfaaf" /> | <img width="180" alt="지수님" src="https://github.com/user-attachments/assets/9fbd75b2-6fe4-4b9f-b017-92458c0f160d" /> |<img width="160" alt="윤기님" src="https://github.com/user-attachments/assets/16820cc6-94e3-425e-92c9-e06095e9896d" />|
 | REST 개발<br> UI 디자인/설문 폼 구현 | REST 개발<br> 통계 비즈니스 로직 구현 | REST 개발<br> 로그인/회원가입 구현 | 백앤드 총괄<br> 설계 및 인프라 구축 |
 | [GitHub](https://github.com/Sumin0411) | [GitHub](https://github.com/BackInGone) | [GitHub](https://github.com/LJS-99) | [GitHub](https://github.com/dbsrl1026) |
 
